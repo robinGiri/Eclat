@@ -9,6 +9,7 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
+// dynamically apply classes based on conditions, such as whether a tab is active or not.
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -80,10 +81,10 @@ export default function TheSidebar() {
               <p
                 className={`duration-0 ease-linear ${
                   activeTab === item.title
-                    ? "font-bold text-xs underline"
+                    ? "font-bold text-xs "
                     : "font-normal text-xs"
                 } ml-2 p-1
-              hover:duration-100 hover:font-bold hover:text-xs hover:underline`}
+              hover:duration-100 hover:font-bold hover:text-xs`}
               >
                 {item.title}
               </p>
