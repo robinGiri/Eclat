@@ -45,8 +45,7 @@ class ProductController {
   async updateProduct(req, res) {
     try {
       const productId = req.params.id; // Assuming the product ID is in the URL parameters
-      let updatedProductDTO = new ProductDTO(req.body); // Assuming the updated product data is in the request body
-      console.log(updatedProductDTO);
+      const updatedProductDTO = new ProductDTO(req.body); // Assuming the updated product data is in the request body
 
       const result = await productService.updateProduct(
         productId,
