@@ -1,7 +1,49 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const slugify = require("slugify");
 
 class ProductService {
+  transformProductCreateData(request, isEdit = false) {
+    let product = {
+      ...request.body,
+    };
+    if (product.brands) {
+      product.brands = product.brands.split(",");
+    } else if (!product.brands || product.brands === "null") {
+      product.brands = null;
+    }
+    if (!product.seller || product.seller === "null") {
+      product.seller = null;
+    }
+    if (product.category) {
+      product.category = product.category.split(",");
+    } else if (!product.category || product.category === "null") {
+      product.category = null;
+    }
+    if (!request.files && isEdit === false) {
+      throw {
+        code: 400,
+        message: "Validation Faliure",
+        result: { image: "Image is reuired" },
+      };
+    } else if (request.files) {
+      product["image"] = request.files.map((image) => image.filename);
+    }
+    if (!isEdit) {
+      product["slug"] = slugify(product.name, {
+        replacement: "-",
+        lower: true,
+        trim: true,
+      });
+    }
+    if (isEdit) {
+      delete product.delImage;
+    }
+    product["afterDiscount"] =
+      product.price - (product.price * product.discount) / 100;
+
+    return product;
+  }
   async createProduct(data) {
     try {
       const res = await prisma.product.create({

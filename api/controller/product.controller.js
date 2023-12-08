@@ -3,9 +3,9 @@ const productService = require("../service/product.service");
 
 class ProductController {
   async createProduct(req, res, next) {
-    console.log(req.body);
     try {
-      let product = await productService.createProduct(req.body);
+      let data = await productService.transformProductCreateData(req);
+      let product = await productService.createProduct(data);
       res.json({
         result: product,
         message: "product created successfully",

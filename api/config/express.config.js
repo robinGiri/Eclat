@@ -7,7 +7,7 @@ const route = require("../routes");
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", route);
 
@@ -22,7 +22,7 @@ app.use((error, req, res, next) => {
   let msg = error.message ?? "Internal server Error";
   let result = null;
   res.status(code).json({
-    result: null,
+    result: result,
     msg: msg,
     meta: null,
   });
