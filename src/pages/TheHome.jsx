@@ -1,10 +1,51 @@
 import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TheHeroCarousel from "./home-components/TheHeroCarousel";
+import TheSecondSectionCarousel from "./home-components/TheSecondSectionCarousel";
 
 function TheHome() {
+  // Get the current path from the location prop
+  const currentPath = location.pathname;
+
+  const handleDragStart = (e) => e.preventDefault();
+
+  const items = [
+    <img
+      src="https://www.apc-us.com/cdn/shop/files/PXBMW-F61788BAM_03_960x_c0c5368e-6b92-425d-9483-2578d0ea7172_600x.webp?v=1678828414"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src="https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-pm--M46203_PM2_Front%20view.jpg"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src="https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-carryall-pm--M46203_PM2_Front%20view.jpg"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+  ];
+
+  // hero items
+  const hero_items = [
+    // Your carousel items
+    <img
+      src="https://m.media-amazon.com/images/I/61mt4Nbol3L._AC_UY580_.jpg"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src="https://aignermunich.ae/media/catalog/product/1/3/133002-0579__1.jpg?width=700&height=700&quality=100&fit=bounds"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src="https://www.apc-us.com/cdn/shop/files/PXBMW-F61859DAN_03_600x.jpg?v=1683754578"
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+  ];
   // hero section carousel settings
   const heroSettings = {
     dots: true,
@@ -12,6 +53,9 @@ function TheHome() {
     speed: 300,
     slidesToScroll: 1,
     vertical: false,
+    autoPlay: true, // Enable auto-play
+    autoPlayInterval: 2000, // Set the time between slides in milliseconds
+    autoPlayStrategy: "default", // Set the auto-play strategy
   };
 
   // second section in-tab image slider settings
@@ -27,27 +71,27 @@ function TheHome() {
   const [activeTab, setActiveTab] = useState("popular");
   // images within the tabs
   const [popularImages, setPopularImages] = useState([
-    'popular_image1_url',
-    'popular_image2_url',
-    'popular_image3_url',
+    "https://m.media-amazon.com/images/I/61wcdlkB0XL._AC_UY1100_.jpg",
+    "popular_image2_url",
+    "popular_image3_url",
   ]);
-  
+
   const [womenImages, setWomenImages] = useState([
-    'women_image1_url',
-    'women_image2_url',
-    'women_image3_url',
+    "women_image1_url",
+    "women_image2_url",
+    "women_image3_url",
   ]);
 
   const [menImages, setMenImages] = useState([
-    'men_image1_url',
-    'men_image2_url',
-    'men_image3_url',
+    "men_image1_url",
+    "men_image2_url",
+    "men_image3_url",
   ]);
 
   const [kidsImages, setKidsImages] = useState([
-    'kids_image1_url',
-    'kids_image2_url',
-    'kids_image3_url',
+    "kids_image1_url",
+    "kids_image2_url",
+    "kids_image3_url",
   ]);
 
   const handleTabClick = (tab) => {
@@ -60,30 +104,14 @@ function TheHome() {
     console.log(`Clicked on: ${info}`);
   };
 
-  // as the function says
-  const renderCard = (imageUrl, index) => (
-    <div key={index} className="border p-7 mx-2">
-      <img
-        src={imageUrl}
-        alt={`Carousel Item ${index + 1}`}
-        className="my-10 w-64 h-64 object-cover"
-      />
-    </div>
-  );
-
-  const renderImages = (imageArray) => (
-    <Slider {...settings} className="flex flex-row overflow-hidden">
-      {imageArray.map(renderCard)}
-    </Slider>
-  );
-  
+  const renderImages = () => {};
 
   return (
     <>
       {/* first homepage section ___________________________________________________________*/}
 
       {/* offers' board */}
-      <div className="absolute bg-yellow-50 flex flex-row  items-center justify-center border border-gray-700 border-dashed w-full h-16 overflow-hidden z-10">
+      <div className="absolute bg-yellow-50 flex flex-row  items-center justify-center border border-gray-400 border-dashed w-full h-16 overflow-hidden z-10">
         <div className="border-black border-dashed border-spacing-7">
           <p className="marquee my-0 text-center text-xs font-semibold text-red-500 drop-shadow-lg">
             15% Off
@@ -94,84 +122,73 @@ function TheHome() {
         </div>
       </div>
 
+      <div className="border w-full border-black mt-20 mb-5 h-96">
+        <TheHeroCarousel />
+      </div>
+
+      {/* second section ___________________________________________________________*/}
+
       {/* Card Background */}
-      <div className="mt-1 bg-white m-2">
-        {/* Hero section */}
-        <div className=" justify-center overflow-hidden">
-          <Slider {...heroSettings} className="w-full">
-            {/* Replace these divs with actual carousel items */}
-            <div className="flex flex-row mt-10 mx-0">
-              <img
-                src="https://variety.com/wp-content/uploads/2023/11/POW_LA_2023_GIFT_BAG_1920x1080_V2.jpg"
-                alt="Carousel Item 1"
-                className="w-full h-64 object-cover my-10"
-              />
+      <div className=" bg-white rounded-lg border border-black h-[120vh] mb-10 ">
+        {/* Card Background */}
+        <div className="bg-white rounded-lg border border-black m-2 ">
+          <div className="bg-neutral-50 flex flex-row justify-start">
+            <div
+              onClick={() => handleTabClick("popular")}
+              className={`cursor-pointer mx-9 ${
+                activeTab === "popular"
+                  ? "text-5xl font-bold "
+                  : "font-bold text-neutral-500 text-xl"
+              } h-[100vh]`}
+            >
+              <p className="py-14">Popular</p>
+              {activeTab === "popular" && (
+              <div className="border-8 border-black w-[100vh]">
+                <TheSecondSectionCarousel />
+              </div>
+            )}
             </div>
-          </Slider>
+            <div
+              onClick={() => handleTabClick("women")}
+              className={`cursor-pointer mx-9 my-14 ${
+                activeTab === "women"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+              } h-[100vh] `}
+            >
+              Women's
+            </div>
+            <div
+              onClick={() => handleTabClick("men")}
+              className={`cursor-pointer mx-9 my-14 ${
+                activeTab === "men"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+              } h-[100vh] `}
+            >
+              Men's
+            </div>
+            <div
+              onClick={() => handleTabClick("kids")}
+              className={`cursor-pointer mx-9 my-14 ${
+                activeTab === "kids"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+              } h-[100vh] `}
+            >
+              Kid's
+            </div>
+          </div>
+
+          <div className="border-4 border-red-400">
+            {/* Render images based on the active tab */}
+            
+            {activeTab === "women" && renderImages(womenImages)}
+            {activeTab === "men" && renderImages(menImages)}
+            {activeTab === "kids" && renderImages(kidsImages)}
+          </div>
         </div>
       </div>
-
-      {/* second homepage section ___________________________________________________________*/}
-
-      {/* Card Background */}
-      <div className=" bg-white rounded-lg border border-black m-2 ">
-         {/* Card Background */}
-      <div className="bg-white rounded-lg border border-black m-2 ">
-      <div className="bg-neutral-50 flex justify-start">
-          <div
-            onClick={() => handleTabClick('popular')}
-            className={`cursor-pointer mx-9 ${
-              activeTab === 'popular'
-                ? 'text-5xl font-bold '
-                : 'font-bold text-neutral-500 text-xl'
-            }`}
-          >
-            <p className="py-14">Popular</p>
-          </div>
-          <div
-            onClick={() => handleTabClick('women')}
-            className={`cursor-pointer mx-9 my-14 ${
-              activeTab === 'women'
-                ? 'text-5xl font-bold'
-                : 'font-bold text-neutral-500 text-xl'
-            }`}
-          >
-            Women's
-          </div>
-          <div
-            onClick={() => handleTabClick('men')}
-            className={`cursor-pointer mx-9 my-14 ${
-              activeTab === 'men'
-                ? 'text-5xl font-bold'
-                : 'font-bold text-neutral-500 text-xl'
-            }`}
-          >
-            Men's
-          </div>
-          <div
-            onClick={() => handleTabClick('kids')}
-            className={`cursor-pointer mx-9 my-14 ${
-              activeTab === 'kids'
-                ? 'text-5xl font-bold'
-                : 'font-bold text-neutral-500 text-xl'
-            }`}
-          >
-            Kid's
-          </div>
-        </div>
-
-        <div className="mt-2 ">
-          {/* Render images based on the active tab */}
-          {activeTab === 'popular' && renderImages(popularImages)}
-          {activeTab === 'women' && renderImages(womenImages)}
-          {activeTab === 'men' && renderImages(menImages)}
-          {activeTab === 'kids' && renderImages(kidsImages)}
-        </div>
-      </div>
-
-
-        
-      </div>``
 
       {/* third homepage section ___________________________________________________________*/}
 
@@ -184,7 +201,7 @@ function TheHome() {
             {/* First clickable div */}
 
             <div
-              className="h-64 w-120 bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+              className="h-64 w-120 rounded-b-md bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
               onClick={() => console.log("Div 1 clicked")}
             >
               <p className="font-bold text-6xl p-16">Clothing</p>
@@ -192,7 +209,7 @@ function TheHome() {
 
             {/* Second clickable div */}
             <div
-              className="bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+              className="bg-neutral-500 text-white rounded-b-md p-4 cursor-pointer transition duration-300 hover:bg-black"
               onClick={() => console.log("Div 2 clicked")}
             >
               <p className="font-bold text-6xl p-16">Accessories</p>
@@ -200,7 +217,7 @@ function TheHome() {
 
             {/* Third clickable div */}
             <div
-              className="h-64 w-120 bg-neutral-600 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+              className="h-64 w-120 rounded-b-md bg-neutral-600 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
               onClick={() => console.log("Div 3 clicked")}
             >
               <p className="font-bold text-6xl p-16">Shoes</p>
@@ -208,7 +225,7 @@ function TheHome() {
 
             {/* Fourth clickable div */}
             <div
-              className="bg-slate-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-red-600"
+              className="bg-slate-500  rounded-b-md text-white p-4 cursor-pointer transition duration-300 hover:bg-red-600"
               onClick={() => console.log("Div 4 clicked")}
             >
               <p className="font-bold text-6xl p-16">Request</p>
@@ -288,7 +305,7 @@ function TheHome() {
         <div>
           <p className="font-bold mb-7">Connect</p>
           <div
-            className="mt-3 cursor-pointer hover:text-neutral-500"
+            className="mb-3 cursor-pointer hover:text-neutral-500"
             onClick={() =>
               handleRowClick(
                 "Get exclusive access to new product launches – sign up now!"
@@ -298,7 +315,7 @@ function TheHome() {
             Get exclusive access to new product launches – sign up now!
           </div>
           <div
-            className="cursor-pointer hover:underline hover:font-bold text-neutral-800"
+            className="mb-3 cursor-pointer hover:underline hover:font-bold text-neutral-800"
             onClick={() => handleRowClick("Follow Us")}
           >
             Follow Us
