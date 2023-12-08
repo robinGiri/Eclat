@@ -42,7 +42,7 @@ class ProductService {
   async getAllProducts() {
     try {
       const res = await prisma.product.findMany();
-      console.log(res);
+      return res;
     } catch (error) {
       console.error("Error fetching products:", error.message);
       throw error;
@@ -54,7 +54,7 @@ class ProductService {
       const res = await prisma.product.findMany({
         where: { id: parseInt(productId) },
       });
-      console.log(res);
+      return res;
     } catch (error) {
       console.error("Error fetching product:", error.message);
       throw error;

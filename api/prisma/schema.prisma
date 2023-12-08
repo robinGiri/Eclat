@@ -26,7 +26,7 @@ model Product {
   isFeatured    Boolean
   tags          String?
   stock         Int?
-  image         String?
+  images        String?
   status        String?
   viewCount     Int?
   createdAt     DateTime @default(now())
