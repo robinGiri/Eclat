@@ -48,7 +48,7 @@ export default function TheSidebar() {
     navigate("/");
   };
 
- 
+
 
   const handleKeyPress = (event, title) => {
     if (event.key === "Enter") {
@@ -62,7 +62,7 @@ export default function TheSidebar() {
 
   return (
     <>
-     
+
 
       {/* navbar */}
       <div className="flex justify-between items-center p-8 bg-neutral-900 h-8 w-full">
@@ -87,11 +87,10 @@ export default function TheSidebar() {
               {/* navbar elements */}
               {activeTab === item.title ? item.activeIcon : item.icon}
               <p
-                className={`duration-0 ease-linear ${
-                  activeTab === item.title
+                className={`duration-0 ease-linear ${activeTab === item.title
                     ? "font-bold text-xs "
                     : "font-normal text-xs"
-                } ml-2 p-1
+                  } ml-2 p-1
               hover:duration-100 hover:font-bold hover:text-xs`}
               >
                 {item.title}
@@ -106,9 +105,8 @@ export default function TheSidebar() {
             <input
               type="text"
               placeholder="Search..."
-              className={`${
-                isSearchOpen ? "w-40" : "w-0"
-              } my-0 px-4 py-1 rounded-full bg-neutral-200 focus:outline-none focus:bg-neutral-500 focus:text-white focus:text-normal text-sm transition-all duration-300`}
+              className={`${isSearchOpen ? "w-40" : "w-0"
+                } my-0 px-4 py-1 rounded-full bg-neutral-200 focus:outline-none focus:bg-neutral-500 focus:text-white focus:text-normal text-sm transition-all duration-300`}
             />
             <button
               onClick={handleSearchToggle}
