@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -10,25 +9,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// prisma/schema.prisma
-
 model Product {
   id            Int      @id @default(autoincrement())
   name          String
   slug          String
   description   String?
   category      String?
-  brands        String?
+  brands        Brand[]
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        String?
+  seller        Seller   @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   tags          String?
-  stock         Int?
-  image         String?
+  stock         Stock    @relation(fields: [stockId], references: [id])
   status        String?
   viewCount     Int?
   createdAt     DateTime @default(now())
   updateAt      DateTime @updatedAt
+  images        Image[] // Corrected field to represent the relation
+  sellerId      Int
+  stockId       Int
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  // Add any other fields related to the image
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Brand {
+  id   Int     @id @default(autoincrement())
+  name String?
+
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
+}
+
+model Seller {
+  id      Int       @id @default(autoincrement())
+  name    String?
+  Product Product[]
+}
+
+model Stock {
+  id        Int       @id @default(autoincrement())
+  quantity  Int
+  productId Int
+  Product   Product[]
 }

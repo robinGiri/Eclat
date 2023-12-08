@@ -1,15 +1,13 @@
 // productController.js
-const productService = require("./product.service");
-const ProductDTO = require("./product.DTO");
-const { consola } = require("consola");
+const productService = require("../service/product.service");
 
 class ProductController {
   async createProduct(req, res, next) {
-    let productDTO = new ProductDTO(req.body);
     try {
-      let data = await productService.createProduct(productDTO);
+      let data = await productService.transformProductCreateData(req);
+      let product = await productService.createProduct(data);
       res.json({
-        result: data,
+        result: product,
         message: "product created successfully",
         meta: null,
       });
@@ -20,9 +18,9 @@ class ProductController {
 
   async getAllProducts(req, res, next) {
     try {
-      const data = await productService.getAllProducts();
+      const product = await productService.getAllProducts();
       res.json({
-        result: data,
+        result: product,
         message: "product fetched successfully",
         meta: null,
       });
@@ -31,15 +29,15 @@ class ProductController {
     }
   }
 
-  async getProductById(req, res) {
+  async getProductById(req, res, next) {
     try {
       const productId = req.params.id;
       const product = await productService.getProductById(productId);
-      if (!product) {
+      if (!product || product.length <= 0) {
         return res.status(404).send("Product not found");
       }
       res.json({
-        result: data,
+        result: product,
         message: "product fetched successfully",
         meta: null,
       });
@@ -48,18 +46,10 @@ class ProductController {
     }
   }
 
-  async updateProduct(req, res) {
+  async updateProduct(req, res, next) {
     try {
       const productId = req.params.id; // Assuming the product ID is in the URL parameters
-      const updatedProductDTO = new ProductDTO(req.body); // Assuming the updated product data is in the request body
-
-      const data = await productService.updateProduct(
-        productId,
-        updatedProductDTO
-      );
-      if (!result) {
-        res.status(404).json({ message: "cannot find the data" });
-      }
+      const data = await productService.updateProduct(productId, req.body);
       res.json({
         result: data,
         message: "product updated successfully",
@@ -70,7 +60,7 @@ class ProductController {
     }
   }
 
-  async deleteProduct(req, res) {
+  async deleteProduct(req, res, next) {
     try {
       const productId = req.params.id;
 
