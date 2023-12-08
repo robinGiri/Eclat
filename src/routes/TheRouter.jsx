@@ -7,6 +7,9 @@ import TheMen from "../pages/TheMen";
 import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
 import TheSale from "../pages/TheSale";
+import TheCart from "../pages/TheCart";
+import TheProductDetails from "../pages/TheProductDetails";
+
 
 const routes = [
   { path: "/", element: <TheHome /> },
@@ -16,6 +19,10 @@ const routes = [
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },
   { path: "/sale", element: <TheSale /> },
+  { path: "/cart", element: <TheCart /> },
+  { path: "/product_details", element: <TheProductDetails/> },
+
+
 ];
 
 export default function TheRouter() {
