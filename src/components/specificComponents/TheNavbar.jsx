@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { navbarList } from "./TheNavbarConfig";
+import { navbarList } from "../../data/TheNavbarConfig";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
 
