@@ -11,10 +11,10 @@ import { Navigation, FreeMode, Pagination } from "swiper/modules";
 
 const TheSecondSectionCarousel = ({ items, settings }) => {
 
-
-  const handleSlideClick = (url) =>{
+  const handleSlideClick = (url) => {
     window.location.href = url;
-  }  
+  }
+
   return (
     <>
       <Swiper
@@ -25,9 +25,9 @@ const TheSecondSectionCarousel = ({ items, settings }) => {
         pagination={{
           clickable: true,
         }}
-        navigation ={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
         }}
         modules={[FreeMode, Pagination, Navigation]}
         className="mySwiper"
@@ -37,7 +37,7 @@ const TheSecondSectionCarousel = ({ items, settings }) => {
             <img
               src="https://m.media-amazon.com/images/I/61wcdlkB0XL._AC_UY1100_.jpg"
               alt="Product 1"
-              class="mx-10 max-w-64 max-h-64 object-cover"
+              className="mx-10 max-w-64 max-h-64 object-cover"
             />
           </div>
         </SwiperSlide>
