@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import TheHeroCarousel from "../components/sharedComponents/TheHeroCarousel";
 import TheSecondSectionCarousel from "../components/sharedComponents/TheSecondSectionCarousel";
-import ThirdHomepageSection from "../components/specificComponents/thirdHomepageSection";
+import ThirdHomepageSection from "../components/specificComponents/ThirdHomepageSection";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 import TheFooter from "../components/specificComponents/TheFooter";
 
