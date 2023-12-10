@@ -3,28 +3,20 @@ const cors = require("cors");
 const { consola } = require("consola");
 
 const app = express();
-const route = require("../routes");
+const BASE_URL = '/api/v1'
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", route);
+app.use(`${BASE_URL}/product`, require('../controller/product.controller'));
 
-//handeling 404 error
-app.use((req, res, next) => {
-  next({ code: 404, message: "Not Found" });
-});
-
-//setting all the result have same type of return
 app.use((error, req, res, next) => {
-  let code = error.code ?? 500;
-  let msg = error.message ?? "Internal server Error";
-  let result = null;
+  const code = error.code || 500;
+  const message = error.message || "Internal Server Error";
+
   res.status(code).json({
-    result: result,
-    msg: msg,
-    meta: null,
+    message,
   });
 });
 

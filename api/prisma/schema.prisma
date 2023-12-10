@@ -11,31 +11,36 @@ datasource db {
 
 model Product {
   id            Int      @id @default(autoincrement())
-  name          String
-  slug          String
+  name          String?
+  slug          String?
   description   String?
-  category      String?
-  brands        Brand[]
+  category      String? 
+  brand         Brand?   @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        Seller   @relation(fields: [sellerId], references: [id])
+  seller        Seller?   @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   tags          String?
-  stock         Stock    @relation(fields: [stockId], references: [id])
+  stock         Stock?   @relation(fields: [stockId], references: [id])
   status        String?
   viewCount     Int?
   createdAt     DateTime @default(now())
   updateAt      DateTime @updatedAt
-  images        Image[] // Corrected field to represent the relation
-  sellerId      Int
-  stockId       Int
+  images        Image[]// Corrected field to represent the relation
+  sellerId      Int?
+  brandId      Int? 
+  stockId       Int?
+}
+
+model Test{
+  id Int @id @default(autoincrement())
+  name String
 }
 
 model Image {
   id        Int     @id @default(autoincrement())
-  url       String
-  // Add any other fields related to the image
+  url       String?
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 }
@@ -44,8 +49,7 @@ model Brand {
   id   Int     @id @default(autoincrement())
   name String?
 
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId Int?
+  products Product[] 
 }
 
 model Seller {
