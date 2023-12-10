@@ -1,7 +1,7 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service")
 const uploader = require("../jobs/imageUploaderJob")
-const productTransformer = require('../jobs/productTransformerJob')
+// const productTransformer = require('../jobs/productTransformerJob')
 const router = require("express").Router();
 
 router.post("/",uploader.single("image"), async (req, res) => {

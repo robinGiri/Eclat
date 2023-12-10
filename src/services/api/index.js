@@ -49,7 +49,7 @@ class Api {
     this.instance.interceptors.response.use(onResponseSuccess, onResponseFail);
   }
 
-  products = this.createResource('products/(/:id)');
+  products = this.createResource('product');
 
   get(pattern, params = {}, config = {}) {
     const url = pattern.stringify(params);

@@ -14,7 +14,6 @@ CREATE TABLE `Product` (
     `viewCount` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updateAt` DATETIME(3) NOT NULL,
-    `images` VARCHAR(191) NULL,
     `sellerId` INTEGER NULL,
     `brandId` INTEGER NULL,
     `stockId` INTEGER NULL,
@@ -33,7 +32,8 @@ CREATE TABLE `Test` (
 -- CreateTable
 CREATE TABLE `Image` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `url` VARCHAR(191) NOT NULL,
+    `url` VARCHAR(191) NULL,
+    `productId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -71,3 +71,6 @@ ALTER TABLE `Product` ADD CONSTRAINT `Product_sellerId_fkey` FOREIGN KEY (`selle
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_stockId_fkey` FOREIGN KEY (`stockId`) REFERENCES `Stock`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Image` ADD CONSTRAINT `Image_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

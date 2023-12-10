@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 /api/.env
+/api/public/uploads*
 
 # Editor directories and files
 .vscode/*
@@ -24,3 +25,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
