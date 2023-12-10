@@ -1,78 +1,42 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const slugify = require("slugify");
+const include = {
+                  seller : true,
+                  brand : true,
+                  stock :true,
+                  images : true
+                }
 
 class ProductService {
-  transformProductCreateData(request, isEdit = false) {
-    let product = {
-      ...request.body,
-    };
-    if (product.brands) {
-      product.brands = product.brands.split(",");
-    } else if (!product.brands || product.brands === "null") {
-      product.brands = null;
-    }
-    if (!product.seller || product.seller === "null") {
-      product.seller = null;
-    }
-    if (product.category) {
-      product.category = product.category.split(",");
-    } else if (!product.category || product.category === "null") {
-      product.category = null;
-    }
-    if (!request.files && isEdit === false) {
-      throw {
-        code: 400,
-        message: "Validation Faliure",
-        result: { image: "Image is reuired" },
-      };
-    } else if (request.files) {
-      product["image"] = request.files.map((image) => image.filename);
-    }
-    if (!isEdit) {
-      product["slug"] = slugify(product.name, {
-        replacement: "-",
-        lower: true,
-        trim: true,
-      });
-    }
-    if (isEdit) {
-      delete product.delImage;
-    }
-    product["afterDiscount"] =
-      product.price - (product.price * product.discount) / 100;
-
-    return product;
-  }
-  async createProduct(data) {
+  
+  async save(data) {
     try {
-      const res = await prisma.product.create({
-        data,
-      });
+      let res;
+      if (data.id) {
+        res = await prisma.product.update({
+          where: { id: parseInt(data.id) },
+          data,
+          include,
+        });
+      } else {
+        res = await prisma.product.create({
+          data,
+          include,
+        });
+      }
       return res;
     } catch (error) {
-      console.error("Error creating product:", error.message);
+      console.error("Error saving product:", error.message);
       throw error;
     }
   }
 
-  async updateProduct(productId, updatedProductDTO) {
-    try {
-      const res = await prisma.product.update({
-        where: { id: parseInt(productId) },
-        data: updatedProductDTO,
-      });
-      return res;
-    } catch (error) {
-      console.error("Error updating product:", error.message);
-      throw error;
-    }
-  }
-
-  async deleteProduct(productId) {
+  async deleteByID(productId) {
     try {
       const res = await prisma.product.delete({
         where: { id: parseInt(productId) },
+        include
       });
       console.log(res);
     } catch (error) {
@@ -81,9 +45,11 @@ class ProductService {
     }
   }
 
-  async getAllProducts() {
+  async fetchAll() {
     try {
-      const res = await prisma.product.findMany();
+      const res = await prisma.product.findMany({
+        include
+      });
       return res;
     } catch (error) {
       console.error("Error fetching products:", error.message);
@@ -91,10 +57,11 @@ class ProductService {
     }
   }
 
-  async getProductById(productId) {
+  async fetchByID(productID) {
     try {
       const res = await prisma.product.findMany({
-        where: { id: parseInt(productId) },
+        where: { id: parseInt(productID) },
+        include
       });
       return res;
     } catch (error) {

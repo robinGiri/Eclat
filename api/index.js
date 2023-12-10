@@ -1,8 +1,10 @@
-const { consola } = require("consola");
+const consola  = require("consola");
 const app = require("./config/express.config");
-require("dotenv").config();
-const port = process.env.PORT;
+const dotenv = require('dotenv');
+const PORT = process.env.PORT || 4000;
 
-app.listen(port, (err) => {
-  err ? consola.warn(err) : consola.start(`Server is running on port ${port}`);
+require("dotenv").config();
+
+app.listen(PORT, (err) => {
+  err ? consola.warn(err) : consola.start(`Eclat Server running on port ${PORT}`);
 });

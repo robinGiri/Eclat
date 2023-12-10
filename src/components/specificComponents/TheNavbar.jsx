@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { navbarList } from "./TheNavbarConfig";
+import { navbarList } from "../../data/TheNavbarConfig";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
 
@@ -14,6 +14,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+// routes____________________________________________________________________________________
 export default function TheSidebar() {
   const [activeTab, setActiveTab] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -36,11 +37,18 @@ export default function TheSidebar() {
     }
   };
 
+  const handleCartClick = () => {
+    setActiveTab("Cart");  // Update activeTab when cart is clicked
+    navigate('/cart');
+  };
+
   const handleLogoClick = () => {
     // Reset activeTab to empty string when the logo is clicked
     setActiveTab("");
     navigate("/");
   };
+
+
 
   const handleKeyPress = (event, title) => {
     if (event.key === "Enter") {
@@ -54,16 +62,16 @@ export default function TheSidebar() {
 
   return (
     <>
-      {/* misc box on top */}
-      <div className="fixed top-0 bg-neutral-800 h-2 w-full"></div>
+
 
       {/* navbar */}
       <div className="flex justify-between items-center p-8 bg-neutral-900 h-8 w-full">
-
         <div className="w-[7%]">
           {/* Add an onClick event for the logo */}
           <Link to="/" onClick={handleLogoClick}>
-            <p className="items-center p-1 mx-1 my-5 flex text-white font-serif text-3xl">Eclat</p>
+            <p className="items-center p-1 mx-1 my-5 flex text-white font-serif text-3xl">
+              Eclat
+            </p>
           </Link>
         </div>
 
@@ -79,11 +87,10 @@ export default function TheSidebar() {
               {/* navbar elements */}
               {activeTab === item.title ? item.activeIcon : item.icon}
               <p
-                className={`duration-0 ease-linear ${
-                  activeTab === item.title
+                className={`duration-0 ease-linear ${activeTab === item.title
                     ? "font-bold text-xs "
                     : "font-normal text-xs"
-                } ml-2 p-1
+                  } ml-2 p-1
               hover:duration-100 hover:font-bold hover:text-xs`}
               >
                 {item.title}
@@ -98,9 +105,8 @@ export default function TheSidebar() {
             <input
               type="text"
               placeholder="Search..."
-              className={`${
-                isSearchOpen ? "w-40" : "w-0"
-              } my-0 px-4 py-1 rounded-full bg-neutral-200 focus:outline-none focus:bg-neutral-500 focus:text-white focus:text-normal text-sm transition-all duration-300`}
+              className={`${isSearchOpen ? "w-40" : "w-0"
+                } my-0 px-4 py-1 rounded-full bg-neutral-200 focus:outline-none focus:bg-neutral-500 focus:text-white focus:text-normal text-sm transition-all duration-300`}
             />
             <button
               onClick={handleSearchToggle}
@@ -110,9 +116,10 @@ export default function TheSidebar() {
             </button>
           </div>
 
-          {/* Shopping Cart Icon */}
           <div className="ml-7">
-            <FaShoppingCart className="text-slate-50 text-xs cursor-pointer transition duration-300 hover:text-green-500" />
+            <Link to="/cart" onClick={handleCartClick}>
+              <FaShoppingCart className="text-slate-50 text-xs cursor-pointer transition duration-300 hover:text-green-500" />
+            </Link>
           </div>
 
           {/* Heart Icon */}
