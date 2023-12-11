@@ -73,7 +73,7 @@ class ProductService {
       const products = await prisma.product.findMany({
         where: {
           OR: [
-            { name: { contains: searchTerm } },
+            { name: { contains: searchTer } },
             { description: { contains: searchTerm } },
             { category: { contains: searchTerm } },
             { tags: { contains: searchTerm } },
