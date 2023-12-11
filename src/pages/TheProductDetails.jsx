@@ -10,11 +10,11 @@ function TheProductDetails() {
   return (
     <>
       {/* title */}
-      <div className="mt-10 mx-10 font-bold text-5xl bg-neutral-50 p-4">Product Details</div>
+      <div className="mt-10 mx-10 font-bold rounded-md text-5xl bg-neutral-50 p-4">Product Details</div>
 
       <div className="flex flex-row w-full h-[100vh] rounded-md mt-7 mx-10">
-        {/* div 1 */}
-        <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200">
+        {/* div 1  pictures grid*/}
+        <div className="content w-[45%] h-[85vh] border rounded-lg border-black bg-neutral-200">
           Product Picture
         </div>
         {/* div 2 */}
