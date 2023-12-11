@@ -4,60 +4,37 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+  
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Autoplay, EffectFade, Mousewheel, Navigation, Pagination } from 'swiper/modules';
+import images from '../../data/HeroCarouselImages';
 
-const TheHeroCarousel = ({ items, settings }) => {
-  const handleDragStart = (e) => e.preventDefault();
-
+export default function TheHeroCarousel() {
   return (
     <>
       <Swiper
-        cssMode={true}
-        navigation={true}
-        pagination={true}
+        direction={'vertical'}
+        slidesPerView={1}
+        spaceBetween={30}
         mousewheel={true}
-        keyboard={true}
-        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        className="mySwiper"
+        pagination={{
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: true,
+        }}
+        modules={[Autoplay, Mousewheel, Pagination]}
+        className="relative justify-center align-middle flex flex-row h-[100%] w-[100%] bg-slate-400 text-sm text-black rounded-md"
       >
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://i.pinimg.com/originals/b4/59/26/b4592635d6855ea30e1d652b846fb3df.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://cdn.thewirecutter.com/wp-content/media/2022/09/backpacks-2048px-9932.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://i.pinimg.com/originals/b4/59/26/b4592635d6855ea30e1d652b846fb3df.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://cdn.thewirecutter.com/wp-content/media/2022/09/backpacks-2048px-9932.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://i.pinimg.com/originals/b4/59/26/b4592635d6855ea30e1d652b846fb3df.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-lg'>
-            <img src="https://cdn.thewirecutter.com/wp-content/media/2022/09/backpacks-2048px-9932.jpg" alt="Product 1" className="mx-10 max-w-full max-h-full object-cover" />
-          </div>
-        </SwiperSlide>
+         {images.map((images) => (
+          <SwiperSlide key={images.id} className="swiper-slide object-cover flex justify-center items-center">
+            <img src={images.img} className='w-full h-full cursor-pointer ' alt={`Slide ${images.id}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
 }
-
-export default TheHeroCarousel;
-

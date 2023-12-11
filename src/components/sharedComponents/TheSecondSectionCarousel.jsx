@@ -17,6 +17,65 @@ const TheSecondSectionCarousel = ({ items, settings }) => {
 
   return (
     <>
+      {/* Card Background */}
+      <div className=" bg-white h-[100vh]">
+        {/* Card Background */}
+        <div className="bg-whiteborder m-2 ">
+          <div className="bg-neutral-50 flex flex-row justify-start">
+            <div
+              onClick={() => handleTabClick("popular")}
+              className={`cursor-pointer mx-9 ${activeTab === "popular"
+                  ? "text-5xl font-bold "
+                  : "font-bold text-neutral-500 text-xl"
+                } h-[100vh]`}
+            >
+              <p className="py-14">Popular</p>
+              {activeTab === "popular" && (
+                <div className="border-8 border-black">
+                  <TheSecondSectionCarousel />
+                </div>
+              )}
+            </div>
+            <div
+              onClick={() => handleTabClick("women")}
+              className={`cursor-pointer mx-9 my-14 ${activeTab === "women"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+                } h-[100vh] `}
+            >
+              Women's
+            </div>
+            <div
+              onClick={() => handleTabClick("men")}
+              className={`cursor-pointer mx-9 my-14 ${activeTab === "men"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+                } h-[100vh] `}
+            >
+              Men's
+            </div>
+            <div
+              onClick={() => handleTabClick("kids")}
+              className={`cursor-pointer mx-9 my-14 ${activeTab === "kids"
+                  ? "text-5xl font-bold"
+                  : "font-bold text-neutral-500 text-xl"
+                } h-[100vh] `}
+            >
+              Kid's
+            </div>
+          </div>
+
+          <div className="">
+            {/* Render images based on the active tab */}
+
+            {activeTab === "women" && renderImages(womenImages)}
+            {activeTab === "men" && renderImages(menImages)}
+            {activeTab === "kids" && renderImages(kidsImages)}
+          </div>
+        </div>
+      </div>
+
+      
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
@@ -32,23 +91,14 @@ const TheSecondSectionCarousel = ({ items, settings }) => {
         modules={[FreeMode, Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide onClick={() => handleSlideClick('/product_details')} className="flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden rounded-lg">
-          <div className="flex flex-row items-center w-64 h-64 mx-52 mt-5 overflow-hidden border border-gray-100 rounded-l">
-            <img
-              src="https://m.media-amazon.com/images/I/61wcdlkB0XL._AC_UY1100_.jpg"
-              alt="Product 1"
-              className="mx-10 max-w-64 max-h-64 object-cover"
-            />
+        <SwiperSlide onClick={() => handleSlideClick('/product_details')} className="flex flex-row items-center overflow-hidden ">
+          {/* picture's  div */}
+          <div className="flex flex-row items-center w-64 h-64 overflow-hidden"> 
+
+            
           </div>
         </SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        
       </Swiper>
     </>
   );
