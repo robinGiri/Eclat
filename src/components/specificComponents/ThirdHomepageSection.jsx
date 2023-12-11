@@ -2,7 +2,7 @@
 export default function ThirdHomepageSection() {
     return (
         <div>
-            <div className="bg-white rounded-lg border border-black m-2 ">
+            <div className="bg-white">
                 <div className=" bg-neutral-50 flex justify-start">
                     <h1 className="font-bold text-5xl m-10">More Products</h1>
                 </div>
@@ -11,7 +11,7 @@ export default function ThirdHomepageSection() {
                         {/* First clickable div */}
 
                         <div
-                            className="h-64 w-120 rounded-b-md bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+                            className="h-64 w-120 bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
                             onClick={() => console.log("Div 1 clicked")}
                         >
                             <p className="font-bold text-6xl p-16">Clothing</p>
@@ -19,7 +19,7 @@ export default function ThirdHomepageSection() {
 
                         {/* Second clickable div */}
                         <div
-                            className="bg-neutral-500 text-white rounded-b-md p-4 cursor-pointer transition duration-300 hover:bg-black"
+                            className="bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
                             onClick={() => console.log("Div 2 clicked")}
                         >
                             <p className="font-bold text-6xl p-16">Accessories</p>
@@ -27,7 +27,7 @@ export default function ThirdHomepageSection() {
 
                         {/* Third clickable div */}
                         <div
-                            className="h-64 w-120 rounded-b-md bg-neutral-600 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+                            className="h-64 w-120 bg-neutral-600 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
                             onClick={() => console.log("Div 3 clicked")}
                         >
                             <p className="font-bold text-6xl p-16">Shoes</p>
@@ -35,7 +35,7 @@ export default function ThirdHomepageSection() {
 
                         {/* Fourth clickable div */}
                         <div
-                            className="bg-slate-500  rounded-b-md text-white p-4 cursor-pointer transition duration-300 hover:bg-red-600"
+                            className="bg-slate-500  text-white p-4 cursor-pointer transition duration-300 hover:bg-red-600"
                             onClick={() => console.log("Div 4 clicked")}
                         >
                             <p className="font-bold text-6xl p-16">Request</p>
