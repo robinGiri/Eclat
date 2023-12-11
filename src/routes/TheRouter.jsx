@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
 import TheCustomize from "../pages/TheCustomize";
@@ -23,11 +23,27 @@ const routes = [
 ];
 
 export default function TheRouter() {
+  const location = useLocation();
+  const isAdminPage =
+    location.pathname.includes("/admin") ||
+    location.pathname.includes("/admin-dashboard") ||
+    location.pathname.includes("/analytics") ||
+    location.pathname.includes("/products") ||
+    location.pathname.includes("/payment") ||
+    location.pathname.includes("/orders") ||
+    location.pathname.includes("/enquiry") ||
+    location.pathname.includes("/marketing") ||
+    location.pathname.includes("/setting") ||
+    location.pathname.includes("/user") ||
+    location.pathname.includes("/logout");
+
   return (
     <div className="flex flex-col">
-      <div>
-        <TheNavbar />
-      </div>
+      {!isAdminPage && (
+        <div>
+          <TheNavbar />
+        </div>
+      )}
       <div>
         <Routes>
           {routes.map(({ path, element }) => (
