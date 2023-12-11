@@ -14,12 +14,12 @@ model Product {
   name          String?
   slug          String?
   description   String?
-  category      String? 
+  category      String?
   brand         Brand?   @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        Seller?   @relation(fields: [sellerId], references: [id])
+  seller        Seller?  @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   tags          String?
   stock         Stock?   @relation(fields: [stockId], references: [id])
@@ -27,14 +27,14 @@ model Product {
   viewCount     Int?
   createdAt     DateTime @default(now())
   updateAt      DateTime @updatedAt
-  images        Image[]// Corrected field to represent the relation
+  images        Image[]
   sellerId      Int?
-  brandId      Int? 
+  brandId       Int?
   stockId       Int?
 }
 
-model Test{
-  id Int @id @default(autoincrement())
+model Test {
+  id   Int    @id @default(autoincrement())
   name String
 }
 
@@ -49,7 +49,7 @@ model Brand {
   id   Int     @id @default(autoincrement())
   name String?
 
-  products Product[] 
+  products Product[]
 }
 
 model Seller {
