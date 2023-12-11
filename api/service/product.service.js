@@ -1,15 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const slugify = require("slugify");
 const include = {
-                  seller : true,
-                  brand : true,
-                  stock :true,
-                  images : true
-                }
+  seller: true,
+  brand: true,
+  stock: true,
+  images: true,
+};
 
 class ProductService {
-  
   async save(data) {
     try {
       let res;
@@ -36,7 +34,7 @@ class ProductService {
     try {
       const res = await prisma.product.delete({
         where: { id: parseInt(productId) },
-        include
+        include,
       });
       console.log(res);
     } catch (error) {
@@ -48,7 +46,7 @@ class ProductService {
   async fetchAll() {
     try {
       const res = await prisma.product.findMany({
-        include
+        include,
       });
       return res;
     } catch (error) {
@@ -61,11 +59,36 @@ class ProductService {
     try {
       const res = await prisma.product.findMany({
         where: { id: parseInt(productID) },
-        include
+        include,
       });
       return res;
     } catch (error) {
       console.error("Error fetching product:", error.message);
+      throw error;
+    }
+  }
+  async query(searchTerm) {
+    console.log(searchTerm);
+    try {
+      const products = await prisma.product.findMany({
+        where: {
+          OR: [
+            { name: { contains: searchTerm } },
+            { description: { contains: searchTerm } },
+            { category: { contains: searchTerm } },
+            { tags: { contains: searchTerm } },
+          ],
+        },
+        include: {
+          brand: true,
+          seller: true,
+          stock: true,
+          images: true,
+        },
+      });
+      return products;
+    } catch (error) {
+      console.log("Error fetching data:", error.message);
       throw error;
     }
   }
