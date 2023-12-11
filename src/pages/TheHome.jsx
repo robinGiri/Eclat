@@ -4,10 +4,14 @@ import TheHeroCarousel from "../components/sharedComponents/TheHeroCarousel";
 import ThirdHomepageSection from "../components/specificComponents/ThirdHomepageSection";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 import TheFooter from "../components/specificComponents/TheFooter";
+import TheProductDetails from "./TheProductDetails";
+import { useNavigate, Link } from "react-router-dom";
+
 
 function TheHome() {
   // Get the current path from the location prop
   const currentPath = location.pathname;
+  const navigate = useNavigate();
 
   const handleDragStart = (e) => e.preventDefault();
 
@@ -40,6 +44,10 @@ function TheHome() {
   //   slidesToScroll: 1,
   // };
 
+
+  const handleClick = () => {
+    navigate("/product_details");
+  };
   
  
 
@@ -57,6 +65,8 @@ function TheHome() {
 
       <div className="mt-4 border border-gray-400 h-[100vh]">
         Carousel Browse Products
+        <p></p>
+        <button className="hover:font-bold hover:underline " onClick={() => handleClick()}>Product Details</button>
       </div>
 
       <div className="mt-3">
