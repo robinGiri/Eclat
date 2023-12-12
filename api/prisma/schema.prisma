@@ -64,3 +64,22 @@ model Stock {
   productId Int
   Product   Product[]
 }
+
+// schema.prisma
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  role         String    @default("customer")
+  address      String
+  phone        String?
+  password     String?
+  image        String?
+  token        String?
+  forgetToken  String?
+  validateTill DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
