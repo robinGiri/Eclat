@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import axios from "axios";
-import ReactImageMagnify from "react-image-magnify";
+import ReactImageZoom from "react-image-zoom";
 
 const API = "http://localhost:4000/api/v1/product/";
 const staticAPI = "http://localhost:4000/api/v1/uploads/";
@@ -9,12 +9,6 @@ const staticAPI = "http://localhost:4000/api/v1/uploads/";
 function TheProductDetails() {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState("");
-  const test = {
-    width: 500,
-    height: 500,
-    zoomWidth: 500,
-    img: "cat.jpg",
-  };
 
   const getApiData = async () => {
     try {
@@ -43,22 +37,8 @@ function TheProductDetails() {
 
       <div className="flex flex-row w-full h-[100vh] rounded-md mt-7 mx-10">
         <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
-          <div className="w-[100%] h-[50%]">
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: "Wristwatch by Ted Baker London",
-                  isFluidWidth: true,
-                  src: "test.jpg", // source of the image
-                },
-                largeImage: {
-                  src: "test.jpg",
-                  //actual image size
-                  width: 720,
-                  height: 1280,
-                },
-              }}
-            />
+          <div className="object-fit">
+            <ReactImageZoom image={{ src: "test.png" }} />,
           </div>
 
           {/* <div>
