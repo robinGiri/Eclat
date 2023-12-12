@@ -3,7 +3,7 @@ export default function ThirdHomepageSection() {
     return (
         <div>
             <div className="bg-white">
-                <div className=" bg-neutral-50 flex justify-start">
+                <div className=" bg-neutral-50 flex justify-center">
                     <h1 className="font-bold text-5xl m-10">More Products</h1>
                 </div>
                 <div className="p-2">
