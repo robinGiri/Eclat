@@ -11,7 +11,10 @@ const BASE_URL = "/api/v1";
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "..", "public/uploads")));
+app.use(
+  `${BASE_URL}/uploads`,
+  express.static(path.join(__dirname, "..", "public/uploads"))
+);
 
 app.use(`${BASE_URL}/product`, require("../controller/product.controller"));
 

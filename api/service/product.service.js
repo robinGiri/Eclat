@@ -32,11 +32,17 @@ class ProductService {
 
   async deleteByID(productId) {
     try {
+      await prisma.image.deleteMany({
+        where: {
+          productId: parseInt(productId),
+        },
+      });
       const res = await prisma.product.delete({
         where: { id: parseInt(productId) },
-        include,
       });
+
       console.log(res);
+      return res;
     } catch (error) {
       console.error("Error deleting product:", error.message);
       throw error;

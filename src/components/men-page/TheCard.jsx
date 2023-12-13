@@ -1,8 +1,9 @@
 import React from "react";
+const staticUrl = "http://localhost:4000/api/v1/uploads/";
 
 const Thecard = (props) => {
-  const { name, discountPercent, actualRate, rateAfterDiscount, imgSrc } =
-    props;
+  const { images, name, discount, price, afterdiscount } = props;
+  const { url } = images[0];
 
   return (
     <div className="max-w-2xl mx-auto my-10 px-10">
@@ -11,16 +12,16 @@ const Thecard = (props) => {
           <div className="aspect-w-16 h-[15rem] relative">
             <img
               className="object-cover w-full h-full transition-transform transform group-hover:scale-105 pb-2"
-              src="https://coach.scene7.com/is/image/Coach/cq629_qbe7v_a0?$mobileProductTile$"
+              src={staticUrl + url}
               alt="Product Image"
             />
           </div>
 
           <div className="px-5 pb-5">
-            {discountPercent && (
+            {discount && (
               <div className="flex">
                 <div className="left-2 bg-red-600 text-sm text-white px-2 py-1 rounded h-7 w-[5rem]">
-                  {discountPercent}% OFF
+                  {discount}% OFF
                 </div>
                 <div className="left-2 font-bold text-red-600 px-2 py-0.5">
                   Deal
@@ -30,14 +31,12 @@ const Thecard = (props) => {
 
             <div className="flex items-center justify-between py-5">
               <div className="text-2xl font-bold">
-                ${discountPercent ? rateAfterDiscount : actualRate}
+                ${discount ? afterdiscount : price}
               </div>
-              {discountPercent && (
+              {discount && (
                 <div className="font-bold text-sm my-1">
                   <span className="text-gray-600 px-1">List Price:</span>
-                  <span className="line-through text-gray-600">
-                    ${actualRate}
-                  </span>
+                  <span className="line-through text-gray-600">${price}</span>
                 </div>
               )}
             </div>

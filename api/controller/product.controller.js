@@ -5,13 +5,28 @@ const router = require("express").Router();
 
 router.post("/", uploader.array("image"), async (req, res) => {
   try {
+    const images = [];
     const form_data = JSON.parse(req.body.form);
-    const data = { body: form_data, files: { ...req.files } };
-    // console.log(product);
-    // await productService.save(JSON.parse(req.body.form));
-    // await imageService.saveMultiple(req.files, product.id);
+    const data = {
+      body: form_data,
+      files: { ...req.files },
+    };
+    const { discount, price } = form_data;
+    const { files } = data;
+    const fileArray = Object.values(files);
+    const afterDiscount = price - price * (discount / 100);
+
+    const finalData = {
+      ...form_data,
+      afterdiscount: afterDiscount,
+    };
+    const { id } = await productService.save(finalData);
+    fileArray.map(({ filename }) => {
+      images.push(filename);
+    });
+    imageService.saveMultiple(images, id);
     res.json({
-      result: await productService.fetchByID(product.id),
+      result: await productService.fetchByID(id),
       message: "product created successfully",
       meta: null,
     });
@@ -69,25 +84,35 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:productId", uploader.array("image"), async (req, res) => {
   try {
-    const productId = req.params.id;
-    req.body.id = parseInt(productId);
-    const getdata = productService.fetchByID(productId);
-    if (!getdata) {
-      res.json({
-        result: null,
-        message: "product not found",
-        meta: null,
-      });
-    }
-    const data = await productService.save(req.body);
+    // Parse form data
+    const form_data = JSON.parse(req.body.form);
+
+    // Prepare data for update
+    const data = {
+      body: form_data,
+    };
+
+    const { discount, price } = form_data;
+    const afterDiscount = price - price * (discount / 100);
+
+    const finalData = {
+      ...form_data,
+      afterdiscount: afterDiscount,
+    };
+
+    // Update product
+    const { id } = await productService.save(finalData);
+
+    // Respond with updated product details
     res.json({
-      result: data,
-      message: "product updated successfully",
+      result: await productService.fetchByID(id),
+      message: "Product updated successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     res.status(500).json({ message: e.message });
   }
 });
