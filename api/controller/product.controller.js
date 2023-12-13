@@ -5,11 +5,11 @@ const router = require("express").Router();
 
 router.post("/", uploader.array("image"), async (req, res) => {
   try {
-    const form_data = JSON.parse(req.body.form);
-    const data = { body: form_data, files: { ...req.files } };
+    // const form_data = JSON.parse(req.body.form);
+    // const data = { body: form_data, files: { ...req.files } };
     // console.log(product);
-    // await productService.save(JSON.parse(req.body.form));
-    // await imageService.saveMultiple(req.files, product.id);
+    const product = await productService.save(JSON.parse(req.body.form));
+    await imageService.saveMultiple(req.files, product.id);
     res.json({
       result: await productService.fetchByID(product.id),
       message: "product created successfully",
