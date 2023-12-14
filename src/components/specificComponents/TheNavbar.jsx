@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { navbarList } from "../../data/TheNavbarConfig";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
-import getSearchData from "../../services/search_api";
 import SearchComponent from "../sharedComponents/SearchComponent";
 
 // dynamically apply classes based on conditions, such as whether a tab is active or not.
@@ -62,21 +61,25 @@ export default function TheSidebar() {
 
   return (
     <>
-      <div>
-        <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">help</p>
+      <div className=" bg-gradient-to-t from-white to-neutral-100 opacity-100">
+        <p className="w-full py-2 px-5 text-neutral-600 text-sm hover:font-semibold">help</p>
       </div>
 
-      <div className="mt-3 flex flex-row justify-center w-full h-[10vh] bg-[#fafafa]">
+      <div className="flex justify-center w-full h-[12vh]  bg-gradient-to-t from-neutral-100 to-white opacity-100">
         <Link to="/" onClick={handleLogoClick} className="relative">
-          <p className="drop-shadow items-center p-1 flex text-neutral-800 font-peignot text-5xl relative z-10">
+          <p className="items-center p-2 text-black font-peignot text-5xl relative z-10">
             Eclat
           </p>
           <div className="absolute inset-0">
             {/* Faded yellow layer */}
-            <span className="absolute -translate-x-21 -translate-y-5 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-20 to-transparent opacity-40"></span>
-            <span className="absolute rounded-full inset-1 bg-gradient-to-b from-yellow-100 h-20 to-transparent opacity-40"></span>
-            <span className="absolute translate-x-24 translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-neutral-50 h-20 to-transparent opacity-40"></span>
-            <span className="absolute translate-x-20 -translate-y-10 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-20 to-transparent opacity-40"></span>
+            <span className="absolute -translate-x-10 -translate-y-5 rounded-full inset-0 bg-gradient-to-bl from-yellow-100 h-20 to-transparent opacity-30"></span>
+            <span className="absolute -translate-x-14 -translate-y-1 rounded-full inset-0 bg-gradient-to-bl from-yellow-200 h-20 to-transparent opacity-20"></span>
+            <span className="absolute rounded-full translate-x-0 -translate-y-10 inset-1 bg-gradient-to-tr from-yellow-200 h-20 to-transparent opacity-20"></span>
+            <span className="absolute rounded-full translate-x-0 translate-y-0 inset-1 bg-gradient-to-br from-yellow-50 h-20 to-transparent opacity-30"></span>
+            <span className="absolute translate-x-0 translate-y-0 rounded-full inset-1 bg-gradient-to-bl from-yellow-200 h-20 to-transparent opacity-30"></span>
+            <span className="absolute translate-x-10 -translate-y-1 rounded-full inset-1 bg-gradient-to-bl from-yellow-200 h-20 to-transparent opacity-30"></span>
+            <span className="absolute translate-x-10 translate-y-5 rounded-full inset-1 bg-gradient-to-bl from-yellow-200 h-20 to-transparent opacity-20"></span>
+
           </div>
         </Link>
 
@@ -85,7 +88,7 @@ export default function TheSidebar() {
       </div>
 
       {/* Navbar */}
-      <div className="flex flex-row p-0 mt-1 max-h-18 w-full bg-gradient-to-b from-neutral-100 h-20 to-transparent opacity-80">
+      <div className="flex p-0 drop-shadow-sm max-h-18 w-full bg-neutral-100">
         {/* Navbar items */}
         <div className="flex flex-row py-4 justify-center ml-[12%] ">
           {navbarList.map((item) => (
@@ -94,7 +97,7 @@ export default function TheSidebar() {
               className={`flex text-black items-center w-full cursor-pointer ${
                 activeTab === item.title
                   ? "font-bold text-sm"
-                  : "font-normal text-sm"
+                  : "font-light text-sm"
               } p-4 hover:font-bold hover:text-sm`}
               onClick={() => handleTabClick(item.title)}
             >

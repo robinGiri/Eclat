@@ -1,52 +1,75 @@
-import React, { useState } from 'react';
-import getSearchData from "../../services/search_api"
-import axios from 'axios';
-import { FaSearch } from 'react-icons/fa';
-import { data } from 'autoprefixer';
-
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
+// import getSearchData from '../../services/search_api';
+import axios from "axios";
 
 const SearchComponent = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedInputValue, setDebouncedInputValue] = useState("");
 
-
-  const searchHandler = async () =>{
-    const data = await fetchData(searchTerm);
-    console.log(data);
-  }
-
-  const handleInputChange = async (e) => {
-    setSearchTerm(e.target.value);
-    await fetchData(searchTerm)
+  const debounce = (callback, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => callback(...args), delay);
+    };
   };
 
-  // const handleKeyUp = (e) => {
-  //   if (e.key === 'Enter') {
-  //     // Trigger search on Enter key
-  //     handleSearch();
-  //   }
-  // };
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-  const fetchData = async (value) => {
-    console.log(value);
-    const {data} = await axios.get(`http://localhost:5000/api/v1/product/search?q=${value}`);
-    console.log(data);
+  const debouncedLog = debounce((value) => {
+    console.log("Search text:", value);
+  }, 1000);
 
-  }
-  
+  useEffect(() => {
+    debouncedLog(searchTerm);
+    setDebouncedInputValue(searchTerm);
+  }, [searchTerm]);
+
+  const searchHandler = async () => {
+    try {
+      const {data}= await axios.get(
+        `http://localhost:5000/api/v1/product/search?q=${searchTerm}`
+      );
+      let {result} = data; // the result(the actual array) is inside data
+      result.map(item => {
+        console.log(item);
+      });
+    } catch (error) {
+      console.error("Error in searchHandler:", error);
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Enter") {
+      // Trigger search on Enter key
+      searchHandler();
+    }
+  };
 
   return (
-    <div className=' focus: outline-none'>
+    <div className="flex items-center focus:outline-none">
       <input
-      className='px-3 py-2 w-[100%] border border-gray-300 rounded-full focus:outline-none focus:border-blue-300'
+        className="mt-2 px-3 py-2 w-[100%] border-b-2 border-neutral-400 bg-transparent  text-gray-600 focus:outline-none focus:border-yellow-600 placeholder-gray-300"
         type="text"
         placeholder="Search..."
-        // value={searchTerm}
+        value={searchTerm}
         onChange={handleInputChange}
-        // onKeyUp={handleKeyUp}
+        onKeyUp={handleKeyUp}
       />
       <button>
-        <FaSearch className='relative m-2 translate-x-[1500%] -translate-y-9 focus:outline-none hover:font-semibold hover:text-black focus:border-blue-300 ' onClick={searchHandler}/>
-      </button>
+        <FaSearch
+          className='absolute -translate-x-7 -translate-y-2 focus:outline-none text-gray-400 focus:border-yellow-300'
+          onClick={searchHandler}
+        />
+      </button> 
+      {/* <div>
+        <input className="text-gray-800" type="text" value={searchTerm} onChange={handleInputChange} />
+      </div> */}
+        {/* <p>Debounced input value: {debouncedInputValue}</p> */}
+
     </div>
   );
 };

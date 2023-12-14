@@ -32,7 +32,7 @@ const images = [
     {
         id : 6,
         title: 'productName',
-        img : 'https://video-play.daraz.com.np/cover/382727.jpg',
+        img : 'https://www.houseoffraser.co.uk/images/products/70275603_h.jpg',
         content: 'This is for sale'
     },
     {

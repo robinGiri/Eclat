@@ -6,7 +6,7 @@ export default function ThirdHomepageSection() {
                 <div className=" bg-neutral-50 flex justify-center">
                     <h1 className="font-bold text-5xl m-10">More Products</h1>
                 </div>
-                <div className="p-2">
+                <div className="p-2 py-10">
                     <div className="grid grid-cols-2 gap-2">
                         {/* First clickable div */}
 

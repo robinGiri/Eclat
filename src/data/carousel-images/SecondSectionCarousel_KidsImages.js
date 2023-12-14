@@ -36,13 +36,13 @@ const images = [
         content: 'This is for sale'
     },
     {
-        id : 6,
+        id : 7,
         title: 'productName',
         img : 'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/19860432/2022/10/28/f65d8cc8-1738-4688-bbfa-f7edc1eb1a9a1666931713521FranticUnisexKidsRabbitVelvetBackpack1.jpg',
         content: 'This is for sale'
     },
     {
-        id : 7,
+        id : 8,
         title: 'productName',
         img : 'https://m.media-amazon.com/images/I/91i3W-5QLIL.jpg',
         content: 'This is for sale'
