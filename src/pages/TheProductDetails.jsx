@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import axios from "axios";
+import ReactImageMagnify from "react-image-magnify";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI= "http://localhost:5000/api/v1/uploads/";
+const API = "http://localhost:4000/api/v1/product/";
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheProductDetails() {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState("");
+
+  const props = { img: "test.png" };
 
   const getApiData = async () => {
     try {
@@ -36,8 +39,25 @@ function TheProductDetails() {
 
       <div className="flex flex-row w-full h-[100vh] rounded-md mt-7 mx-10">
         <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
-          <div>
-          {products.slice(0,1).map((product) => {
+          <div className="object-fit">
+            <ReactImageMagnify
+              {...{
+                smallImage: {
+                  alt: "Wristwatch by Ted Baker London",
+                  isFluidWidth: true,
+                  src: "test.png",
+                },
+                largeImage: {
+                  src: "test.png",
+                  width: 1920, //image width
+                  height: 1080, //image height
+                },
+              }}
+            />
+          </div>
+
+          {/* <div>
+            {products.slice(0, 1).map((product) => {
               const { id, images } = product;
               return (
                 <div className="card" key={id}>
@@ -45,7 +65,7 @@ function TheProductDetails() {
                     {images.map((image) => (
                       <img
                         key={image.id}
-                        src={staticAPI+image.url}
+                        src={staticAPI + image.url}
                         className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
                         alt={`Product ${id} Image`}
                       />
@@ -55,7 +75,7 @@ function TheProductDetails() {
               );
             })}
             {isError && <h1>{isError}</h1>}
-          </div>
+          </div> */}
         </div>
         {/* div 2 */}
         <div className="content mx-2 w-2/4 border rounded-md border-black bg-neutral-50">

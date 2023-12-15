@@ -40,7 +40,7 @@ class ProductService {
       const res = await prisma.product.delete({
         where: { id: parseInt(productId) },
       });
-  
+
       console.log(res);
       return res;
     } catch (error) {
