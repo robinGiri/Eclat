@@ -17,15 +17,15 @@ import TheLogout from "../admin-pages/TheLogout";
 
 const adminRoutes = [
   { path: "/admin-dashboard", element: <TheDashboard /> },
-  { path: "/analytics", element: <TheAnalytics /> },
-  { path: "/products", element: <TheProducts /> },
-  { path: "/payment", element: <ThePayment /> },
-  { path: "/orders", element: <TheOrders /> },
-  { path: "/enquiry", element: <TheEnquiry /> },
-  { path: "/marketing", element: <TheMarketing /> },
-  { path: "/setting", element: <TheSetting /> },
-  { path: "/user", element: <TheUser /> },
-  { path: "/logout", element: <TheLogout /> },
+  { path: "/admin-analytics", element: <TheAnalytics /> },
+  { path: "/admin-products", element: <TheProducts /> },
+  { path: "/admin-payment", element: <ThePayment /> },
+  { path: "/admin-orders", element: <TheOrders /> },
+  { path: "/admin-enquiry", element: <TheEnquiry /> },
+  { path: "/admin-marketing", element: <TheMarketing /> },
+  { path: "/admin-setting", element: <TheSetting /> },
+  { path: "/admin-user", element: <TheUser /> },
+  { path: "/admin-logout", element: <TheLogout /> },
 ];
 
 export default function TheAdminRouter() {
