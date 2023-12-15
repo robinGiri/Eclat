@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import TheCheckout from "../components/checkout-page/TheCheckout";
 
 function TheWomen() {
   return (
     <div>
-      Women Page
+      <TheCheckout />
     </div>
-  )
+  );
 }
 
-export default TheWomen
+export default TheWomen;
