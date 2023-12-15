@@ -36,13 +36,13 @@ const images = [
         content: 'This is for sale'
     },
     {
-        id : 7,
+        id : 6,
         title: 'productName',
         img : 'https://static01.nyt.com/images/2019/07/22/fashion/mens-style/oakImage-1563825084859/oakImage-1563825084859-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
         content: 'This is for sale'
     },
     {
-        id : 8,
+        id : 7,
         title: 'productName',
         img : 'https://mensflair.com/wp-content/uploads/2023/01/mens-luxury-bags-2.jpg',
         content: 'This is for sale'

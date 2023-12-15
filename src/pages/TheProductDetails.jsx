@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import axios from "axios";
+import products from '../data/products';
+import { useParams } from 'react-router-dom';
 
 const API = "http://localhost:5000/api/v1/product/";
-const staticAPI= "http://localhost:5000/api/v1/uploads/";
+const staticAPI = "http://localhost:5000/api/v1/uploads/";
 
 function TheProductDetails() {
-  const [products, setProducts] = useState([]);
+  const { productId } = useParams();
+
   const [isError, setIsError] = useState("");
+  const [product, setProduct] = useState({});
+
+  const props = { img: "test.png" };
 
   const getApiData = async () => {
     try {
-      const resp = await axios.get(API);
-      setProducts(resp.data.result);
+      // try to get data from API
+      const res = products.find((p) => p.id == productId);
+
+      setProduct(res);
+      //   const resp = await axios.get(API);
+      //   setProduct(resp.data.result);
     } catch (error) {
       setIsError("Error fetching data");
     }
@@ -37,7 +47,7 @@ function TheProductDetails() {
       <div className="flex flex-row w-full h-[100vh] rounded-md mt-7 mx-10">
         <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
           <div>
-          {products.slice(0,1).map((product) => {
+            {/* {products.slice(0,1).map((product) => {
               const { id, images } = product;
               return (
                 <div className="card" key={id}>
@@ -45,7 +55,8 @@ function TheProductDetails() {
                     {images.map((image) => (
                       <img
                         key={image.id}
-                        src={staticAPI+image.url}
+                        // src={staticAPI+image.url}
+                        src={image}
                         className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
                         alt={`Product ${id} Image`}
                       />
@@ -53,7 +64,12 @@ function TheProductDetails() {
                   </div>
                 </div>
               );
-            })}
+            })} */}
+            <img
+              src={product.images}
+              className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
+              alt={`Product ${product.id} Image`}
+            />
             {isError && <h1>{isError}</h1>}
           </div>
         </div>
@@ -62,13 +78,13 @@ function TheProductDetails() {
           <div className="p-10">
             <p className="text-gray-500"> no. of stock sold </p>
             <div className="mt-3 flex flex-row justify-between ">
-              <p className="font-bold text-3xl w-auto">Item name</p>
+              <p className="font-bold text-3xl w-auto">{product.name}</p>
               <div className="mt-2">
                 <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
               </div>
             </div>
             <p className="text-gray-500 mt-2">Product Category</p>
-            <p className="font-semibold mt-10 text-xl">Rs 1500</p>
+            <p className="font-semibold mt-10 text-xl">Rs {product.price}</p>
             <div className="relative inline-block text-left">
               <p className="text-red-400 mt-10">
                 Offer Code Usability Description Codes Available:
@@ -91,7 +107,7 @@ function TheProductDetails() {
               </p>
             </div>
             <p className="mt-10 underline font-light hover:font-bold cursor-pointer">
-              Shipping Details
+              {product.discription}
             </p>
 
             <button
