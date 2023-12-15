@@ -19,7 +19,7 @@ const routes = [
   { path: "/kids", element: <TheKids /> },
   { path: "/sale", element: <TheSale /> },
   { path: "/cart", element: <TheCart /> },
-  { path: "/product_details", element: <TheProductDetails /> },
+  { path: "/product_details/:productId", element: <TheProductDetails /> },
 ];
 
 export default function TheRouter() {

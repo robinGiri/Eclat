@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import SecondSectionMen from '../components/sharedComponents/carouselComponents/SecondSectionMen'
 import TheFooter from '../components/specificComponents/TheFooter'
 import Thecard from '../components/sharedComponents/TheCard'
@@ -7,6 +9,7 @@ import TailInfoSection from "../components/specificComponents/TailInfoSection";
 
 function TheMen() {
   const [currentTab, setCurrentTab] = useState(1);
+  const navigate = useNavigate();
 
   const tabs = [
     {
@@ -35,13 +38,14 @@ function TheMen() {
     setCurrentTab(id);
   };
 
+  const handleProductClick = (productId) => {
+    navigate(`/product_details/${productId}`, { productId });
+  };
+
   return (
     <>
       <div className='px-16'>
-        <div className='text-2xl'>
-          Men’s
-        </div>
-        <div className="py-4">
+        <div className="mx-[5%] my-5">
           <SecondSectionMen />
         </div>
         <div>
@@ -60,8 +64,9 @@ function TheMen() {
             {tabs.map((tab) => (
               <div key={tab.id} style={{ display: currentTab === tab.id ? 'block' : 'none' }}>
                 <div className="flex flex-wrap">
-                  {products.map((item) => (
+                  {products.filter((product) => product.category === 'mens').map((item) => (
                     <div
+                      onClick={() => handleProductClick(item.id)}
                       key={item.id}
                       className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
                     >
