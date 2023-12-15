@@ -1,9 +1,12 @@
 import React from "react";
+import TheRecentInvoice from "./product-components/TheRecentInvoice";
 
 function TheProducts() {
   return (
     <div className="flex mt-20">
-      <h1>Products</h1>
+      <div>
+        <TheRecentInvoice />
+      </div>
     </div>
   );
 }

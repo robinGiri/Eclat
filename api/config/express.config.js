@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const { consola } = require("consola");
+const path=require("path");
 
 const path = require("path");
 
@@ -16,7 +17,9 @@ app.use(
   express.static(path.join(__dirname, "..", "public/uploads"))
 );
 
-app.use(`${BASE_URL}/product`, require("../controller/product.controller"));
+app.use(`${BASE_URL}/product`, require('../controller/product.controller'));
+app.use(`${BASE_URL}/uploads`, express.static(path.join(__dirname, "..", "public", "uploads")));
+
 
 app.use(`${BASE_URL}/user`, require("../controller/user.controller"));
 app.use((error, req, res, next) => {

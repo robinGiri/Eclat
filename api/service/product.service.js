@@ -46,8 +46,7 @@ class ProductService {
     } catch (error) {
       console.error("Error deleting product:", error.message);
       throw error;
-    }
-  }
+    }}
 
   async fetchAll() {
     try {

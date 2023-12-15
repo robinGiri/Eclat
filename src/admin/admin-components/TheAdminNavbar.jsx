@@ -9,15 +9,15 @@ export default function TheAdminNavbar() {
   const adminRoutes = {
     Home: "/admin",
     Dashboard: "/admin-dashboard",
-    Analytics: "/analytics",
-    Products: "/products",
-    Payment: "/payment",
-    Orders: "/orders",
-    Enquiry: "/enquiry",
-    Marketing: "/marketing",
-    Setting: "/setting",
-    User: "/user",
-    Logout: "/logout",
+    Analytics: "/admin-analytics",
+    Products: "/admin-products",
+    Payment: "/admin-payment",
+    Orders: "/admin-orders",
+    Enquiry: "/admin-enquiry",
+    Marketing: "/admin-marketing",
+    Setting: "/admin-setting",
+    User: "/admin-user",
+    Logout: "/admin-logout",
   };
 
   const initialActiveTab = localStorage.getItem("activeTab") || "Home";
