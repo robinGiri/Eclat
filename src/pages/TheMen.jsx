@@ -7,6 +7,7 @@ import Thecard from '../components/sharedComponents/TheCard'
 import products from '../data/products';
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 
+const url = "http://localhost:4000/api/v1/product";
 function TheMen() {
   const [currentTab, setCurrentTab] = useState(1);
   const navigate = useNavigate();
@@ -87,4 +88,4 @@ function TheMen() {
   )
 }
 
-export default TheMen
+export default TheMen;

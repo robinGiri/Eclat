@@ -13,6 +13,8 @@ function TheProductDetails() {
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
 
+  const props = { img: "test.png" };
+
   const getApiData = async () => {
     try {
       // try to get data from API

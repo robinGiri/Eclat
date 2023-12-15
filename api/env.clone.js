@@ -1,4 +1,7 @@
 //server setup
 PORT =
-//database setup
-DATABASE_URL = "database_type://username:password@localhost:port/database";
+  //jwt secret key
+  JWT_SECRET =
+  //database setup
+  DATABASE_URL =
+    "database_type://username:password@localhost:port/database";

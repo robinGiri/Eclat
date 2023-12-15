@@ -27,15 +27,15 @@ export default function TheRouter() {
   const isAdminPage =
     location.pathname.includes("/admin") ||
     location.pathname.includes("/admin-dashboard") ||
-    location.pathname.includes("/analytics") ||
-    location.pathname.includes("/products") ||
-    location.pathname.includes("/payment") ||
-    location.pathname.includes("/orders") ||
-    location.pathname.includes("/enquiry") ||
-    location.pathname.includes("/marketing") ||
-    location.pathname.includes("/setting") ||
-    location.pathname.includes("/user") ||
-    location.pathname.includes("/logout");
+    location.pathname.includes("/admin-analytics") ||
+    location.pathname.includes("/admin-products") ||
+    location.pathname.includes("/admin-payment") ||
+    location.pathname.includes("/admin-orders") ||
+    location.pathname.includes("/admin-enquiry") ||
+    location.pathname.includes("/admin-marketing") ||
+    location.pathname.includes("/admin-setting") ||
+    location.pathname.includes("/admin-user") ||
+    location.pathname.includes("/admin-logout");
 
   return (
     <div className="flex flex-col">

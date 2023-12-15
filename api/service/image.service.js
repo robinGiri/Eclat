@@ -21,7 +21,7 @@ class ImageService {
     try {
       //map the multiple file
       files.map((file) => {
-        const { filename } = file;
+        const filename = file;
         data.push({ url: filename, productId: productID });
       });
 
@@ -36,4 +36,5 @@ class ImageService {
     }
   }
 }
+
 module.exports = new ImageService();
