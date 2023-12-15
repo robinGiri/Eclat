@@ -4,8 +4,6 @@ const cors = require("cors");
 const { consola } = require("consola");
 const path=require("path");
 
-const path = require("path");
-
 const app = express();
 const BASE_URL = "/api/v1";
 
