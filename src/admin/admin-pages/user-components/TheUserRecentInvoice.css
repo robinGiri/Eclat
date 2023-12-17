@@ -1,0 +1,16 @@
+.custom-scroll {
+    overflow-y: scroll;
+  }
+  
+  .custom-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .td-button {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .td-button:hover {
+    opacity: 1;
+  }
+  

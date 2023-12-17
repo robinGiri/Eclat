@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { navbarList } from "../../data/TheNavbarConfig";
 import { useNavigate, Link } from "react-router-dom";
-import { FaUser, FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
 import getSearchData from "../../services/search_api";
 import SearchComponent from "../sharedComponents/SearchComponent";
+import TheTopNavbarOne from "./TheTopNavbarOne";
+
 
 // dynamically apply classes based on conditions, such as whether a tab is active or not.
 function classNames(...classes) {
@@ -12,6 +14,7 @@ function classNames(...classes) {
 
 // routes____________________________________________________________________________________
 export default function TheSidebar() {
+
   const [activeTab, setActiveTab] = useState("");
 
   // search mechanism
@@ -43,11 +46,10 @@ export default function TheSidebar() {
     navigate("/cart");
   };
 
-  const handleLogoClick = () => {
-    // Reset activeTab to empty string when the logo is clicked
-    setActiveTab("");
-    navigate("/");
-  };
+  if (location.pathname === '/login') {
+    return
+  }
+
 
   const handleKeyPress = (event, title) => {
     if (event.key === "Enter") {
@@ -66,23 +68,7 @@ export default function TheSidebar() {
         <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">help</p>
       </div>
 
-      <div className="mt-3 flex flex-row justify-center w-full h-[10vh] bg-[#fafafa]">
-        <Link to="/" onClick={handleLogoClick} className="relative">
-          <p className="drop-shadow items-center p-1 flex text-neutral-800 font-peignot text-5xl relative z-10">
-            Eclat
-          </p>
-          <div className="absolute inset-0">
-            {/* Faded yellow layer */}
-            <span className="absolute -translate-x-21 -translate-y-5 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-20 to-transparent opacity-40"></span>
-            <span className="absolute rounded-full inset-1 bg-gradient-to-b from-yellow-100 h-20 to-transparent opacity-40"></span>
-            <span className="absolute translate-x-24 translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-neutral-50 h-20 to-transparent opacity-40"></span>
-            <span className="absolute translate-x-20 -translate-y-10 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-20 to-transparent opacity-40"></span>
-          </div>
-        </Link>
-
-        {/* User Icon */}
-        <FaUser className="text-red-500  text-md cursor-pointer transition duration-300 hover:text-black translate-x-[70vh] translate-y-5" />
-      </div>
+      <TheTopNavbarOne />
 
       {/* Navbar */}
       <div className="flex flex-row p-0 mt-1 max-h-18 w-full bg-gradient-to-b from-neutral-100 h-20 to-transparent opacity-80">
