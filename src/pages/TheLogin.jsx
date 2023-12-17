@@ -3,11 +3,22 @@ import { FaFacebookSquare, FaGooglePlus } from "react-icons/fa";
 import { PiEyeClosedThin, PiEye } from "react-icons/pi";
 import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
+import { useNavigate, Link } from "react-router-dom";
 
 function TheLogin() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/registration");
+  };
+
+  const handleAdminDashboardClick = () => {
+    navigate("/admin-dashboard");
   };
 
   return (
@@ -19,9 +30,13 @@ function TheLogin() {
         <div className="w-[50%]">
           <div className="flex justify-between items-center py-7 px-5">
             <p className="text-2xl">Welcome to Eclat! Please login.</p>
-            <p className="text-xs">
+            <p className="text-xs text-gray-500">
               New member?{" "}
-              <span className="text-sky-500 cursor-pointer">Register</span>{" "}
+              <span className="text-sky-500 cursor-pointer">
+                <Link to="/registration" onClick={handleRegisterClick}>
+                  Register
+                </Link>
+              </span>{" "}
               here.
             </p>
           </div>
@@ -63,11 +78,16 @@ function TheLogin() {
             <div className="w-[45%] py-2">
               <div>
                 <div>
-                  <button className="w-full p-3 mb-2 bg-orange-500 text-white text-sm rounded-sm hover:bg-orange-600 transition duration-500 ease-in-out">
-                    LOGIN
-                  </button>
+                  <Link
+                    to="/admin-dashboard"
+                    onClick={handleAdminDashboardClick}
+                  >
+                    <button className="w-full p-3 mb-2 bg-orange-500 text-white text-sm rounded-sm hover:bg-orange-600 transition duration-500 ease-in-out">
+                      LOGIN
+                    </button>
+                  </Link>
                 </div>
-                <div className="text-xs mb-2">or login with</div>
+                <div className="text-xs mb-2 text-gray-500">or login with</div>
                 <div className="flex flex-col gap-1">
                   <button className="w-full p-2 mb-2 bg-blue-900 text-white rounded-sm flex justify-center items-center gap-3">
                     <FaFacebookSquare className="text-2xl" />
