@@ -2,7 +2,7 @@ const images = [
     {
         id : 1,
         title: 'productName',
-        img : 'https://media1.popsugar-assets.com/files/thumbor/o4DlLpXZscNGIEOUbPRSRPXIv9c/0x206:3817x4803/fit-in/728xorig/filters:format_auto-!!-:strip_icc-!!-/2023/01/19/779/n/1922564/568ee24163c980f914f825.81735323_/i/work-bags-men.jpg',
+        img : 'https://cdn.webshopapp.com/shops/290194/files/434909463/700x700x1/leather-shoulder-bag-cognac-birmingham.jpg',
         content: 'This is for sale'
     },
     {

@@ -62,54 +62,58 @@ export default function TheSidebar() {
   return (
     <>
       <div>
-        <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">
+        <p className="px-3 py-1 bg-gradient-to-b cursor-pointer from-white to-neutral-100 text-neutral-600 text-sm hover:font-semibold">
           help
         </p>
       </div>
-
+      <div>
       <TheTopNavbarOne />
-
+      </div>
       {/* Navbar */}
-      <div className="flex flex-row p-0 mt-1 max-h-18 w-full bg-gradient-to-b from-neutral-100 h-20 to-transparent opacity-80">
-        {/* Navbar items */}
-        <div className="flex flex-row py-4 justify-center ml-[12%] ">
-          {navbarList.map((item) => (
-            <div
-              key={item.title}
-              className={`flex text-black items-center w-full cursor-pointer ${
-                activeTab === item.title
-                  ? "font-bold text-sm"
-                  : "font-normal text-sm"
-              } p-4 hover:font-bold hover:text-sm`}
-              onClick={() => handleTabClick(item.title)}
-            >
-              {/* Navbar elements */}
-              {activeTab === item.title ? item.activeIcon : item.icon}
-              <p className="m-1">{item.title}</p>
+      <div className="mt-5 h-[12vh]">
+        <div className="flex mx-[7%] p-1  justify-between">
+          {/* Navbar items */}
+          <div className="flex items-center">
+            {navbarList.map((item) => (
+              <div
+                key={item.title}
+                className={`flex text-black items-center w-full cursor-pointer ${
+                  activeTab === item.title
+                    ? "font-bold text-sm"
+                    : "font-normal text-sm"
+                } p-4 hover:font-bold hover:text-sm`}
+                onClick={() => handleTabClick(item.title)}
+              >
+                {/* Navbar elements */}
+                {activeTab === item.title ? item.activeIcon : item.icon}
+                <p className="p-1">{item.title}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Navbar icons and search */}
+
+<div className="flex mx-[12%]">
+          {/* Search Bar */}
+          <div className="flex items-center mx-[5%]">
+            <SearchComponent />
+          </div>
+
+          <div className="flex items-center gap-4 mx-[10%]">
+            {/* Cart Icon */}
+            <div className="">
+              <Link to="/cart" onClick={handleCartClick}>
+                <FaShoppingCart className="text-neutral-800 text-lg cursor-pointer transition duration-300 hover:text-green-900" />
+              </Link>
             </div>
-          ))}
-        </div>
 
-        {/* Navbar icons and search */}
-
-        {/* Search Bar */}
-        <div className="m-1 translate-x-[70%] p-3">
-          <SearchComponent />
-        </div>
-
-        <div className="flex flex-row items-center translate-x-[15rem] gap-6">
-          {/* Cart Icon */}
-          <div className="ml-5">
-            <Link to="/cart" onClick={handleCartClick}>
-              <FaShoppingCart className="text-neutral-800 text-md cursor-pointer transition duration-300 hover:text-green-900" />
-            </Link>
-          </div>
-
-          {/* Heart Icon */}
-          <div className="ml-4">
-            <FaHeart className="text-neutral-600 text-md cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
+            {/* Heart Icon */}
+            <div>
+              <FaHeart className="text-neutral-600 text-lg cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

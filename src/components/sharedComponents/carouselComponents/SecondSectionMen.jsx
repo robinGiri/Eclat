@@ -12,25 +12,25 @@ import images from '../../../data/carousel-images/SecondSectionCarousel_MenImage
 
 
 // import required modules
-import { Mousewheel, Pagination } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 
 export default function SecondSectionMen() {
   return (
     <>
       <Swiper
         slidesPerView={3}
-        mousewheel={true}
-        direction={'horizontal'}
+        navigation={true}
+        // direction={'horizontal'}
         spaceBetween={30}
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination, Mousewheel]}
-        className="mySwiper w-[100%] h-[580px]"
+        modules={[Pagination, Navigation]}
+        className="mySwiper w-[100%] h-[500px] p-2"
       >
          {images.map((image) => (
         <SwiperSlide key={image.id} className="w-auto h-auto">
-          <img src={image.img} className='cursor-pointer object-cover w-[100%] h-[100vh]' alt={`Slide ${image.id}`} />
+          <img src={image.img} className='cursor-pointer object-cover w-[90%] h-[100vh]' alt={`Slide ${image.id}`} />
         </SwiperSlide>
       ))}
       </Swiper>

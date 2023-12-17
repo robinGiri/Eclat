@@ -1,9 +1,9 @@
 export default function TheFooter() {
     return (
-        <footer className="bg-neutral-800 text-white p-8">
+        <footer className="bg-neutral-800 text-white p-6">
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
-            <p className="mb-10 text-5xl font-bold font-peignot">Eclat</p>
+            <p className="mb-10 text-5xl font-light font-peignot">Eclat</p>
           </div>
           <div className="flex space-x-10">
             <a href="#" className="hover:font-bold">

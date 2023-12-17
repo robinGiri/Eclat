@@ -21,9 +21,9 @@ function TheHome() {
 
   return (
     <div>
-      <div className="m-4 bg-neutral-100">
+      <div className=" bg-neutral-50">
 
-      <div className="flex items-center h-[70vh] justify-center space-x-2 relative">
+      <div className="flex items-center h-[70vh] justify-center gap-2 relative">
   <div className="w-[20%] h-[65vh] relative ">
     <div>
       <img src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152" alt="Advertisement" className="h-[64vh] w-[100%] cursor-pointer" />
@@ -34,7 +34,7 @@ function TheHome() {
     <TheHeroCarousel />
   </div>
 
-  <div className="mr-20 w-[20%] h-[65vh] relative">
+  <div className="w-[20%] h-[65vh] relative">
     <div>
       <div>
         <img src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000" alt="Advertisement" className="w-[100%] h-[64vh] cursor-pointer" />
@@ -43,7 +43,7 @@ function TheHome() {
   </div>
 </div>
 
-        <div className="p-4 bg-neutral-50 h-[100vh]">
+        <div className="mt-12 mx-10 p-4 bg-neutral-50 h-[100vh]">
           <TabbedSection />
           {/* <p></p>
           <button
@@ -54,7 +54,7 @@ function TheHome() {
         </div>
        
 
-        <div className="m-10 mt-16">
+        <div className="m-2 mt-1">
           <ThirdHomepageSection />
         </div>
 

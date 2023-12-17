@@ -40,7 +40,7 @@ function TabbedSection() {
 
   return (
     <div>
-      <div className="flex mx-[25%] my-5 justify-start space-x-32 h-[15vh]">
+      <div className="flex p-4 justify-center gap-32 h-[15vh]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -51,7 +51,7 @@ function TabbedSection() {
           </button>
         ))}
       </div>
-      <div className="content">
+      <div className="content p-10">
         {tabs.map((tab) => (
           <div key={tab.id} style={{ display: currentTab === tab.id ? 'block' : 'none' }}>
             {tab.content}
