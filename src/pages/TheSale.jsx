@@ -38,15 +38,14 @@ function TheSale() {
 
   return (
     <>
-      <div className='px-16 bg-neutral-100'>
-        <h1 className="mx-[5%] text-5xl py-6 font-bold">Sale</h1>
+      <div className='px-16'>
         <div>
           <div className="flex mx-[5%] my-5 justify-start space-x-8 h-[5vh]">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
-                className={`${currentTab === tab.id ? 'font-bold text-3xl' : 'text-neutral-500 font-semibold text-2xl'}`}
+                className={`${currentTab === tab.id ? 'font-bold text-2xl' : 'text-neutral-500 font-semibold text-xl'}`}
               >
                 {tab.tabTitle}
               </button>
@@ -71,7 +70,7 @@ function TheSale() {
           </div>
         </div>
       </div>
-      <div className="p-16 bg-neutral-100">
+      <div className="my-4">
         <TailInfoSection />
       </div>
       <TheFooter />

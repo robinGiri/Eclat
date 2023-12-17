@@ -6,45 +6,40 @@ export default function ThirdHomepageSection() {
                 <div className=" bg-neutral-50 flex justify-center">
                     <h1 className="font-bold text-5xl m-10">More Products</h1>
                 </div>
-                <div className="m-10 p-1">
-                    <div className="grid grid-cols-3 gap-3">
-                        
-                        
+                <div className="p-2">
+                    <div className="grid grid-cols-2 gap-2">
                         {/* First clickable div */}
 
                         <div
-                            className="h-80 w-120 p-4 cursor-pointer transition duration-300 bg-[url('https://chateauclothingco.com/cdn/shop/files/minimalist-retail-clothing-display_9ff6f20e-9b1f-4ef0-85e3-8006add3d60a.jpg?v=1666190488&width=1500')] bg-cover hover:border-8 border-black hover:text-orange-800"
+                            className="h-64 w-120 bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
                             onClick={() => console.log("Div 1 clicked")}
                         >
-                            <p className="font-bold text-6xl p-4 bg-orange-100">Clothing</p>
-
+                            <p className="font-bold text-6xl p-16">Clothing</p>
                         </div>
 
-
-                         {/* Second clickable div */}
-
-                         <div
-                            className="h-80 w-120 p-4 cursor-pointer transition duration-300 bg-[url('https://static-assets.business.amazon.com/assets/in/7th-april-2022/shutterstock_2880_960_0704.jpg.transform/2880x960/image.jpg')] bg-cover hover:border-8 border-red-800  hover:text-red-50 "
-                            onClick={() => console.log("Div 1 clicked")}
+                        {/* Second clickable div */}
+                        <div
+                            className="bg-neutral-500 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+                            onClick={() => console.log("Div 2 clicked")}
                         >
-                            <p className="font-bold text-6xl p-4 bg-orange-400">Cosmetics</p>
-
+                            <p className="font-bold text-6xl p-16">Accessories</p>
                         </div>
 
-
-                         {/* Third clickable div */}
-
-                         <div
-                            className="h-80 w-120 p-4 cursor-pointer transition duration-300 bg-[url('https://www.myg.in/images/thumbnails/533/400/blog/9/Best_Mobile_Accessories.jpg')] bg-cover hover:border-8 border-blue-400 hover:text-teal-50"
-                            onClick={() => console.log("Div 1 clicked")}
+                        {/* Third clickable div */}
+                        <div
+                            className="h-64 w-120 bg-neutral-600 text-white p-4 cursor-pointer transition duration-300 hover:bg-black"
+                            onClick={() => console.log("Div 3 clicked")}
                         >
-                            <p className="font-bold text-6xl p-4 bg-teal-900">Electronics & Watches</p>
-
+                            <p className="font-bold text-6xl p-16">Shoes</p>
                         </div>
 
-
-                        
-                        
+                        {/* Fourth clickable div */}
+                        <div
+                            className="bg-slate-500  text-white p-4 cursor-pointer transition duration-300 hover:bg-red-600"
+                            onClick={() => console.log("Div 4 clicked")}
+                        >
+                            <p className="font-bold text-6xl p-16">Request</p>
+                        </div>
                     </div>
                 </div>
             </div>

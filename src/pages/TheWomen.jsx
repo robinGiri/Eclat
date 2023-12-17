@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import SecondSectionWomen from '../components/sharedComponents/carouselComponents/SecondSectionWomen'
+import SecondSectionMen from '../components/sharedComponents/carouselComponents/SecondSectionMen'
 import TheFooter from '../components/specificComponents/TheFooter'
 import Thecard from '../components/sharedComponents/TheCard'
 import products from '../data/products';
@@ -14,18 +14,18 @@ function TheWomen() {
   const tabs = [
     {
       id: 1,
-      tabTitle: "Luxury",
-      content: <h1>Luxury</h1>,
+      tabTitle: "Business",
+      content: <h1>Business</h1>,
     },
     {
       id: 2,
-      tabTitle: "Handbags",
-      content: <h1>Handbags</h1>,
+      tabTitle: "School",
+      content: <h1>School</h1>,
     },
     {
       id: 3,
-      tabTitle: "Purse",
-      content: <h1>Purse</h1>,
+      tabTitle: "Outdoors",
+      content: <h1>Outdoors</h1>,
     },
     {
       id: 4,
@@ -44,18 +44,17 @@ function TheWomen() {
 
   return (
     <>
-      <div className='bg-neutral-100 px-16'>
-        <h1 className="mx-[5%] text-5xl py-6 font-bold">Women</h1>
+      <div className='px-16'>
         <div className="mx-[5%] my-5">
-          <SecondSectionWomen />
+          <SecondSectionMen />
         </div>
-        <div className="p-5">
-          <div className="flex mx-[5%] my-5 justify-center space-x-8 h-[5vh]">
+        <div>
+          <div className="flex mx-[5%] my-5 justify-start space-x-8 h-[5vh]">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
-                className={`${currentTab === tab.id ? 'font-bold text-3xl' : 'text-neutral-500 font-semibold text-2xl'}`}
+                className={`${currentTab === tab.id ? 'font-bold text-2xl' : 'text-neutral-500 font-semibold text-xl'}`}
               >
                 {tab.tabTitle}
               </button>
@@ -80,7 +79,7 @@ function TheWomen() {
           </div>
         </div>
       </div>
-      <div className="p-16 bg-neutral-100">
+      <div className="my-4">
         <TailInfoSection />
       </div>
       <TheFooter />
