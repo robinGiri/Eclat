@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import axios from "axios";
-import products from '../data/products';
-import { useParams } from 'react-router-dom';
+import ReactImageMagnify from "react-image-magnify";
+import products from "../data/products";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const API = "http://localhost:5000/api/v1/product/";
@@ -48,29 +49,32 @@ function TheProductDetails() {
       <div className="flex flex-row w-full h-[95vh] rounded-md mt-7 mx-10">
         <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
           <div>
-            {/* {products.slice(0,1).map((product) => {
-              const { id, images } = product;
-              return (
-                <div className="card" key={id}>
-                  <div className="flex flex-wrap">
-                    {images.map((image) => (
-                      <img
-                        key={image.id}
-                        // src={staticAPI+image.url}
-                        src={image}
-                        className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
-                        alt={`Product ${id} Image`}
-                      />
-                    ))}
+            <div className="card">
+              <div className="flex flex-wrap">
+                <div className="m-2 w-[12000] h-[1200] rounded-md">
+                  <div className="object-fill w-full h-full">
+                    <ReactImageMagnify
+                      {...{
+                        smallImage: {
+                          alt: "Wristwatch by Ted Baker London",
+                          src: product.images,
+                          width: 300,
+                          height: 400,
+                        },
+                        largeImage: {
+                          src: product.images,
+                          width: 300,
+                          height: 800,
+                        },
+                        lensStyle: { width: 5 },
+                        className:
+                          "m-2 w-[300px] h-[400px] border-2 border-black rounded-md",
+                      }}
+                    />
                   </div>
                 </div>
-              );
-            })} */}
-            <img
-              src={product.images}
-              className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
-              alt={`Product ${product.id} Image`}
-            />
+              </div>
+            </div>
             {isError && <h1>{isError}</h1>}
           </div>
         </div>
