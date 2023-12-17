@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 function TheUserDeleteModal({ handleUserDelete, productId, onCancel }) {
   const confirmDelete = () => {

@@ -39,9 +39,7 @@ export default function TheAdminRouter() {
     location.pathname.includes("/kids") ||
     location.pathname.includes("/sale") ||
     location.pathname.includes("/cart") ||
-    location.pathname.includes("/product_details") ||
-    location.pathname.includes("/login") ||
-    location.pathname.includes("/registration");
+    location.pathname.includes("/product_details");
 
   return (
     <div className="flex">
