@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-
 import { useNavigate, Link } from "react-router-dom";
 
 function TheTopNavbarOne() {
@@ -14,6 +13,11 @@ function TheTopNavbarOne() {
   const handleLoginPage = () => {
     window.location.href = "/login";
   };
+
+  const handleRegistrationPage = () => {
+    window.location.href = "/registration";
+  };
+
   return (
     <div className="pt-7 bg-white">
       <div className="flex flex-row justify-center w-full h-[10vh] bg-[#fafafa]">
@@ -30,11 +34,20 @@ function TheTopNavbarOne() {
             </div>
           </Link>
         </div>
-        <div className="flex items-center pl-[30%] w-[50%]">
-          <FaUser
-            onClick={handleLoginPage}
-            className="text-red-500  text-md cursor-pointer transition duration-300 hover:text-black "
-          />
+        <div className="flex items-center gap-5 pl-[25%] w-[50%]">
+          <div className="flex items-center gap-2">
+            <FaUser
+              onClick={handleLoginPage}
+              className="text-red-500  text-md cursor-pointer transition duration-300 hover:text-black "
+            />
+            <button className="text-sm" onClick={handleLoginPage}>
+              Login
+            </button>
+            <p className="mx-2">|</p>
+            <button className="text-sm" onClick={handleRegistrationPage}>
+              Sign Up
+            </button>
+          </div>
         </div>
       </div>
     </div>

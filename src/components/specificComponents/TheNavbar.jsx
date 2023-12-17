@@ -6,7 +6,6 @@ import getSearchData from "../../services/search_api";
 import SearchComponent from "../sharedComponents/SearchComponent";
 import TheTopNavbarOne from "./TheTopNavbarOne";
 
-
 // dynamically apply classes based on conditions, such as whether a tab is active or not.
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -14,7 +13,6 @@ function classNames(...classes) {
 
 // routes____________________________________________________________________________________
 export default function TheSidebar() {
-
   const [activeTab, setActiveTab] = useState("");
 
   // search mechanism
@@ -46,10 +44,9 @@ export default function TheSidebar() {
     navigate("/cart");
   };
 
-  if (location.pathname === '/login') {
-    return
+  if (location.pathname === "/login" || location.pathname === "/registration") {
+    return;
   }
-
 
   const handleKeyPress = (event, title) => {
     if (event.key === "Enter") {
@@ -65,7 +62,9 @@ export default function TheSidebar() {
   return (
     <>
       <div>
-        <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">help</p>
+        <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">
+          help
+        </p>
       </div>
 
       <TheTopNavbarOne />
@@ -93,12 +92,12 @@ export default function TheSidebar() {
 
         {/* Navbar icons and search */}
 
-          {/* Search Bar */}
-          <div className="m-1 translate-x-[70%] p-3">
-            <SearchComponent />
-          </div>
-          
-          <div className="flex flex-row items-center translate-x-[15rem] gap-6">
+        {/* Search Bar */}
+        <div className="m-1 translate-x-[70%] p-3">
+          <SearchComponent />
+        </div>
+
+        <div className="flex flex-row items-center translate-x-[15rem] gap-6">
           {/* Cart Icon */}
           <div className="ml-5">
             <Link to="/cart" onClick={handleCartClick}>
@@ -110,8 +109,7 @@ export default function TheSidebar() {
           <div className="ml-4">
             <FaHeart className="text-neutral-600 text-md cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
           </div>
-          </div>
-        
+        </div>
       </div>
     </>
   );
