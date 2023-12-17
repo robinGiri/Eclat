@@ -1,9 +1,10 @@
 import React from "react";
+import TheUserRecentInvoice from "./user-components/TheUserRecentInvoice";
 
 function TheUser() {
   return (
     <div className="flex mt-20">
-      <h1>User Page</h1>
+      <TheUserRecentInvoice />
     </div>
   );
 }
