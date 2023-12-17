@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TheCartItem from "../components/checkout/TheCartItems";
 import products from "../data/products";
-import Khaltitest from "./khaltitest";
+import Khaltitest from "./Khaltitest";
 
 function TheCart() {
   const [secret, setSecret] = useState("");
