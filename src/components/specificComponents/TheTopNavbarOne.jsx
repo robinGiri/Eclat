@@ -11,11 +11,11 @@ function TheTopNavbarOne() {
     navigate("/");
   };
   const handleLoginPage = () => {
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   const handleRegistrationPage = () => {
-    window.location.href = "/registration";
+    navigate("/registration");
   };
 
   return (
