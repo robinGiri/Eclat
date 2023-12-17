@@ -9,6 +9,10 @@ class UserService {
     const user = await prisma.user.findUnique({ where: filter });
     return user;
   }
+  async getAllUser() {
+    const users = await prisma.user.findMany();
+    return users;
+  }
   async updateUser(email, data) {
     const user = await prisma.user.update({
       where: { email: email },

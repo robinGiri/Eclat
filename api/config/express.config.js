@@ -19,6 +19,7 @@ app.use(
 app.use(`${BASE_URL}/product`, require("../controller/product.controller"));
 
 app.use(`${BASE_URL}/user`, require("../controller/user.controller"));
+app.use(`${BASE_URL}/khalti`, require("../controller/khalti.controller"));
 app.use((error, req, res, next) => {
   const code = error.code || 500;
   const message = error.message || "Internal Server Error";

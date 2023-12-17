@@ -55,23 +55,35 @@ router.post("/login", async (req, res) => {
     res.status(500).send();
   }
 });
-router.get("/logout", async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
-    const token = req.headers.authorization;
-    const tokenWithoutBearer = token.split(" ")[1];
-    const { email } = await jwt.verify(
-      tokenWithoutBearer,
-      process.env.JWT_SECRET
-    );
-    await userService.logout(email);
+    const users = await userService.getAllUser();
     res.json({
-      result: "User Logout Successfully",
+      result: users,
       code: 200,
       meta: null,
     });
-  } catch (error) {
+  } catch (e) {
     res.status(500).send();
   }
-});
+}),
+  router.get("/logout", async (req, res) => {
+    try {
+      const token = req.headers.authorization;
+      const tokenWithoutBearer = token.split(" ")[1];
+      const { email } = await jwt.verify(
+        tokenWithoutBearer,
+        process.env.JWT_SECRET
+      );
+      await userService.logout(email);
+      res.json({
+        result: "User Logout Successfully",
+        code: 200,
+        meta: null,
+      });
+    } catch (error) {
+      res.status(500).send();
+    }
+  });
 
 module.exports = router;
