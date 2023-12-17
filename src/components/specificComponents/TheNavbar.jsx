@@ -28,7 +28,6 @@ export default function TheSidebar() {
       Profile: "/username",
       Home: "/",
       Customize: "/customize",
-      Request: "/request-products",
       Men: "/men",
       Women: "/women",
       Kids: "/kids",
@@ -48,16 +47,6 @@ export default function TheSidebar() {
     return;
   }
 
-  const handleKeyPress = (event, title) => {
-    if (event.key === "Enter") {
-      handleTabClick(title);
-    }
-  };
-
-  // const searchHandler = () =>{
-  //   const data = getSearchData(search);
-  //   console.log(data);
-  // }
 
   return (
     <>

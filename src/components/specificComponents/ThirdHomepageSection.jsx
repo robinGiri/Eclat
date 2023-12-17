@@ -1,12 +1,12 @@
 export default function ThirdHomepageSection() {
     return (
         <div>
-            <div className="bg-white">
-                <div className=" bg-neutral-50 flex justify-center">
-                    <h1 className="font-bold text-5xl p-16 mt-5">More Products</h1>
+            <div className="bg-neutral-50 ">
+                <div className=" bg-white flex justify-center">
+                    <h1 className="font-bold text-5xl py-16">More Products</h1>
                 </div>
-                <div className="m-1 p-6">
-                    <div className="grid grid-cols-3 gap-3">
+                <div className="bg-white">
+                    <div className="p-5 grid grid-cols-3 gap-3">
                         
                         
                         {/* First clickable div */}
