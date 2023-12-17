@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
-const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
+const TheUserUpdateModal = ({ product, closeModal, handleUserEdit }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleEdit(updatedProduct);
+    handleUserEdit(updatedProduct);
     closeModal();
     console.log("Before Update: ", product);
     console.log("After Update:", updatedProduct);
@@ -113,4 +113,4 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
   );
 };
 
-export default TheUpdateModal;
+export default TheUserUpdateModal;

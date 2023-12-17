@@ -7,7 +7,6 @@ import TheFooter from "../components/specificComponents/TheFooter";
 import TheProductDetails from "./TheProductDetails";
 import { useNavigate, Link } from "react-router-dom";
 import TabbedSection from "../components/sharedComponents/TabbedSection";
-import Thecard from "../components/sharedComponents/TheCard";
 
 function TheHome() {
   // Get the current path from the location prop
@@ -21,37 +20,30 @@ function TheHome() {
   };
 
   return (
-    <div className="bg-gray-10">
-      <div className=" bg-neutral-100">
-        <div className="flex items-center md:flex-row sm:flex-col h-[70vh] justify-center space-x-2 relative">
-          <div className="w-[20%] h-[65vh] relative ">
-            <div>
-              <img
-                src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152"
-                alt="Advertisement"
-                className="h-[64vh] w-[100%] cursor-pointer"
-              />
-            </div>
-          </div>
+    <div>
+      <div className="m-4 bg-neutral-100">
 
-          <div className="h-[460px]">
-            <TheHeroCarousel />
-          </div>
+      <div className="flex items-center h-[70vh] justify-center space-x-2 relative">
+  <div className="w-[20%] h-[65vh] relative ">
+    <div>
+      <img src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152" alt="Advertisement" className="h-[64vh] w-[100%] cursor-pointer" />
+    </div>
+  </div>
 
-          <div className="mr-20 w-[20%] h-[65vh] relative">
-            <div>
-              <div>
-                <img
-                  src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000"
-                  alt="Advertisement"
-                  className="w-[100%] h-[64vh] cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+  <div className="h-[460px]">
+    <TheHeroCarousel />
+  </div>
 
-        <div className="p-10 bg-neutral-50 h-[100vh]">
+  <div className="mr-20 w-[20%] h-[65vh] relative">
+    <div>
+      <div>
+        <img src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000" alt="Advertisement" className="w-[100%] h-[64vh] cursor-pointer" />
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div className="p-4 bg-neutral-50 h-[100vh]">
           <TabbedSection />
           {/* <p></p>
           <button
@@ -60,12 +52,13 @@ function TheHome() {
             Product Details
           </button> */}
         </div>
+       
 
-        <div className="mt-5">
+        <div className="m-10 mt-16">
           <ThirdHomepageSection />
         </div>
 
-        <div className="text-sm p-28">
+        <div className="mt-28">
           <TailInfoSection />
         </div>
       </div>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AdminSidebarList, AdminSidebarListSecond } from "./TheAdminNavConfig";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 export default function TheAdminNavbar() {
   const navigate = useNavigate();
@@ -54,11 +54,10 @@ export default function TheAdminNavbar() {
     }
   };
 
-  const handleEclatClick = () => {
-    navigate(adminRoutes.Dashboard);
-    setActiveTab("Dashboard");
-    localStorage.setItem("activeTab", "Dashboard");
+  const handleHomePageClick = () => {
+    navigate("/");
   };
+
   const renderSidebarItem = (item) => {
     return (
       <div
@@ -85,7 +84,7 @@ export default function TheAdminNavbar() {
   return (
     <div className="h-[100vh]">
       <div className=" flex flex-col justify-center items-center h-[100px]">
-        <h1 className="font-extrabold text-3xl cursor-pointer" onClick={handleEclatClick}>Eclat</h1>
+        <Link to='/' onClick={handleHomePageClick}><h1 className="font-extrabold text-3xl cursor-pointer">Eclat</h1></Link>
       </div>
       <div className="flex flex-col mt-[5px] m-[10%]">
         {AdminSidebarList.map((item) => renderSidebarItem(item))}

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
-function TheDeleteConfirm({ handleDelete, productId, onCancel }) {
+function TheUserDeleteModal({ handleUserDelete, productId, onCancel }) {
   const confirmDelete = () => {
-    handleDelete(productId);
+    handleUserDelete(productId);
     onCancel();
   };
 
@@ -49,4 +49,4 @@ function TheDeleteConfirm({ handleDelete, productId, onCancel }) {
   );
 }
 
-export default TheDeleteConfirm;
+export default TheUserDeleteModal;

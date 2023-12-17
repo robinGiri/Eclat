@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from "react";
-import "./TheRecentInvoice.css";
+import "./TheUserRecentInvoice.css";
 import { IoFilterSharp } from "react-icons/io5";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { HiMiniEye } from "react-icons/hi2";
 import axios from "axios";
-import TheImageMagnifier from "./TheImageMagnifier";
-import TheViewModal from "./TheViewModal";
-import TheDeleteConfirm from "./TheDeleteConfirm";
-import TheUpdateModal from "./TheUpdateModal";
+import TheUserViewModal from "./TheUserViewModal";
+import TheUserDeleteModal from "./TheUserDeleteModal";
+import TheUserUpdateModal from "./TheUserUpdateModal";
 
 const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
 
-function TheRecentInvoice() {
-  const [products, setProducts] = useState([]);
+function TheUserRecentInvoice() {
+  const [products, setProducts] = useState([]);  
   const [isError, setIsError] = useState("");
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [selectedViewProduct, setSelectedViewProduct] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [deleteProductId, setDeleteProductId] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedEditProduct, setSelectedEditProduct] = useState(null);
-
-  const handleDelete = async (productId) => {
+  const [isUserViewModalOpen, setIsUserViewModalOpen] = useState(false);
+  const [selectedUserViewProduct, setSelectedUserViewProduct] = useState(null);
+  const [showUserConfirmation, setShowUserConfirmation] = useState(false);
+  const [deleteUserProductId, setDeleteUserProductId] = useState(null);
+  const [isUserEditModalOpen, setIsUserEditModalOpen] = useState(false);
+  const [selectedUserEditProduct, setSelectedUserEditProduct] = useState(null);
+  
+  const handleUserDelete = async (productId) => {
     try {
       const response = await axios.delete(`${API}${productId}`);
       if (response.status === 200) {
@@ -39,7 +37,7 @@ function TheRecentInvoice() {
     }
   };
 
-  const handleEdit = async (updatedProduct) => {
+  const handleUserEdit = async (updatedProduct) => {
     try {
       const response = await axios.put(
         `${API}${updatedProduct.id}`,
@@ -75,34 +73,34 @@ function TheRecentInvoice() {
     getApiData();
   }, []);
 
-  const openViewModal = (product) => {
-    setSelectedViewProduct(product);
-    setIsViewModalOpen(true);
+  const openUserViewModal = (product) => {
+    setSelectedUserViewProduct(product);
+    setIsUserViewModalOpen(true);
   };
 
-  const closeViewModal = () => {
-    setIsViewModalOpen(false);
-    setSelectedViewProduct(null);
+  const closeUserViewModal = () => {
+    setIsUserViewModalOpen(false);
+    setSelectedUserViewProduct(null);
   };
 
-  const openConfirmation = (productId) => {
-    setDeleteProductId(productId);
-    setShowConfirmation(true);
+  const openUserDeleteConfirmation = (productId) => {
+    setDeleteUserProductId(productId);
+    setShowUserConfirmation(true);
   };
 
-  const cancelConfirmation = () => {
-    setDeleteProductId(null);
-    setShowConfirmation(false);
+  const cancelUserConfirmation = () => {
+    setDeleteUserProductId(null);
+    setShowUserConfirmation(false);
   };
 
-  const openEditModal = (product) => {
-    setSelectedEditProduct(product);
-    setIsEditModalOpen(true);
+  const openUserEditModal = (product) => {
+    setSelectedUserEditProduct(product);
+    setIsUserEditModalOpen(true);
   };
 
-  const closeEditModal = () => {
-    setSelectedEditProduct(null);
-    setIsEditModalOpen(false);
+  const closeUserEditModal = () => {
+    setSelectedUserEditProduct(null);
+    setIsUserEditModalOpen(false);
   };
 
   return (
@@ -120,18 +118,18 @@ function TheRecentInvoice() {
             <table className="w-full">
               <thead className="sticky top-0 bg-white z-10">
                 <tr>
-                  <th className="px-6 py-3 text-left font-light">Product Id</th>
+                  <th className="px-6 py-3 text-left font-light">User Id</th>
                   <th className="px-6 py-3 text-left font-light">
-                    Product Name
+                    User Name
                   </th>
                   <th className="px-6 py-3 text-left font-light">
-                    Product category
+                    Address
                   </th>
-                  <th className="px-6 py-3 text-left font-light">Quantity</th>
-                  <th className="px-6 py-3 text-left font-light">Amount</th>
-                  <th className="px-6 py-3 text-left font-light">Image</th>
+                  <th className="px-6 py-3 text-left font-light">Phone</th>
+                  <th className="px-6 py-3 text-left font-light">Email</th>
+                  <th className="px-6 py-3 text-left font-light">Role</th>
+                  <th className="px-6 py-3 text-left font-light">Last Purchased</th>
                   <th className="px-6 py-3 text-left font-light">Status</th>
-                  <th className="px-6 py-3 text-left font-light">Discount</th>
                   <th className="px-10 py-3 text-left font-light">Action</th>
                 </tr>
               </thead>
@@ -146,22 +144,15 @@ function TheRecentInvoice() {
                       <td className="px-6 py-12">{item.id}</td>
                       <td className="px-6 w-36">{item.name}</td>
                       <td className="px-6 w-36">{item.category}</td>
-                      <td className="px-6 w-36">{item.viewCount}</td>
+                      <td className="px-6 w-36">{item.discount}</td>
                       <td className="px-6 w-36">${item.price}</td>
+                      <td className="px-6 w-36">${item.price}</td>
+
                       <td className="px-6 w-44">
-                        {item.images.map((image) => (
-                          <div
-                            key={image.id}
-                            className="w-[80px] h-[105px] -ml-2"
-                          >
-                            <TheImageMagnifier
-                              imageUrl={staticAPI + image.url}
-                            />
-                          </div>
-                        ))}
+                      {item.viewCount}
                       </td>
-                      <td className="px-6 w-44">
-                        <span
+                      <td className="px-6">
+                      <span
                           className={`text-[40px] mr-1 ${
                             item.status === "Active"
                               ? "text-green-600"
@@ -170,30 +161,16 @@ function TheRecentInvoice() {
                         >
                           .
                         </span>
-                        {item.status}
-                      </td>
-                      <td className="px-6">{item.discount}%</td>
+                        {item.status}</td>
                       <td className="px-6 flex justify-center items-center h-[7rem] -ml-2">
                         <div className="flex gap-3">
-                          <button
-                            className="td-button"
-                            title="View"
-                            onClick={() => openViewModal(item)}
-                          >
+                          <button className="td-button" title="View" onClick={() => openUserViewModal(item)}>
                             <HiMiniEye />
                           </button>
-                          <button
-                            className="td-button"
-                            title="Delete"
-                            onClick={() => openConfirmation(item.id)}
-                          >
+                          <button className="td-button" title="Delete" onClick={() => openUserDeleteConfirmation(item.id)}>
                             <MdDelete />
                           </button>
-                          <button
-                            className="td-button"
-                            title="Edit"
-                            onClick={() => openEditModal(item)}
-                          >
+                          <button className="td-button" title="Edit" onClick={() => openUserEditModal(item)}>
                             <MdEdit />
                           </button>
                         </div>
@@ -205,28 +182,28 @@ function TheRecentInvoice() {
           </div>
         </div>
       </div>
-      {isViewModalOpen && selectedViewProduct && (
-        <TheViewModal
-          product={selectedViewProduct}
-          closeModal={closeViewModal}
+      {isUserViewModalOpen && selectedUserViewProduct && (
+        <TheUserViewModal
+          product={selectedUserViewProduct}
+          closeUserModal={closeUserViewModal}
         />
       )}
-      {showConfirmation && (
-        <TheDeleteConfirm
-          handleDelete={handleDelete}
-          productId={deleteProductId}
-          onCancel={cancelConfirmation}
+      {showUserConfirmation && (
+        <TheUserDeleteModal
+          handleUserDelete={handleUserDelete}
+          productId={deleteUserProductId}
+          onCancel={cancelUserConfirmation}
         />
       )}
-      {isEditModalOpen && selectedEditProduct && (
-        <TheUpdateModal
-          product={selectedEditProduct}
-          closeModal={closeEditModal}
-          handleEdit={handleEdit}
+      {isUserEditModalOpen && selectedUserEditProduct && (
+        <TheUserUpdateModal
+          product={selectedUserEditProduct}
+          closeModal={closeUserEditModal}
+          handleUserEdit={handleUserEdit}
         />
       )}
     </div>
   );
 }
 
-export default TheRecentInvoice;
+export default TheUserRecentInvoice;
