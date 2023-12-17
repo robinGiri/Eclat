@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
@@ -22,8 +23,8 @@ const routes = [
   { path: "/sale", element: <TheSale /> },
   { path: "/cart", element: <TheCart /> },
   { path: "/product_details", element: <TheProductDetails /> },
-  {path: "/login", element: <TheLogin />},
-  {path: "/registration", element: <TheRegistration />}
+  { path: "/login", element: <TheLogin /> },
+  { path: "/registration", element: <TheRegistration /> },
 ];
 
 export default function TheRouter() {
@@ -41,20 +42,20 @@ export default function TheRouter() {
     location.pathname.includes("/admin-user") ||
     location.pathname.includes("/admin-logout");
 
-  return (
-    <div className="flex flex-col">
-      {!isAdminPage && (
+    return (
+      <div className="flex flex-col">
+        {!isAdminPage && (
+          <div>
+            <TheNavbar />
+          </div>
+        )}
         <div>
-          <TheNavbar />
+          <Routes>
+            {routes.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
         </div>
-      )}
-      <div>
-        <Routes>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
-        </Routes>
       </div>
-    </div>
-  );
-}
+    );
+  }
