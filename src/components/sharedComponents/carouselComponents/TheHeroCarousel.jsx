@@ -27,8 +27,8 @@ export default function TheHeroCarousel() {
       cubeEffect={{
         shadow: true,
         slideShadows: true,
-        shadowOffset: 5,
-        shadowScale: 0.14,
+        shadowOffset: 2,
+        shadowScale: 0.5,
       }}
       pagination={{
         clickable: true,

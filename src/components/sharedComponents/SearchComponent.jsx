@@ -19,12 +19,13 @@ const SearchComponent = () => {
     await fetchData(searchTerm)
   };
 
-  // const handleKeyUp = (e) => {
-  //   if (e.key === 'Enter') {
-  //     // Trigger search on Enter key
-  //     handleSearch();
-  //   }
-  // };
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      alert("Enter pressed!")
+      // Trigger search on Enter key
+      handleSearch();
+    }
+  };
 
   const fetchData = async (value) => {
     console.log(value);
@@ -37,15 +38,15 @@ const SearchComponent = () => {
   return (
     <div className=' focus: outline-none'>
       <input
-      className='px-3 py-2 w-[100%] border border-gray-300 rounded-full focus:outline-none focus:border-blue-300'
+      className='p-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-[#DCAC30] placeholder-gray-500::placeholder text-neutral-700  text-sm'
         type="text"
         placeholder="Search..."
-        // value={searchTerm}
+        value={searchTerm}
         onChange={handleInputChange}
-        // onKeyUp={handleKeyUp}
+        onKeyUp={handleKeyUp}
       />
       <button>
-        <FaSearch className='relative m-2 translate-x-[1500%] -translate-y-9 focus:outline-none hover:font-semibold hover:text-black focus:border-blue-300 ' onClick={searchHandler}/>
+        <FaSearch className='absolute text-neutral-400 -translate-y-4 -translate-x-4' onKeyUp={searchHandler}/>
       </button>
     </div>
   );
