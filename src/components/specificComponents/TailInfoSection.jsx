@@ -5,7 +5,7 @@ export default function TailInfoSection() {
     };
 
     return (
-        <div className="grid grid-cols-3 gap-4 p-14">
+        <div className="grid grid-cols-3 gap-4 p-28">
             {/* Help Column */}
             <div>
                 <p className="font-bold mb-7">Help</p>

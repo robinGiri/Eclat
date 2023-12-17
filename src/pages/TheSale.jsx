@@ -38,7 +38,7 @@ function TheSale() {
 
   return (
     <>
-      <div className='px-16'>
+      <div className='bg-neutral-100 px-16 py-10'>
         <div>
           <div className="flex mx-[5%] my-5 justify-start space-x-8 h-[5vh]">
             {tabs.map((tab) => (

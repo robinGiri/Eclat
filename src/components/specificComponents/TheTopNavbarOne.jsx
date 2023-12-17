@@ -19,32 +19,32 @@ function TheTopNavbarOne() {
   };
 
   return (
-    <div className="pt-7 bg-white">
-      <div className="flex flex-row justify-center w-full h-[10vh] bg-[#fafafa]">
-        <div className="border-red-500 w-[50%] flex justify-end items-center">
+    <div>
+      <div className="flex justify-center items-center bg-gradient-to-t from-white to-neutral-100 text-neutral-600">
+        <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
           <Link to="/" onClick={handleLogoClick} className="relative">
-            <p className="drop-shadow items-center p-1 flex text-neutral-800 font-peignot text-5xl relative z-10">
+            <p className="items-center flex text-neutral-800 font-peignot text-5xl relative z-10">
               Eclat
             </p>
             <div className="absolute inset-0">
-              <span className="absolute -translate-x-21 -translate-y-5 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-20 to-transparent opacity-40"></span>
-              <span className="absolute rounded-full inset-1 bg-gradient-to-b from-yellow-100 h-20 to-transparent opacity-40"></span>
-              <span className="absolute translate-x-24 translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-neutral-50 h-20 to-transparent opacity-40"></span>
-              <span className="absolute translate-x-20 -translate-y-10 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-20 to-transparent opacity-40"></span>
+              <span className="absolute -translate-x-21 translate-y-3 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-10 to-transparent opacity-40"></span>
+              <span className="absolute rounded-md inset-1 bg-gradient-to-b from-yellow-100 h-10 to-transparent opacity-20"></span>
+              <span className="absolute -translate-x-8 -translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-16 to-transparent opacity-40"></span>
+              <span className="absolute translate-x-10 -translate-y-3 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-15 to-transparent opacity-40"></span>
             </div>
           </Link>
         </div>
-        <div className="flex items-center gap-5 pl-[25%] w-[50%]">
+        <div className="flex translate-x-[350%] items-center  gap-2">
           <div className="flex items-center gap-2">
             <FaUser
               onClick={handleLoginPage}
-              className="text-red-500  text-md cursor-pointer transition duration-300 hover:text-black "
+              className="text-red-500 text-md cursor-pointer transition duration-300 hover:text-black "
             />
-            <button className="text-sm" onClick={handleLoginPage}>
+            <button className="text-xs" onClick={handleLoginPage}>
               Login
             </button>
-            <p className="mx-2">|</p>
-            <button className="text-sm" onClick={handleRegistrationPage}>
+            <p className="mx-1">|</p>
+            <button className="text-xs" onClick={handleRegistrationPage}>
               Sign Up
             </button>
           </div>
