@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 const TheImageMagnifier = ({ imageUrl }) => {
   const [magnify, setMagnify] = useState(false);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
 const TheUserUpdateModal = ({ product, closeModal, handleUserEdit }) => {

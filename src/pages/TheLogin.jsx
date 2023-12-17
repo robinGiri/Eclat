@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React ,{ useState } from "react";
 import { FaFacebookSquare, FaGooglePlus } from "react-icons/fa";
 import { PiEyeClosedThin, PiEye } from "react-icons/pi";
 import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
