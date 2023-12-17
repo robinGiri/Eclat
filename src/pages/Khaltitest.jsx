@@ -3,7 +3,7 @@ import React from "react";
 
 let config = {
   // replace this key with yours
-  publicKey: "",
+  publicKey: "test_public_key_0069efbf9f9244faa8b8ab3ea57b6b06",
   productIdentity: "1234567890",
   productName: "Drogon",
   productUrl: "http://gameofthrones.com/buy/Dragons",
