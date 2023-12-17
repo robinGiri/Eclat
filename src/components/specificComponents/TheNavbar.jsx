@@ -63,20 +63,20 @@ export default function TheSidebar() {
   return (
     <>
       <div>
-        <p className="mt-2 mx-10 py-2 text-neutral-600 text-sm hover:font-semibold">help</p>
+        <p className="py-3 px-6 bg-gradient-to-b from-white to-neutral-100 text-neutral-600 text-sm hover:font-semibold">help</p>
       </div>
 
-      <div className="mt-3 flex flex-row justify-center w-full h-[10vh] bg-[#fafafa]">
+      <div className="flex flex-row justify-center w-full h-[10vh]  bg-gradient-to-t from-white to-neutral-100">
         <Link to="/" onClick={handleLogoClick} className="relative">
-          <p className="drop-shadow items-center p-1 flex text-neutral-800 font-peignot text-5xl relative z-10">
+          <p className="items-center flex text-neutral-800 font-peignot text-5xl relative z-10">
             Eclat
           </p>
-          <div className="absolute inset-0">
             {/* Faded yellow layer */}
+          <div className="absolute inset-0">
             <span className="absolute -translate-x-21 -translate-y-5 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-20 to-transparent opacity-40"></span>
             <span className="absolute rounded-full inset-1 bg-gradient-to-b from-yellow-100 h-20 to-transparent opacity-40"></span>
-            <span className="absolute translate-x-24 translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-neutral-50 h-20 to-transparent opacity-40"></span>
             <span className="absolute translate-x-20 -translate-y-10 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-20 to-transparent opacity-40"></span>
+            <span className="absolute -translate-x-10 -translate-y-8 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-20 to-transparent opacity-40"></span>
           </div>
         </Link>
 
@@ -85,22 +85,22 @@ export default function TheSidebar() {
       </div>
 
       {/* Navbar */}
-      <div className="flex flex-row p-0 mt-1 max-h-18 w-full bg-gradient-to-b from-neutral-100 h-20 to-transparent opacity-80">
+      <div className="flex w-full bg-gradient-to-b from-white h-20 to-neutral-100 drop-shadow-sm">
         {/* Navbar items */}
-        <div className="flex flex-row py-4 justify-center ml-[12%] ">
+        <div className="flex gap-1 translate-x-52 ">
           {navbarList.map((item) => (
             <div
               key={item.title}
-              className={`flex text-black items-center w-full cursor-pointer ${
+              className={`flex text-black items-center cursor-pointer ${
                 activeTab === item.title
                   ? "font-bold text-sm"
-                  : "font-normal text-sm"
+                  : "text-neutral-600 text-sm"
               } p-4 hover:font-bold hover:text-sm`}
               onClick={() => handleTabClick(item.title)}
             >
               {/* Navbar elements */}
               {activeTab === item.title ? item.activeIcon : item.icon}
-              <p className="m-1">{item.title}</p>
+              <p>{item.title}</p>
             </div>
           ))}
         </div>
@@ -108,23 +108,23 @@ export default function TheSidebar() {
         {/* Navbar icons and search */}
 
           {/* Search Bar */}
-          <div className="m-1 translate-x-[70%] p-3">
+          <div className="flex justify-between translate-x-[150%] items-center">
             <SearchComponent />
-          </div>
-          
-          <div className="flex flex-row items-center translate-x-[15rem] gap-6">
+          <div className="flex gap-6 translate-x-28">
           {/* Cart Icon */}
-          <div className="ml-5">
+          <div className="">
             <Link to="/cart" onClick={handleCartClick}>
               <FaShoppingCart className="text-neutral-800 text-md cursor-pointer transition duration-300 hover:text-green-900" />
             </Link>
           </div>
 
           {/* Heart Icon */}
-          <div className="ml-4">
+          <div className="">
             <FaHeart className="text-neutral-600 text-md cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
           </div>
           </div>
+          </div>
+          
         
       </div>
     </>
