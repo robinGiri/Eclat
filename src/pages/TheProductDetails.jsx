@@ -3,12 +3,14 @@ import { FaHeart } from "react-icons/fa";
 import axios from "axios";
 import products from '../data/products';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const API = "http://localhost:5000/api/v1/product/";
 const staticAPI = "http://localhost:5000/api/v1/uploads/";
 
 function TheProductDetails() {
   const { productId } = useParams();
+  const navigate = useNavigate();
 
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
@@ -19,6 +21,7 @@ function TheProductDetails() {
     try {
       // try to get data from API
       const res = products.find((p) => p.id == productId);
+      console.log(res);
 
       setProduct(res);
       //   const resp = await axios.get(API);
@@ -33,8 +36,6 @@ function TheProductDetails() {
   }, []);
 
   const handleCartClick = () => {
-    // Assuming setActiveTab and navigate functions are defined elsewhere
-    setActiveTab("Cart"); // Update activeTab when cart is clicked
     navigate("/cart");
   };
 
@@ -44,7 +45,7 @@ function TheProductDetails() {
         Product Details
       </div>
 
-      <div className="flex flex-row w-full h-[100vh] rounded-md mt-7 mx-10">
+      <div className="flex flex-row w-full h-[95vh] rounded-md mt-7 mx-10">
         <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
           <div>
             {/* {products.slice(0,1).map((product) => {
@@ -74,7 +75,7 @@ function TheProductDetails() {
           </div>
         </div>
         {/* div 2 */}
-        <div className="content mx-2 w-2/4 border rounded-md border-black bg-neutral-50">
+        <div className="content mx-2 w-2/4 h-[85vh] border rounded-md border-black bg-neutral-50">
           <div className="p-10">
             <p className="text-gray-500"> no. of stock sold </p>
             <div className="mt-3 flex flex-row justify-between ">
@@ -100,10 +101,7 @@ function TheProductDetails() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                 accumsan varius metus, ac fringilla libero hendrerit ac. Nulla
                 facilisi. Nunc euismod, nulla a luctus malesuada, justo ligula
-                rhoncus nulla,Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Sed accumsan varius metus, ac fringilla libero hendrerit
-                ac. Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                justo ligula rhoncus nulla,
+                rhoncus nulla
               </p>
             </div>
             <p className="mt-10 underline font-light hover:font-bold cursor-pointer">
