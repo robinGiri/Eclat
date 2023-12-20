@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
-import axios from "axios";
-import ReactImageMagnify from "react-image-magnify";
+// import ReactImageMagnify from "react-image-magnify";
 import products from "../data/products";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+import { useParams, useNavigate } from "react-router-dom";
 
 function TheProductDetails() {
   const { productId } = useParams();
@@ -16,17 +11,11 @@ function TheProductDetails() {
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
 
-  const props = { img: "test.png" };
-
   const getApiData = async () => {
     try {
       // try to get data from API
       const res = products.find((p) => p.id == productId);
-      console.log(res);
-
       setProduct(res);
-      //   const resp = await axios.get(API);
-      //   setProduct(resp.data.result);
     } catch (error) {
       setIsError("Error fetching data");
     }
@@ -53,7 +42,7 @@ function TheProductDetails() {
               <div className="flex flex-wrap">
                 <div className="m-2 w-[12000] h-[1200] rounded-md">
                   <div className="object-fill w-full h-full">
-                    <ReactImageMagnify
+                    {/* <ReactImageMagnify
                       {...{
                         smallImage: {
                           alt: "Wristwatch by Ted Baker London",
@@ -70,7 +59,7 @@ function TheProductDetails() {
                         className:
                           "m-2 w-[300px] h-[400px] border-2 border-black rounded-md",
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
