@@ -4,6 +4,9 @@ import { PiEyeClosedThin, PiEye } from "react-icons/pi";
 import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+
+const registerURL = "http://localhost:4000/api/v1/user/";
 
 function TheRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +14,10 @@ function TheRegistration() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [phone, setPhone] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [name, setName] = useState(null);
   const navigate = useNavigate();
 
   const toggleConfirmPasswordVisibility = () => {
@@ -29,7 +36,7 @@ function TheRegistration() {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -39,6 +46,14 @@ function TheRegistration() {
       setPasswordsMatch(true);
       console.log("Passwords Match!");
     }
+    const user = {
+      name: name,
+      phone: phone,
+      address: address,
+      email: email,
+      password: password,
+    };
+    await axios.post(registerURL, user);
   };
 
   const handleLoginClick = () => {
@@ -72,6 +87,7 @@ function TheRegistration() {
                   type="text"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Please enter your Phone Number"
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div>
@@ -80,6 +96,7 @@ function TheRegistration() {
                   type="text"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Please enter your Email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>{" "}
               <div>
@@ -88,6 +105,7 @@ function TheRegistration() {
                   type="text"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Enter your Address"
+                  onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
               <div className="relative">
@@ -151,6 +169,7 @@ function TheRegistration() {
                     type="text"
                     className="border w-full p-2 mb-6 text-sm focus:outline-none"
                     placeholder="Enter your first and last name"
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="flex items-top gap-2 mb-5">

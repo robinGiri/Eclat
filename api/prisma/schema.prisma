@@ -10,27 +10,28 @@ datasource db {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   name          String?
   slug          String?
   description   String?
   category      String?
-  brand         Brand?   @relation(fields: [brandId], references: [id])
+  brand         Brand?     @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        Seller?  @relation(fields: [sellerId], references: [id])
+  seller        Seller?    @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   tags          String?
-  stock         Stock?   @relation(fields: [stockId], references: [id])
+  stock         Stock?     @relation(fields: [stockId], references: [id])
   status        String?
   viewCount     Int?
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  createdAt     DateTime   @default(now())
+  updateAt      DateTime   @updatedAt
   images        Image[]
   sellerId      Int?
   brandId       Int?
   stockId       Int?
+  CartItem      CartItem[]
 }
 
 model Test {
@@ -65,13 +66,11 @@ model Stock {
   Product   Product[]
 }
 
-// schema.prisma
-
 model User {
-  id           Int       @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
-  email        String    @unique
-  role         String    @default("customer")
+  email        String     @unique
+  role         String     @default("customer")
   address      String
   phone        String?
   password     String?
@@ -79,7 +78,18 @@ model User {
   token        String?
   forgetToken  String?
   validateTill DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  CartItem     CartItem[]
+}
 
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
