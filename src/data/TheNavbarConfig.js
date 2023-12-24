@@ -3,10 +3,7 @@ export const navbarList = [
         title: "Customize",
         id: "customize",
     },
-    {
-        title: "Request",
-        id: "request",
-    },
+
     {
         title: "Men",
         id: "men",

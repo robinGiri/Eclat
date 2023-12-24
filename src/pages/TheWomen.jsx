@@ -45,7 +45,6 @@ function TheWomen() {
   return (
     <>
       <div className='bg-neutral-100 px-16'>
-        <h1 className="mx-[5%] text-5xl py-6 font-bold">Women</h1>
         <div className="mx-[5%] my-5">
           <SecondSectionWomen />
         </div>
