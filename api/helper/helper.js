@@ -12,4 +12,6 @@ const deleteFile = (path) => {
     return false;
   }
 };
+
+const OrderMapper = (data) => {};
 module.exports = { slugify, deleteFile };

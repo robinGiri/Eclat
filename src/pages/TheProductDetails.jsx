@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { FaHeart, FaEdit, FaFeather } from "react-icons/fa";
 import axios from "axios";
 import products from "../data/products";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 
@@ -17,17 +16,11 @@ function TheProductDetails() {
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
 
-  const props = { img: "test.png" };
-
   const getApiData = async () => {
     try {
       // try to get data from API
       const res = products.find((p) => p.id == productId);
-      console.log(res);
-
       setProduct(res);
-      //   const resp = await axios.get(API);
-      //   setProduct(resp.data.result);
     } catch (error) {
       setIsError("Error fetching data");
     }

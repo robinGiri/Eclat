@@ -1,12 +1,16 @@
-import React ,{ useState } from "react";
+import React, { useState } from "react";
 import { FaFacebookSquare, FaGooglePlus } from "react-icons/fa";
 import { PiEyeClosedThin, PiEye } from "react-icons/pi";
 import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+const loginUrl = "http://localhost:4000/api/v1/user/login";
 
 function TheLogin() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -15,6 +19,14 @@ function TheLogin() {
 
   const handleRegisterClick = () => {
     navigate("/registration");
+  };
+  const handleLogin = async () => {
+    const login = { email: email, password: password };
+    const { data } = await axios.post(loginUrl, login);
+    const { code } = data;
+    if (code == 200) {
+      handleAdminDashboardClick();
+    }
   };
 
   const handleAdminDashboardClick = () => {
@@ -48,6 +60,7 @@ function TheLogin() {
                   type="text"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Please enter your Phone Number or Email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="relative">
@@ -56,6 +69,7 @@ function TheLogin() {
                   type={showPassword ? "text" : "password"}
                   className="border w-full p-2 mb-4 text-sm focus:outline-none pr-8"
                   placeholder="Please enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 {showPassword ? (
                   <PiEye
@@ -78,14 +92,12 @@ function TheLogin() {
             <div className="w-[45%] py-2">
               <div>
                 <div>
-                  <Link
-                    to="/admin-dashboard"
-                    onClick={handleAdminDashboardClick}
+                  <button
+                    className="w-full p-3 mb-2 bg-orange-500 text-white text-sm rounded-sm hover:bg-orange-600 transition duration-500 ease-in-out"
+                    onClick={handleLogin}
                   >
-                    <button className="w-full p-3 mb-2 bg-orange-500 text-white text-sm rounded-sm hover:bg-orange-600 transition duration-500 ease-in-out">
-                      LOGIN
-                    </button>
-                  </Link>
+                    LOGIN
+                  </button>
                 </div>
                 <div className="text-xs mb-2 text-gray-500">or login with</div>
                 <div className="flex flex-col gap-1">
