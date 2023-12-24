@@ -12,6 +12,7 @@ import TheCart from "../pages/TheCart";
 import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
+import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 
 const routes = [
   { path: "/", element: <TheHome /> },
@@ -25,6 +26,7 @@ const routes = [
   { path: "/product_details/:productId", element: <TheProductDetails /> },
   { path: "/login", element: <TheLogin /> },
   { path: "/registration", element: <TheRegistration /> },
+  { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
 ];
 
 export default function TheRouter() {

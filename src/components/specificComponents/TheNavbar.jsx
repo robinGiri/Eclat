@@ -44,7 +44,7 @@ export default function TheSidebar() {
     navigate("/cart");
   };
 
-  if (location.pathname === "/login" || location.pathname === "/registration") {
+  if (location.pathname === "/login" || location.pathname === "/registration" || location.pathname === "/cart" || location.pathname === "/cart/place-order") {
     return;
   }
 
