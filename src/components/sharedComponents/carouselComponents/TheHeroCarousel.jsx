@@ -38,7 +38,7 @@ export default function TheHeroCarousel() {
         disableOnInteraction: true,
       }}
       modules={[Autoplay, Mousewheel, Pagination, EffectCube]}
-      className="w-[500px] h-[400px]"
+      className="w-[500px] h-[400px] sm:w-[100px]"
     >
       {images.map((image) => (
         <SwiperSlide key={image.id} className="w-auto h-auto">

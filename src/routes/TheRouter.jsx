@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
 import TheCustomize from "../pages/TheCustomize";
-import TheRequestProduct from "../pages/TheRequestProduct";
 import TheMen from "../pages/TheMen";
 import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
@@ -17,7 +16,6 @@ import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 const routes = [
   { path: "/", element: <TheHome /> },
   { path: "/customize", element: <TheCustomize /> },
-  { path: "/request-products", element: <TheRequestProduct /> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },

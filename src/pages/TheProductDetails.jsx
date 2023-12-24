@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { FaHeart } from "react-icons/fa";
-// import ReactImageMagnify from "react-image-magnify";
+import { FaHeart, FaEdit, FaFeather } from "react-icons/fa";
+import axios from "axios";
 import products from "../data/products";
 import { useParams, useNavigate } from "react-router-dom";
+import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
+import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
+
+const API = "http://localhost:5000/api/v1/product/";
+const staticAPI = "http://localhost:5000/api/v1/uploads/";
 
 function TheProductDetails() {
   const { productId } = useParams();
@@ -31,85 +36,100 @@ function TheProductDetails() {
 
   return (
     <>
-      <div className="mt-10 mx-10 font-bold text-5xl bg-neutral-50 p-4">
-        Product Details
-      </div>
-
-      <div className="flex flex-row w-full h-[95vh] rounded-md mt-7 mx-10">
-        <div className="content w-[45%] h-[85vh] border rounded-md border-black bg-neutral-200 flex justify-center items-center">
-          <div>
-            <div className="card">
-              <div className="flex flex-wrap">
-                <div className="m-2 w-[12000] h-[1200] rounded-md">
-                  <div className="object-fill w-full h-full">
-                    {/* <ReactImageMagnify
-                      {...{
-                        smallImage: {
-                          alt: "Wristwatch by Ted Baker London",
-                          src: product.images,
-                          width: 300,
-                          height: 400,
-                        },
-                        largeImage: {
-                          src: product.images,
-                          width: 300,
-                          height: 800,
-                        },
-                        lensStyle: { width: 5 },
-                        className:
-                          "m-2 w-[300px] h-[400px] border-2 border-black rounded-md",
-                      }}
-                    /> */}
+      <div className="flex justify-center mx-10">
+        <div className="flex justify-center w-[85%]">
+          <div className="flex gap-4 p-4 bg-neutral-100 w-full">
+            <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
+              <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
+                {/* {products.slice(0,1).map((product) => {
+              const { id, images } = product;
+              return (
+                <div className="card" key={id}>
+                  <div className="flex flex-wrap">
+                    {images.map((image) => (
+                      <img
+                        key={image.id}
+                        // src={staticAPI+image.url}
+                        src={image}
+                        className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
+                        alt={`Product ${id} Image`}
+                      />
+                    ))}
                   </div>
+                </div>
+              );
+            })} */}
+                <img
+                  src={product.images}
+                  className="p-4 w-[400px] h-[300px] rounded-md object-contain"
+                  alt={`Product ${product.id} Image`}
+                />
+                {isError && <h1>{isError}</h1>}
+              </div>
+              <div className=" flex w-full h-[30vh] overflow-clip ">
+                <ProductDetailsCarousel />
+              </div>
+            </div>
+            {/* div 2 */}
+            <div className="flex p-4 rounded-md bg-neutral-50">
+              <div className="details p-2">
+                <div className="flex justify-between ">
+                  <p className="font-bold text-3xl w-auto ">{product.name}</p>
+                  <div className="flex mt-2">
+                    <FaFeather className="text-xl text-yellow-600"/>
+                    <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
+                  </div>
+                </div>
+                <p className="text-gray-500 mt-4">Product Category</p>
+                <p className="font-semibold mt-5 text-xl">Rs {product.price}</p>
+                <div className="flex">
+                  <p className="text-red-500 mt-5">
+                    Vouchers Available:
+                    <select className="mx-2 font-bold w-[25vh] border rounded-md p-2">
+                      <option value="option1">CHRISM</option>
+                      <option value="option2">CHRISTLER</option>
+                      <option value="option3">QUISMOS</option>
+                    </select>
+                  </p>
+                </div>
+                <div className="flex flex-wrap description mt-5 w-[65vh]">
+                  <p className="text-gray-500">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    accumsan varius metus, ac fringilla libero hendrerit ac.
+                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
+                    justo ligula rhoncus nulla  metus, ac fringilla libero hendrerit ac.
+                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
+                    justo ligula rhoncus nulla
+                  </p>
+                </div>
+                <p className="font-light hover:font-bold cursor-pointer">
+                  {product.discription}
+                </p>
+
+                <div className="flex justify-between">
+                  <button
+                    onClick={handleCartClick}
+                    className="mt-10 h-[10vh] w-[48%] bg-green-500 text-white font-bold hover:bg-green-700 py-2 px-4 rounded"
+                  >
+                    Buy Now
+                  </button>
+                  <button
+                    onClick={handleCartClick}
+                    className="mt-10 h-[10vh] w-[50%] bg-neutral-900 text-white font-bold hover:bg-neutral-200 hover:text-black py-2 px-4 rounded"
+                  >
+                    Add to Cart
+                  </button>
+
                 </div>
               </div>
             </div>
-            {isError && <h1>{isError}</h1>}
           </div>
         </div>
-        {/* div 2 */}
-        <div className="content mx-2 w-2/4 h-[85vh] border rounded-md border-black bg-neutral-50">
-          <div className="p-10">
-            <p className="text-gray-500"> no. of stock sold </p>
-            <div className="mt-3 flex flex-row justify-between ">
-              <p className="font-bold text-3xl w-auto">{product.name}</p>
-              <div className="mt-2">
-                <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
-              </div>
-            </div>
-            <p className="text-gray-500 mt-2">Product Category</p>
-            <p className="font-semibold mt-10 text-xl">Rs {product.price}</p>
-            <div className="relative inline-block text-left">
-              <p className="text-red-400 mt-10">
-                Offer Code Usability Description Codes Available:
-              </p>
-              <select className="mt-4 w-[25vh] border rounded-md p-2">
-                <option value="option1">C#ISAWESOME</option>
-                <option value="option2">PARAPAPA</option>
-                <option value="option3">YEeHAW</option>
-              </select>
-            </div>
-            <div className="description mt-5 w-[65vh]">
-              <p className="text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                accumsan varius metus, ac fringilla libero hendrerit ac. Nulla
-                facilisi. Nunc euismod, nulla a luctus malesuada, justo ligula
-                rhoncus nulla
-              </p>
-            </div>
-            <p className="mt-10 underline font-light hover:font-bold cursor-pointer">
-              {product.discription}
-            </p>
-
-            <button
-              onClick={handleCartClick}
-              className="mt-10 h-[10vh] w-[40vh] bg-neutral-900 text-white font-bold hover:bg-neutral-200 hover:text-black py-2 px-4 rounded"
-            >
-              Add to Cart
-            </button>
-          </div>
+        <div className="flex w-96">
+          <VerticalScrollContainer />
         </div>
       </div>
+      <div>Suggested prodocks</div>
     </>
   );
 }
