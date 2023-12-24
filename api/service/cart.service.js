@@ -53,7 +53,7 @@ class CartService {
 class CartItemService {
   async createCartItem(data) {
     try {
-      const newCartItem = await prisma.cartItem.create({
+      const newCartItem = await prisma.cartItem.createMany({
         data: data,
       });
 
