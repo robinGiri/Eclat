@@ -46,6 +46,7 @@ function TheMen() {
   return (
     <>
       <div className='px-16 bg-neutral-100'>
+      <h1 className="mx-[5%] text-5xl py-6 font-bold">Men</h1>
         <div className="mx-[5%] my-5">
           <SecondSectionMen />
         </div>

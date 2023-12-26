@@ -38,7 +38,7 @@ const SearchComponent = () => {
   return (
     <div className=' focus: outline-none'>
       <input
-      className='relative p-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-[#DCAC30] placeholder-gray-500::placeholder text-neutral-700 text-sm '
+      className='p-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-[#DCAC30] placeholder-gray-500::placeholder text-neutral-700  text-sm relative'
         type="text"
         placeholder="Search..."
         value={searchTerm}

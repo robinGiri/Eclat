@@ -34,7 +34,7 @@ export default function TheHeroCarousel() {
         clickable: true,
       }}
       autoplay={{
-        delay: 4000,
+        delay: 3000,
         disableOnInteraction: true,
       }}
       modules={[Autoplay, Mousewheel, Pagination, EffectCube]}
