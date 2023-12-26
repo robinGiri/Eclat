@@ -55,6 +55,7 @@ function TheHome() {
         </div>
 
         <div className="mx-10 p-4">
+
           <ThirdHomepageSection />
         </div>
 

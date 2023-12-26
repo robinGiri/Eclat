@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
@@ -10,6 +11,7 @@ import TheCart from "../pages/TheCart";
 import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
+import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 
 const routes = [
   { path: "/", element: <TheHome /> },
@@ -19,9 +21,10 @@ const routes = [
   { path: "/kids", element: <TheKids /> },
   { path: "/sale", element: <TheSale /> },
   { path: "/cart", element: <TheCart /> },
-  { path: "/product_details", element: <TheProductDetails /> },
-  {path: "/login", element: <TheLogin />},
-  {path: "/registration", element: <TheRegistration />}
+  { path: "/product_details/:productId", element: <TheProductDetails /> },
+  { path: "/login", element: <TheLogin /> },
+  { path: "/registration", element: <TheRegistration /> },
+  { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
 ];
 
 export default function TheRouter() {
@@ -39,20 +42,20 @@ export default function TheRouter() {
     location.pathname.includes("/admin-user") ||
     location.pathname.includes("/admin-logout");
 
-  return (
-    <div className="flex flex-col">
-      {!isAdminPage && (
+    return (
+      <div className="flex flex-col">
+        {!isAdminPage && (
+          <div>
+            <TheNavbar />
+          </div>
+        )}
         <div>
-          <TheNavbar />
+          <Routes>
+            {routes.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
         </div>
-      )}
-      <div>
-        <Routes>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
-        </Routes>
       </div>
-    </div>
-  );
-}
+    );
+  }

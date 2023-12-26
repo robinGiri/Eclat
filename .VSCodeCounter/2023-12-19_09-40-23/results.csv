@@ -1,0 +1,109 @@
+"filename", "language", "Markdown", "XML", "JavaScript", "JavaScript JSX", "CSS", "JSON", "HTML", "SQL", "comment", "blank", "total"
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\.eslintrc.cjs", "JavaScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 1, 21
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\README.md", "Markdown", 5, 0, 0, 0, 0, 0, 0, 0, 0, 4, 9
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\config\express.config.js", "JavaScript", 0, 0, 24, 0, 0, 0, 0, 0, 0, 9, 33
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\controller\product.controller.js", "JavaScript", 0, 0, 123, 0, 0, 0, 0, 0, 4, 15, 142
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\controller\user.controller.js", "JavaScript", 0, 0, 74, 0, 0, 0, 0, 0, 0, 4, 78
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\env.clone.js", "JavaScript", 0, 0, 4, 0, 0, 0, 0, 0, 3, 1, 8
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\helper\helper.js", "JavaScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 2, 16
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\index.js", "JavaScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 2, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\jobs\imageUploaderJob.js", "JavaScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 2, 22
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\package-lock.json", "JSON", 0, 0, 0, 0, 0, 2232, 0, 0, 0, 1, 2233
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\package.json", "JSON", 0, 0, 0, 0, 0, 31, 0, 0, 0, 1, 32
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\prisma\migrations\20231209215857_new\migration.sql", "SQL", 0, 0, 0, 0, 0, 0, 0, 50, 9, 15, 74
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\prisma\migrations\20231210004053_new\migration.sql", "SQL", 0, 0, 0, 0, 0, 0, 0, 3, 10, 3, 16
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\prisma\migrations\20231210045113_post_upgrated\migration.sql", "SQL", 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\prisma\migrations\20231211105725_user_model\migration.sql", "SQL", 0, 0, 0, 0, 0, 0, 0, 17, 1, 2, 20
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\prisma\migrations\20231211122212_image\migration.sql", "SQL", 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\service\image.service.js", "JavaScript", 0, 0, 34, 0, 0, 0, 0, 0, 2, 5, 41
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\service\product.service.js", "JavaScript", 0, 0, 96, 0, 0, 0, 0, 0, 0, 7, 103
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\api\service\user.service.js", "JavaScript", 0, 0, 29, 0, 0, 0, 0, 0, 0, 3, 32
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\index.html", "HTML", 0, 0, 0, 0, 0, 0, 17, 0, 0, 1, 18
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\package-lock.json", "JSON", 0, 0, 0, 0, 0, 18409, 0, 0, 0, 1, 18410
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\package.json", "JSON", 0, 0, 0, 0, 0, 40, 0, 0, 0, 1, 41
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\postcss.config.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\public\vite.svg", "XML", 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-components\TheAdminNavConfig.jsx", "JavaScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 2, 44
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-components\TheAdminNavbar.jsx", "JavaScript JSX", 0, 0, 0, 88, 0, 0, 0, 0, 0, 12, 100
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-components\TheTopAdminNav.jsx", "JavaScript JSX", 0, 0, 0, 33, 0, 0, 0, 0, 0, 3, 36
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheAnalytics.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheDashboard.jsx", "JavaScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 4, 46
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheEnquiry.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheLogout.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheMarketing.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheOrders.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\ThePayment.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheProducts.jsx", "JavaScript JSX", 0, 0, 0, 12, 0, 0, 0, 0, 0, 3, 15
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheSetting.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\TheUser.jsx", "JavaScript JSX", 0, 0, 0, 10, 0, 0, 0, 0, 0, 3, 13
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheAverageRevenue.jsx", "JavaScript JSX", 0, 0, 0, 14, 0, 0, 0, 0, 0, 3, 17
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheCustomerReturn.jsx", "JavaScript JSX", 0, 0, 0, 14, 0, 0, 0, 0, 0, 3, 17
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheRecetInvoice.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheRevenueVsOrder.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheSalesByCategory.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\dashboard-components\TheTopProducts.jsx", "JavaScript JSX", 0, 0, 0, 30, 0, 0, 0, 0, 0, 3, 33
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheDeleteConfirm.jsx", "JavaScript JSX", 0, 0, 0, 46, 0, 0, 0, 0, 0, 7, 53
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheImageMagnifier.jsx", "JavaScript JSX", 0, 0, 0, 40, 0, 0, 0, 0, 0, 5, 45
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheRecentInvoice.css", "CSS", 0, 0, 0, 0, 13, 0, 0, 0, 0, 3, 16
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheRecentInvoice.jsx", "JavaScript JSX", 0, 0, 0, 218, 0, 0, 0, 0, 0, 15, 233
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheUpdateModal.jsx", "JavaScript JSX", 0, 0, 0, 104, 0, 0, 0, 0, 0, 13, 117
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\product-components\TheViewModal.jsx", "JavaScript JSX", 0, 0, 0, 45, 0, 0, 0, 0, 0, 4, 49
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\user-components\TheUserDeleteModal.jsx", "JavaScript JSX", 0, 0, 0, 46, 0, 0, 0, 0, 0, 7, 53
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\user-components\TheUserRecentInvoice.css", "CSS", 0, 0, 0, 0, 13, 0, 0, 0, 0, 3, 16
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\user-components\TheUserRecentInvoice.jsx", "JavaScript JSX", 0, 0, 0, 194, 0, 0, 0, 0, 0, 16, 210
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\user-components\TheUserUpdateModal.jsx", "JavaScript JSX", 0, 0, 0, 104, 0, 0, 0, 0, 0, 13, 117
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-pages\user-components\TheUserViewModal.jsx", "JavaScript JSX", 0, 0, 0, 37, 0, 0, 0, 0, 0, 4, 41
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-routes\TheAdminRouter.css", "CSS", 0, 0, 0, 0, 14, 0, 0, 0, 0, 4, 18
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\admin\admin-routes\TheAdminRouter.jsx", "JavaScript JSX", 0, 0, 0, 71, 0, 0, 0, 0, 0, 6, 77
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\checkout\TheCartItems.jsx", "JavaScript JSX", 0, 0, 0, 73, 0, 0, 0, 0, 1, 8, 82
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\men-page\TheCard.jsx", "JavaScript JSX", 0, 0, 0, 50, 0, 0, 0, 0, 0, 6, 56
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\men-page\data.js", "JavaScript", 0, 0, 31, 0, 0, 0, 0, 0, 0, 1, 32
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\SearchComponent.jsx", "JavaScript JSX", 0, 0, 0, 43, 0, 0, 0, 0, 1, 12, 56
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\TabbedSection.jsx", "JavaScript JSX", 0, 0, 0, 59, 0, 0, 0, 0, 0, 11, 70
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\TheCard.jsx", "JavaScript JSX", 0, 0, 0, 48, 0, 0, 0, 0, 1, 6, 55
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\SecondSectionCarousel.jsx", "JavaScript JSX", 0, 0, 0, 31, 0, 0, 0, 0, 5, 6, 42
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\SecondSectionKids.jsx", "JavaScript JSX", 0, 0, 0, 30, 0, 0, 0, 0, 3, 7, 40
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\SecondSectionMen.jsx", "JavaScript JSX", 0, 0, 0, 29, 0, 0, 0, 0, 4, 7, 40
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\SecondSectionWomen.jsx", "JavaScript JSX", 0, 0, 0, 30, 0, 0, 0, 0, 3, 7, 40
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\TheHeroCarousel.jsx", "JavaScript JSX", 0, 0, 0, 39, 0, 0, 0, 0, 7, 6, 52
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\sharedComponents\carouselComponents\TheSecondSectionCarousel.jsx", "JavaScript JSX", 0, 0, 0, 88, 0, 0, 0, 0, 6, 14, 108
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\specificComponents\TailInfoSection.jsx", "JavaScript JSX", 0, 0, 0, 88, 0, 0, 0, 0, 4, 3, 95
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\specificComponents\TheFooter.jsx", "JavaScript JSX", 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 22
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\specificComponents\TheNavbar.jsx", "JavaScript JSX", 0, 0, 0, 92, 0, 0, 0, 0, 14, 15, 121
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\specificComponents\TheTopNavbarOne.jsx", "JavaScript JSX", 0, 0, 0, 52, 0, 0, 0, 0, 0, 6, 58
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\components\specificComponents\ThirdHomepageSection.jsx", "JavaScript JSX", 0, 0, 0, 33, 0, 0, 0, 0, 3, 16, 52
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\TheNavbarConfig.js", "JavaScript", 0, 0, 26, 0, 0, 0, 0, 0, 0, 1, 27
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\carousel-images\HeroCarouselImages.js", "JavaScript", 0, 0, 27, 0, 0, 0, 0, 0, 0, 2, 29
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\carousel-images\SecondSectionCarouselImages.js", "JavaScript", 0, 0, 51, 0, 0, 0, 0, 0, 0, 3, 54
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\carousel-images\SecondSectionCarousel_KidsImages.js", "JavaScript", 0, 0, 51, 0, 0, 0, 0, 0, 0, 3, 54
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\carousel-images\SecondSectionCarousel_MenImages.js", "JavaScript", 0, 0, 51, 0, 0, 0, 0, 0, 0, 3, 54
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\carousel-images\SecondSectionCarousel_WomenImages.js", "JavaScript", 0, 0, 51, 0, 0, 0, 0, 0, 0, 3, 54
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\data\products.js", "JavaScript", 0, 0, 275, 0, 0, 0, 0, 0, 0, 6, 281
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\index.css", "CSS", 0, 0, 0, 0, 7, 0, 0, 0, 0, 1, 8
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\main.jsx", "JavaScript JSX", 0, 0, 0, 16, 0, 0, 0, 0, 0, 2, 18
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\Khaltitest.jsx", "JavaScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 4, 5, 51
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheCart.jsx", "JavaScript JSX", 0, 0, 0, 48, 0, 0, 0, 0, 2, 3, 53
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheCustomize.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheHome.jsx", "JavaScript JSX", 0, 0, 0, 51, 0, 0, 0, 0, 1, 13, 65
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheKids.jsx", "JavaScript JSX", 0, 0, 0, 84, 0, 0, 0, 0, 0, 7, 91
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheLogin.jsx", "JavaScript JSX", 0, 0, 0, 107, 0, 0, 0, 0, 0, 7, 114
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheMen.jsx", "JavaScript JSX", 0, 0, 0, 85, 0, 0, 0, 0, 0, 8, 93
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheProductDetails.jsx", "JavaScript JSX", 0, 0, 0, 90, 0, 0, 0, 0, 22, 13, 125
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheProfile.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheRegistration.jsx", "JavaScript JSX", 0, 0, 0, 195, 0, 0, 0, 0, 0, 11, 206
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheRequestProduct.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 0, 4, 15
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheSale.jsx", "JavaScript JSX", 0, 0, 0, 74, 0, 0, 0, 0, 0, 8, 82
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\pages\TheWomen.jsx", "JavaScript JSX", 0, 0, 0, 84, 0, 0, 0, 0, 0, 7, 91
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\routes\TheRouter.jsx", "JavaScript JSX", 0, 0, 0, 58, 0, 0, 0, 0, 0, 4, 62
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\services\api\config.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\services\api\index.js", "JavaScript", 0, 0, 79, 0, 0, 0, 0, 0, 1, 20, 100
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\services\localStorage.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 1, 4, 11
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\services\navigation.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 0, 3, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\services\search_api.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 3, 4, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\store\auth.jsx", "JavaScript JSX", 0, 0, 0, 34, 0, 0, 0, 0, 1, 10, 45
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\store\products.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 8
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\utils\date.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 4, 12
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\src\utils\time.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 2, 8
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\tailwind.config.js", "JavaScript", 0, 0, 28, 0, 0, 0, 0, 0, 1, 2, 31
+"c:\Users\DELL\OneDrive\Desktop\Eclat\Eclat\vite.config.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 1, 2, 8
+"Total", "-", 5, 1, 1168, 3099, 47, 20712, 17, 72, 120, 552, 25793

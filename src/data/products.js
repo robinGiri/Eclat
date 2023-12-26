@@ -259,7 +259,7 @@ const products = [
         category: 'sales',
     },
     {
-        id : 25,
+        id : 27,
         price: 200.0,
         name: 'productName',
         images: 'https://m.media-amazon.com/images/I/91i3W-5QLIL.jpg',
@@ -267,7 +267,7 @@ const products = [
         category: 'sales',
     },
     {
-        id : 26,
+        id : 28,
         price: 200.0,
         name: 'productName',
         images: 'https://video-play.daraz.com.np/cover/382727.jpg',
