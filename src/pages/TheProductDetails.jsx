@@ -5,9 +5,11 @@ import products from "../data/products";
 import { useParams, useNavigate } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
+import ShareComponent from "../components/sharedComponents/ShareComponent";
 
 const API = "http://localhost:5000/api/v1/product/";
 const staticAPI = "http://localhost:5000/api/v1/uploads/";
+const shareUrl = "https://eclatbags.netlify.app/";
 
 function TheProductDetails() {
   const { productId } = useParams();
@@ -76,7 +78,7 @@ function TheProductDetails() {
                 <div className="flex justify-between ">
                   <p className="font-bold text-3xl w-auto ">{product.name}</p>
                   <div className="flex mt-2">
-                    <FaFeather className="text-xl text-yellow-600"/>
+                    <FaFeather className="text-xl text-yellow-600" />
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
@@ -92,14 +94,17 @@ function TheProductDetails() {
                     </select>
                   </p>
                 </div>
+                <div>
+                  <ShareComponent shareUrl={ shareUrl + 'product_details' +  product.id} quote={product.name} />
+                </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
                   <p className="text-gray-500">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                     accumsan varius metus, ac fringilla libero hendrerit ac.
                     Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla  metus, ac fringilla libero hendrerit ac.
-                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla
+                    justo ligula rhoncus nulla metus, ac fringilla libero
+                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
+                    malesuada, justo ligula rhoncus nulla
                   </p>
                 </div>
                 <p className="font-light hover:font-bold cursor-pointer">
@@ -119,7 +124,6 @@ function TheProductDetails() {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
