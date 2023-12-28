@@ -9,11 +9,29 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
   }, [product]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    const parsedValue = (name === 'price' || name === 'viewCount') ? parseInt(value, 10) : value;
-    setUpdatedProduct((prevProduct) => {
-      return { ...prevProduct, [name]: parsedValue };
-    });
+    const { name, value, files } = e.target;
+    const parsedValue =
+      name === "price" || name === "viewCount" || name === "discount"
+        ? parseInt(value, 10)
+        : value;
+
+    if (name === "image" && files && files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        setUpdatedProduct((prevProduct) => ({
+          ...prevProduct,
+          [name]: event.target.result,
+        }));
+      };
+
+      reader.readAsDataURL(files[0]);
+    } else {
+      setUpdatedProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: parsedValue,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -39,72 +57,167 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
 
   return (
     <div className="fixed inset-0 top-11 z-50 flex justify-end items-center click-close">
-      <div className="bg-white rounded-l-lg p-6 shadow-md w-[50%] h-[80vh] overflow-auto click-close">
-      <div>
-          <IoClose onClick={closeModal} className="cursor-pointer absolute top-[10%] right-[2%] text-2xl z-[70]" title="Close"/>
-          </div>
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="border-2 border-white shadow-custom-shadow rounded w-[50%] p-4 flex justify-center ">
+      <div className="bg-white rounded-l-lg shadow-md w-[60%] h-[80vh] overflow-auto click-close">
+        <div>
+          <IoClose
+            onClick={closeModal}
+            className="cursor-pointer absolute right-[2%] text-2xl z-[70]"
+            title="Close"
+          />
+        </div>
+        <div className="flex justify-center items-center w-[100%]">
+          <div className="w-[100%]">
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-6xl font-extrabold text-gray-700">
-                  ID: {product.id}
-                </label>
-
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Product Name : {product.name}
+              <div>
+                <div className="flex justify-center items-center">
+                  <label className="text-6xl font-extrabold text-gray-700">
+                    ID: {product.id}
                   </label>
-                  <input
-                    type="text"
-                    name="name"
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                  />
                 </div>
+                <div className="w-[100%] px-7 gap-4">
+                  <div className="flex justify-center border gap-3">
+                    <div className="w-[50%] border-r p-3">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Product Name : {product.name}
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder={`Change ${product.name}`}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none placeholder:text-sm placeholder:font-light"
+                        />
+                      </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Product Category : {product.category}
-                  </label>
-                  <input
-                    type="text"
-                    name="category"
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Product Category : {product.category}
+                        </label>
+                        <input
+                          type="text"
+                          name="category"
+                          placeholder={`Change ${product.category}`}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
+                        />
+                      </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Quantity : {product.viewCount}
-                  </label>
-                  <input
-                    type="number"
-                    name="viewCount"
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Quantity : {product.viewCount}
+                        </label>
+                        <input
+                          type="number"
+                          name="viewCount"
+                          placeholder={`Change ${product.viewCount}`}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
+                        />
+                      </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Price : ${product.price}
-                  </label>
-                  <input
-                    type="number"
-                    name="price"
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                  />
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Amount : ${product.price}
+                        </label>
+                        <input
+                          type="number"
+                          name="price"
+                          placeholder={`Change ${product.price}`}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
+                        />
+                      </div>
+                      <div className="mt-2 mb-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Status : {product.status}
+                          <span className="text-[10px]">
+                            (Choose Active or Inactive)
+                          </span>
+                        </label>
+                        <div className="flex mt-2">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setUpdatedProduct({
+                                ...updatedProduct,
+                                status: "Active",
+                              })
+                            }
+                            className={`w-20 px-2 py-1 mr-4 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light ${
+                              updatedProduct.status === "Active"
+                                ? "bg-green-600 text-white"
+                                : ""
+                            }`}
+                          >
+                            Active
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setUpdatedProduct({
+                                ...updatedProduct,
+                                status: "Inactive",
+                              })
+                            }
+                            className={`w-20 px-2 py-1 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light ${
+                              updatedProduct.status === "Inactive"
+                                ? "bg-yellow-600 text-white"
+                                : ""
+                            }`}
+                          >
+                            Inactive
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Discount : {product.discount}
+                        </label>
+                        <input
+                          type="number"
+                          name="discount"
+                          placeholder={`Change ${product.discount}`}
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w-[50%] border-l p-3">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Image
+                        </label>
+                        <input
+                          type="file"
+                          name="image"
+                          onChange={handleChange}
+                          className="w-full px-3 py-2 mt-1 border text-sm border-gray-300 rounded-md cursor-pointer placeholder:text-sm placeholder:font-light"
+                        />
+                        <div className="h-[50vh] flex justify-center">
+                          {updatedProduct.image && (
+                            <img
+                              src={updatedProduct.image}
+                              alt="Product Preview"
+                              className="mt-4 w-[300px] h-[300px] object-contain"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="px-4 py-2 text-white bg-indigo-500 rounded hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-              >
-                Save Changes
-              </button>
+              <div className="flex justify-center mt-3">
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-white bg-admin-blue hover:bg-blue-800 rounded-md"
+                >
+                  Save Changes
+                </button>
+              </div>
             </form>
           </div>
         </div>

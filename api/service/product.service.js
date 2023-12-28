@@ -18,8 +18,15 @@ class ProductService {
           include,
         });
       } else {
+        delete data.include;
+
+        const { isFeatured, ...restData } = data;
+
         res = await prisma.product.create({
-          data,
+          data: {
+            ...restData,
+            isFeatured: !!isFeatured,
+          },
           include,
         });
       }
@@ -46,7 +53,8 @@ class ProductService {
     } catch (error) {
       console.error("Error deleting product:", error.message);
       throw error;
-    }}
+    }
+  }
 
   async fetchAll() {
     try {
@@ -94,6 +102,20 @@ class ProductService {
       return products;
     } catch (error) {
       console.log("Error fetching data:", error.message);
+      throw error;
+    }
+  }
+
+  async update(updatedData, productId) {
+    try {
+      const res = await prisma.product.update({
+        where: { id: parseInt(productId) },
+        data: updatedData,
+        include,
+      });
+      return res;
+    } catch (error) {
+      console.error("Error updating product:", error.message);
       throw error;
     }
   }
