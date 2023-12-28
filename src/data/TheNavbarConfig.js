@@ -4,10 +4,6 @@ export const navbarList = [
         id: "customize",
     },
     {
-        title: "Request",
-        id: "request",
-    },
-    {
         title: "Men",
         id: "men",
     },

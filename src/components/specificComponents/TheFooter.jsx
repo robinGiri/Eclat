@@ -1,4 +1,14 @@
+import { useNavigate, Link } from "react-router-dom";
+
+
 export default function TheFooter() {
+
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    setActiveTab("");
+    navigate("/");
+  };
     return (
         <footer className="bg-neutral-800 text-white p-6">
         <div className="container mx-auto flex justify-between">

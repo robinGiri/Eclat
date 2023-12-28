@@ -21,12 +21,15 @@ function TheHome() {
 
   return (
     <div>
-      <div className=" bg-neutral-50">
-
-        <div className="flex items-center h-[70vh] justify-center gap-2 relative">
+      <div className="bg-neutral-50">
+        <div className="mx-14 bg-gradient-to-t from-white to-teal-50 flex items-center h-[75vh] justify-center gap-2 relative">
           <div className="w-[20%] h-[65vh] relative ">
             <div>
-              <img src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152" alt="Advertisement" className="h-[64vh] w-[100%] cursor-pointer" />
+              <img
+                src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152"
+                alt="Advertisement"
+                className="h-[64vh] w-[100%] cursor-pointer"
+              />
             </div>
           </div>
 
@@ -37,17 +40,22 @@ function TheHome() {
           <div className="w-[20%] h-[65vh] relative">
             <div>
               <div>
-                <img src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000" alt="Advertisement" className="w-[100%] h-[64vh] cursor-pointer" />
+                <img
+                  src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000"
+                  alt="Advertisement"
+                  className="w-[100%] h-[64vh] cursor-pointer"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 mx-10 p-4 bg-neutral-50 h-[100vh]">
+        <div className="mx-10 p-4 bg-neutral-50 z-10">
           <TabbedSection />
         </div>
 
-        <div className="m-2 mt-1">
+        <div className="mx-10 p-4">
+
           <ThirdHomepageSection />
         </div>
 

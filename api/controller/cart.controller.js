@@ -3,6 +3,7 @@ const { cartService, cartItemService } = require("../service/cart.service");
 router.post("/", async (req, res) => {
   try {
     const { user, cartItems } = req.body;
+    console.log(req.body);
 
     // Check if the user already has a cart
     const existingCart = await cartService.getCartByUser(user);

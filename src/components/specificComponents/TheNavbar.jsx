@@ -1,25 +1,15 @@
-import React, { useState } from "react";
-import { navbarList } from "../../data/TheNavbarConfig";
-import { useNavigate, Link } from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
-import getSearchData from "../../services/search_api";
-import SearchComponent from "../sharedComponents/SearchComponent";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaHeart, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import TheTopNavbarOne from "./TheTopNavbarOne";
+import SearchComponent from "../sharedComponents/SearchComponent";
+import { navbarList } from "../../data/TheNavbarConfig";
 
-// dynamically apply classes based on conditions, such as whether a tab is active or not.
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-// routes____________________________________________________________________________________
-export default function TheSidebar() {
+function TheSidebar() {
   const [activeTab, setActiveTab] = useState("");
-
-  // search mechanism
-  const [search, setSearch] = useState("");
-  const [products, setProduct] = useState("");
-
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false);
+  const [isSmallScreen, setSmallScreen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleTabClick = (title) => {
@@ -28,7 +18,6 @@ export default function TheSidebar() {
       Profile: "/username",
       Home: "/",
       Customize: "/customize",
-      Request: "/request-products",
       Men: "/men",
       Women: "/women",
       Kids: "/kids",
@@ -36,28 +25,22 @@ export default function TheSidebar() {
     };
     if (routes[title]) {
       navigate(routes[title]);
+      setBurgerMenuOpen(false); // Close burger menu after navigating
     }
   };
 
   const handleCartClick = () => {
-    setActiveTab("Cart"); // Update activeTab when cart is clicked
+    setActiveTab("Cart");
     navigate("/cart");
   };
 
-  if (location.pathname === "/login" || location.pathname === "/registration") {
+  if (location.pathname === "/login" || location.pathname === "/registration" || location.pathname === "/cart" || location.pathname === "/cart/place-order") {
     return;
   }
-
-  const handleKeyPress = (event, title) => {
-    if (event.key === "Enter") {
-      handleTabClick(title);
-    }
+  
+  const handleBurgerMenuClick = () => {
+    setBurgerMenuOpen(!isBurgerMenuOpen);
   };
-
-  // const searchHandler = () =>{
-  //   const data = getSearchData(search);
-  //   console.log(data);
-  // }
 
   return (
     <>
@@ -118,3 +101,5 @@ export default function TheSidebar() {
     </>
   );
 }
+
+export default TheSidebar;
