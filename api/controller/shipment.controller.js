@@ -1,24 +1,23 @@
-// controllers/paymentController.js
+// controllers/shipmentController.js
 const express = require("express");
 const router = express.Router();
-const paymentService = require("../services/paymentService");
+const shipmentService = require("../services/shipmentService");
 
-// Create a new payment
+// Create a new shipment
 router.post("/", async (req, res) => {
   try {
-    const { orderId, amount, paymentStatus, paymentToken } = req.body;
+    const { orderId, shipmentStatus, trackingNumber } = req.body;
 
-    const newPayment = await paymentService.createPayment(
+    const newShipment = await shipmentService.createShipment(
       orderId,
-      amount,
-      paymentStatus,
-      paymentToken
+      shipmentStatus,
+      trackingNumber
     );
 
     res.json({
       code: 200,
-      message: "Payment created successfully",
-      meta: newPayment,
+      message: "Shipment created successfully",
+      meta: newShipment,
     });
   } catch (error) {
     console.error(error);
@@ -30,25 +29,25 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get payment by ID
+// Get shipment by ID
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const payment = await paymentService.getPaymentById(id);
+    const shipment = await shipmentService.getShipmentById(id);
 
-    if (!payment) {
+    if (!shipment) {
       return res.status(404).json({
         code: 404,
-        message: "Payment not found",
+        message: "Shipment not found",
         meta: null,
       });
     }
 
     res.json({
       code: 200,
-      message: "Payment fetched successfully",
-      meta: payment,
+      message: "Shipment fetched successfully",
+      meta: shipment,
     });
   } catch (error) {
     console.error(error);
@@ -60,18 +59,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update payment by ID
+// Update shipment by ID
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
 
-    const updatedPayment = await paymentService.updatePayment(id, updates);
+    const updatedShipment = await shipmentService.updateShipment(id, updates);
 
     res.json({
       code: 200,
-      message: "Payment updated successfully",
-      meta: updatedPayment,
+      message: "Shipment updated successfully",
+      meta: updatedShipment,
     });
   } catch (error) {
     console.error(error);
@@ -83,17 +82,17 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete payment by ID
+// Delete shipment by ID
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedPayment = await paymentService.deletePayment(id);
+    const deletedShipment = await shipmentService.deleteShipment(id);
 
     res.json({
       code: 200,
-      message: "Payment deleted successfully",
-      meta: deletedPayment,
+      message: "Shipment deleted successfully",
+      meta: deletedShipment,
     });
   } catch (error) {
     console.error(error);

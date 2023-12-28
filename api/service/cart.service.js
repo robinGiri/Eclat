@@ -1,10 +1,12 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+// services/cartService.js
 
 class CartService {
   include = {
-    cartItem: true,
+    cartItems: true,
+    Payment: true,
+    Shipment: true,
   };
+
   async createCart(userId) {
     try {
       const newCart = await prisma.cart.create({
@@ -17,16 +19,30 @@ class CartService {
     }
   }
 
+  async getCartItemsByCartId(cartId) {
+    try {
+      const cartItems = await prisma.cartItem.findMany({
+        where: {
+          cartId: cartId,
+        },
+        include: {
+          product: true,
+        },
+      });
+
+      return cartItems;
+    } catch (error) {
+      throw new Error(`Error fetching cart items: ${error.message}`);
+    }
+  }
+
   async getCartById(cartId) {
     try {
       const cart = await prisma.cart.findUnique({
         where: {
           id: cartId,
         },
-        include: {
-          user: true,
-          cartItems: true,
-        },
+        include: this.include,
       });
 
       return cart;
@@ -108,6 +124,7 @@ class CartItemService {
     }
   }
 }
+
 const cartService = new CartService();
 const cartItemService = new CartItemService();
 
