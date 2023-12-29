@@ -24,15 +24,7 @@ function TheTopNavbarOne() {
       <div className="flex justify-center items-center bg-gradient-to-t from-white to-neutral-100 text-neutral-600">
         <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
           <Link to="/" onClick={handleLogoClick} className="relative">
-            <p className="items-center flex text-neutral-800 font-peignot text-5xl relative z-10">
-              Eclat
-            </p>
-            <div className="absolute inset-0">
-              <span className="absolute -translate-x-21 translate-y-3 rounded-full inset-1 bg-gradient-to-bl from-yellow-100 h-10 to-transparent opacity-40"></span>
-              <span className="absolute rounded-md inset-1 bg-gradient-to-b from-yellow-100 h-10 to-transparent opacity-20"></span>
-              <span className="absolute -translate-x-8 -translate-y-5 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-16 to-transparent opacity-40"></span>
-              <span className="absolute translate-x-10 -translate-y-3 rounded-full inset-1 bg-gradient-to-tr from-yellow-100 h-15 to-transparent opacity-40"></span>
-            </div>
+           <img src="assets/logo.png" alt="Logo" />
           </Link>
         </div>
         <div className="flex translate-x-[350%] items-center  gap-2">

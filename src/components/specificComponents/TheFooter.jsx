@@ -13,7 +13,7 @@ export default function TheFooter() {
         <footer className="bg-neutral-800 text-white p-6">
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
-            <p className="mb-10 text-5xl font-light font-peignot">Eclat</p>
+           <img src="assets/logo_dark.png" alt="Logo" />
           </div>
           <div className="flex space-x-10">
             <a href="#" className="hover:font-bold">
