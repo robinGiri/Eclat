@@ -44,11 +44,7 @@ function TheSidebar() {
 
   return (
     <>
-      <div>
-        <p className="px-3 py-1 bg-gradient-to-b cursor-pointer from-white to-neutral-100 text-neutral-600 text-sm hover:font-semibold">
-          help
-        </p>
-      </div>
+    
       <div>
       <TheTopNavbarOne />
       </div>
