@@ -113,24 +113,24 @@ function TheUserRecentInvoice() {
         </button>
       </div>
       <div className="flex justify-center items-center text-sm mt-14">
-        <div className="w-[95%] pb-5">
+        <div className="w-[100%] pb-5">
           <div className="max-h-[28rem] custom-scroll">
             <table className="w-full">
               <thead className="sticky top-0 bg-white z-10">
                 <tr>
-                  <th className="px-6 py-3 text-left font-light">User Id</th>
-                  <th className="px-6 py-3 text-left font-light">
+                  <th className="px-6 w-36 text-left font-light">User Id</th>
+                  <th className="px-6 w-36 text-left font-light">
                     User Name
                   </th>
-                  <th className="px-6 py-3 text-left font-light">
+                  <th className="px-6 w-36 text-left font-light">
                     Address
                   </th>
-                  <th className="px-6 py-3 text-left font-light">Phone</th>
-                  <th className="px-6 py-3 text-left font-light">Email</th>
-                  <th className="px-6 py-3 text-left font-light">Role</th>
-                  <th className="px-6 py-3 text-left font-light">Last Purchased</th>
-                  <th className="px-6 py-3 text-left font-light">Status</th>
-                  <th className="px-10 py-3 text-left font-light">Action</th>
+                  <th className="px-6 w-36 text-left font-light">Phone</th>
+                  <th className="px-6 w-36 text-left font-light">Email</th>
+                  <th className="px-6 w-36 text-left font-light">Role</th>
+                  <th className="px-6 w-36 text-left font-light">Last Purchased</th>
+                  <th className="px-6 w-36 text-left font-light">Status</th>
+                  <th className="px-10 w-36 text-left font-light">Action</th>
                 </tr>
               </thead>
               <tbody>

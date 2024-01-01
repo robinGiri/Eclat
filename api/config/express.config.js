@@ -34,4 +34,7 @@ app.use((error, req, res, next) => {
   });
 });
 
+app.get("/send-email", require("../helper/sendMail"));
+app.post('/send-email', require("../helper/sendMail"));
+
 module.exports = app;

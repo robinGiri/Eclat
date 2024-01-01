@@ -8,6 +8,7 @@ import TheImageMagnifier from "./TheImageMagnifier";
 import TheViewModal from "./TheViewModal";
 import TheDeleteConfirm from "./TheDeleteConfirm";
 import TheUpdateModal from "./TheUpdateModal";
+import TheAddModal from "./TheAddModal";
 
 const API = "http://localhost:5000/api/v1/product/";
 const staticAPI = "http://localhost:5000/api/v1/uploads/";
@@ -21,6 +22,7 @@ function TheRecentInvoice() {
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedEditProduct, setSelectedEditProduct] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const handleDelete = async (productId) => {
     try {
@@ -73,7 +75,7 @@ function TheRecentInvoice() {
 
   useEffect(() => {
     getApiData();
-  }, []);
+  }, [products]);
 
   const openViewModal = (product) => {
     setSelectedViewProduct(product);
@@ -105,34 +107,52 @@ function TheRecentInvoice() {
     setIsEditModalOpen(false);
   };
 
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
   return (
     <div className="bg-white border-2 border-white rounded-2xl w-[90%] mt-5 mx-12 shadow-custom-shadow">
-      <div className=" flex justify-between items-center m-5 my-5">
-        <p className="text-xl font-bold">Recent Invoice</p>
-        <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1">
-          Filter
-          <IoFilterSharp />
-        </button>
+      <div className="flex justify-between m-5 my-5">
+        <div>
+          <p className="text-xl font-bold">Recent Invoice</p>
+        </div>
+        <div className="flex gap-5">
+          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1" onClick={openAddModal}>
+            Add
+            <IoFilterSharp />
+          </button>
+          <button
+            className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1"
+          >
+            Filter
+            <IoFilterSharp />
+          </button>
+        </div>
       </div>
       <div className="flex justify-center items-center text-sm mt-14">
-        <div className="w-[95%] pb-5">
+        <div className="w-[100%] pb-5">
           <div className="max-h-[28rem] custom-scroll">
             <table className="w-full">
               <thead className="sticky top-0 bg-white z-10">
                 <tr>
-                  <th className="px-6 py-3 text-left font-light">Product Id</th>
-                  <th className="px-6 py-3 text-left font-light">
+                  <th className="px-6 w-36 text-left font-light">Product Id</th>
+                  <th className="px-6 w-36 text-left font-light">
                     Product Name
                   </th>
-                  <th className="px-6 py-3 text-left font-light">
+                  <th className="px-6 w-36 text-left font-light">
                     Product category
                   </th>
-                  <th className="px-6 py-3 text-left font-light">Quantity</th>
-                  <th className="px-6 py-3 text-left font-light">Amount</th>
-                  <th className="px-6 py-3 text-left font-light">Image</th>
-                  <th className="px-6 py-3 text-left font-light">Status</th>
-                  <th className="px-6 py-3 text-left font-light">Discount</th>
-                  <th className="px-10 py-3 text-left font-light">Action</th>
+                  <th className="px-6 w-36 text-left font-light">Quantity</th>
+                  <th className="px-6 w-36 text-left font-light">Amount</th>
+                  <th className="px-6 w-36 text-left font-light">Image</th>
+                  <th className="px-6 w-36 text-left font-light">Status</th>
+                  <th className="px-6 w-36 text-left font-light">Discount</th>
+                  <th className="px-10 w-32 text-left font-light">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -225,6 +245,7 @@ function TheRecentInvoice() {
           handleEdit={handleEdit}
         />
       )}
+      {isAddModalOpen && <TheAddModal closeModal={closeAddModal} />}
     </div>
   );
 }

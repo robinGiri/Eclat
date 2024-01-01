@@ -36,13 +36,13 @@ const images = [
         content: 'This is for sale'
     },
     {
-        id : 6,
+        id : 7,
         title: 'productName',
         img : 'https://mensflair.com/wp-content/uploads/2023/01/mens-luxury-bags-2.jpg',
         content: 'This is for sale'
     },
     {
-        id : 7,
+        id : 8,
         title: 'productName',
         img : 'https://www.brandless.co.in/cdn/shop/products/tote.jpg?v=1613222773',
         content: 'This is for sale'
