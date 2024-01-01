@@ -1,12 +1,20 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 class UserService {
+  include = { Cart: true };
+
   async save(data) {
-    const user = await prisma.user.create({ data: data });
+    const user = await prisma.user.create({
+      data: data,
+      include: this.include,
+    });
     return user;
   }
   async getUserByFilter(filter = {}) {
-    const user = await prisma.user.findUnique({ where: filter });
+    const user = await prisma.user.findUnique({
+      where: filter,
+      include: this.include,
+    });
     return user;
   }
   async getAllUsers() {
@@ -17,6 +25,7 @@ class UserService {
     const user = await prisma.user.update({
       where: { email: email },
       data: data,
+      include: this.include,
     });
     console.log(user);
     return user;
@@ -25,6 +34,7 @@ class UserService {
     await prisma.user.update({
       where: { email: email },
       data: { token: null },
+      include: this.include,
     });
     return;
   }

@@ -36,6 +36,8 @@ router.post("/", uploader.array("image"), async (req, res) => {
       sellerId: 1,
       status,
     };
+    console.log("I am final data");
+    console.log(finalData);
 
     const { id } = await productService.save(finalData);
 
