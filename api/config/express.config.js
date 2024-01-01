@@ -6,7 +6,6 @@ const path = require("path");
 
 const app = express();
 const BASE_URL = "/api/v1";
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -35,24 +34,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("I am a server");
-});
-
-const sendMail = require("../helper/sendMail")
-app.get("/send-email", sendMail)
-app.post('/send-email', sendMail);
-
-const start = async () => {
-  try {
-    app.listen(PORT, () => {
-      console.log("Email server is live on", PORT);
-    });
-  } catch (error) {
-    console.error("Email server error:", error);
-  }
-};
-
-start();
+app.get("/send-email", require("../helper/sendMail"));
+app.post('/send-email', require("../helper/sendMail"));
 
 module.exports = app;

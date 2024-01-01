@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-        peignot:['Peignot',...defaultTheme.fontFamily.sans],
+        peignot: ['Peignot', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         'admin-blue': "#1900D5",
