@@ -75,7 +75,7 @@ function TheRecentInvoice() {
 
   useEffect(() => {
     getApiData();
-  }, []);
+  }, [products]);
 
   const openViewModal = (product) => {
     setSelectedViewProduct(product);

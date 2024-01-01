@@ -35,7 +35,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
 
     res.json({
       result: await productService.fetchByID(id),
-      message: "God: Product created successfully",
+      message: "Product created successfully",
       meta: null,
     });
   } catch (e) {
