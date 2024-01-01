@@ -10,29 +10,28 @@ datasource db {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   name          String?
   slug          String?
   description   String?
   category      String?
-  brand         Brand?   @relation(fields: [brandId], references: [id])
+  brand         Brand?     @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        Seller?  @relation(fields: [sellerId], references: [id])
+  seller        Seller?    @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   tags          String?
-  stock         Stock?   @relation(fields: [stockId], references: [id])
+  stock         Stock?     @relation(fields: [stockId], references: [id])
   status        String?
   viewCount     Int?
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
-  images        Image[]
+  createdAt     DateTime   @default(now())
+  updateAt      DateTime   @updatedAt
+  images        Image[]    @relation("ProductImages")
   sellerId      Int?
   brandId       Int?
   stockId       Int?
-
-  CartItem CartItem[]
+  CartItem      CartItem[]
 }
 
 model Test {
@@ -44,7 +43,7 @@ model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Brand {

@@ -1,15 +1,26 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service");
 const uploader = require("../jobs/imageUploaderJob");
+const { deleteFile } = require("../helper/helper");
 const router = require("express").Router();
 
 router.post("/", uploader.array("image"), async (req, res) => {
   try {
     const images = [];
 
-    const { name, description, category, price, viewCount, slug, discount, status } = req.body;
+    const {
+      name,
+      description,
+      category,
+      price,
+      viewCount,
+      slug,
+      discount,
+      status,
+    } = req.body;
 
-    const afterDiscount = parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
+    const afterDiscount =
+      parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
 
     const finalData = {
       name,
@@ -96,9 +107,24 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
   try {
     const productId = req.params.productId;
 
-    const { name, description, category, price, viewCount, slug, discount, status } = req.body;
+    const {
+      name,
+      description,
+      category,
+      price,
+      viewCount,
+      slug,
+      discount,
+      status,
+      //in the delImage it will send the list for the images which user want to relace
+      delImg,
+    } = req.body;
 
-    const afterDiscount = parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
+    //list of all images from the list
+    const delete_image_array = delImg.split(",");
+
+    const afterDiscount =
+      parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
 
     const updatedProductData = {
       name,
@@ -115,8 +141,18 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
       status,
     };
 
-    await productService.update(updatedProductData, productId); 
+    await productService.update(updatedProductData, productId);
 
+    // will delete the images from the database
+    delete_image_array.forEach(async (img) => {
+      const image = imageService.findImageByUrl(img);
+      if (image) {
+        await imageService.deleteImageByUrl(img);
+        deleteFile("./public/uploads/" + img);
+      }
+    });
+
+    //will update upload the updated images
     const images = [];
     req.files.forEach(({ filename }) => {
       images.push(filename);
@@ -133,7 +169,6 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 });
-
 
 router.delete("/:id", async (req, res) => {
   try {
