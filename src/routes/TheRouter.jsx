@@ -15,7 +15,7 @@ import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 
 const routes = [
   { path: "/", element: <TheHome /> },
-  { path: "/customize", element: <TheCustomize /> },
+  { path: "/customize/:productID", element: <TheCustomize/> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },
