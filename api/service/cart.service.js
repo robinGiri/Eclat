@@ -7,13 +7,13 @@ class CartService {
   };
   createCart = async (userId) => {
     try {
+      console.log("cart create");
       const createdCart = await prisma.cart.create({
-        data: {
-          User: { connect: { id: userId } },
-        },
+        data: { id: userId },
       });
       return createdCart;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   };
@@ -55,7 +55,8 @@ class CartService {
 }
 
 class CartItemService {
-  createCartItem = async (cartId, productId, quantity) => {
+  // Create CartItem
+  async createCartItem(cartId, productId, quantity) {
     try {
       const createdCartItem = await prisma.cartItem.create({
         data: {
@@ -68,9 +69,10 @@ class CartItemService {
     } catch (error) {
       throw error;
     }
-  };
+  }
 
-  getCartItemById = async (cartItemId) => {
+  // Read CartItem by ID
+  async getCartItemById(cartItemId) {
     try {
       const cartItem = await prisma.cartItem.findUnique({
         where: { id: cartItemId },
@@ -79,9 +81,10 @@ class CartItemService {
     } catch (error) {
       throw error;
     }
-  };
+  }
 
-  updateCartItem = async (cartItemId, updatedData) => {
+  // Update CartItem
+  async updateCartItem(cartItemId, updatedData) {
     try {
       const updatedCartItem = await prisma.cartItem.update({
         where: { id: cartItemId },
@@ -91,9 +94,10 @@ class CartItemService {
     } catch (error) {
       throw error;
     }
-  };
+  }
 
-  deleteCartItem = async (cartItemId) => {
+  // Delete CartItem by ID
+  async deleteCartItem(cartItemId) {
     try {
       const deletedCartItem = await prisma.cartItem.delete({
         where: { id: cartItemId },
@@ -102,22 +106,21 @@ class CartItemService {
     } catch (error) {
       throw error;
     }
-  };
-  deleteManyCartItem = async (cartItemIds) => {
+  }
+
+  // Delete multiple CartItems by IDs
+  async deleteManyCartItems(cartItemIds) {
     try {
-      const deletedCartItem = await prisma.cartItem.delete({
+      const deletedCartItems = await prisma.cartItem.deleteMany({
         where: { id: { in: cartItemIds } },
       });
-      return deletedCartItem;
+      return deletedCartItems;
     } catch (error) {
       throw error;
     }
-  };
+  }
 }
 const cartService = new CartService();
 const cartItemService = new CartItemService();
 
-module.exports = {
-  cartService,
-  cartItemService,
-};
+module.exports = { cartService, cartItemService };

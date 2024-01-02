@@ -4,15 +4,28 @@ class UserService {
   include = { Cart: true };
 
   async save(data) {
-    const user = await prisma.user.create({
-      data: data,
-      include: this.include,
-    });
+    try {
+      const user = await prisma.user.create({
+        data: data,
+        include: this.include,
+      });
+      return user;
+    } catch (e) {
+      throw e;
+    }
+
     return user;
   }
   async getUserByFilter(filter = {}) {
     const user = await prisma.user.findUnique({
       where: filter,
+      include: this.include,
+    });
+    return user;
+  }
+  async getUserById(userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
       include: this.include,
     });
     return user;

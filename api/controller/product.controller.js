@@ -17,6 +17,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       slug,
       discount,
       status,
+      sellerId,
     } = req.body;
 
     const afterDiscount =
@@ -33,7 +34,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       afterdiscount: afterDiscount,
       isFeatured: true,
       tags: "tag1, tag2, tag3",
-      sellerId: 1,
+      sellerId: parseInt(sellerId),
       status,
     };
     console.log("I am final data");
@@ -41,11 +42,12 @@ router.post("/", uploader.array("image"), async (req, res) => {
 
     const { id } = await productService.save(finalData);
 
-    req.files.forEach(({ filename }) => {
-      images.push(filename);
-    });
-    imageService.saveMultiple(images, id);
-
+    if (req.files) {
+      req.files.forEach(({ filename }) => {
+        images.push(filename);
+      });
+      imageService.saveMultiple(images, id);
+    }
     res.json({
       result: await productService.fetchByID(id),
       message: "Product created successfully",

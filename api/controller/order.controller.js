@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { cartService, cartItemService } = require("../service/cart.service");
+const { orderItemsService, orderService } = require("../service/order.service");
 router.post("/", async (req, res) => {
   try {
     const { user, cartItems } = req.body;
