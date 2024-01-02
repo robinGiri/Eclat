@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { FaHeart, FaEdit, FaFeather } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import products from "../data/products";
-import { useParams, useNavigate } from "react-router-dom";
+import { FaHeart, FaFeather } from "react-icons/fa";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
@@ -14,23 +13,36 @@ const shareUrl = "https://eclatbags.netlify.app/";
 function TheProductDetails() {
   const { productId } = useParams();
   const navigate = useNavigate();
-
-  const [isError, setIsError] = useState("");
+  const location = useLocation();
+  const [isError, setIsError] = useState(false);
   const [product, setProduct] = useState({});
-
-  const getApiData = async () => {
-    try {
-      // try to get data from API
-      const res = products.find((p) => p.id == productId);
-      setProduct(res);
-    } catch (error) {
-      setIsError("Error fetching data");
-    }
-  };
+  const [products, setProducts] = useState([]);
+  const selectedImage = location.state?.selectedImage || "";
 
   useEffect(() => {
+    const getApiData = async () => {
+      try {
+        const resp = await axios.get(`${API}/${productId}`);
+        console.log("API Response:", resp.data.result);
+
+        if (Array.isArray(resp.data.result) && resp.data.result.length === 1) {
+          const fetchDiscount = resp.data.result[0];
+          if (fetchDiscount.discount) {
+            const discountedPrice = fetchDiscount.price * (1 - fetchDiscount.discount / 100);
+            fetchDiscount.discountedPrice = discountedPrice;
+          }
+          setProduct(fetchDiscount);
+        } else {
+          setIsError(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsError(true);
+      }
+    };
+
     getApiData();
-  }, []);
+  }, [productId]);
 
   const handleCartClick = () => {
     navigate("/cart");
@@ -43,47 +55,49 @@ function TheProductDetails() {
           <div className="flex gap-4 p-4 bg-neutral-100 w-full">
             <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
               <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
-                {/* {products.slice(0,1).map((product) => {
-              const { id, images } = product;
-              return (
-                <div className="card" key={id}>
-                  <div className="flex flex-wrap">
-                    {images.map((image) => (
-                      <img
-                        key={image.id}
-                        // src={staticAPI+image.url}
-                        src={image}
-                        className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
-                        alt={`Product ${id} Image`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })} */}
-                <img
-                  src={product.images}
-                  className="p-4 w-[400px] h-[300px] rounded-md object-contain"
-                  alt={`Product ${product.id} Image`}
-                />
+                {selectedImage ? (
+                  <img
+                    src={selectedImage}
+                    className="p-4 w-[400px] h-[300px] rounded-md object-contain"
+                    alt={`Product ${product.id} Image`}
+                  />
+                ) : (
+                  <p>No image available</p>
+                )}
                 {isError && <h1>{isError}</h1>}
               </div>
-              <div className=" flex w-full h-[30vh] overflow-clip ">
+              <div className=" flex w-full h-[30vh] overflow-clip">
                 <ProductDetailsCarousel />
               </div>
             </div>
             {/* div 2 */}
+
             <div className="flex p-4 rounded-md bg-neutral-50">
               <div className="details p-2">
                 <div className="flex justify-between ">
-                  <p className="font-bold text-3xl w-auto ">{product.name}</p>
+                  <p className="font-bold text-3xl w-auto ">{product.name !== undefined
+                    ? `${product.name}`
+                    : "Loading"}</p>
                   <div className="flex mt-2">
                     <FaFeather className="text-xl text-yellow-600" />
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
-                <p className="text-gray-500 mt-4">Product Category</p>
-                <p className="font-semibold mt-5 text-xl">Rs {product.price}</p>
+
+                <p className="text-gray-500 mt-4">
+                  {product.category !== undefined
+                    ? `Product Category: ${product.category}`
+                    : "Loading"}
+                </p>
+                <p className="font-semibold mt-5 text-xl">
+                {product.discountedPrice !== undefined &&
+              product.discountedPrice !== null
+                ? `Rs ${product.discountedPrice}`
+                : product.price !== undefined
+                ? `Rs ${product.price}`
+                : "Loading"}
+                </p>
+
                 <div className="flex">
                   <p className="text-red-500 mt-5">
                     Vouchers Available:
@@ -95,7 +109,10 @@ function TheProductDetails() {
                   </p>
                 </div>
                 <div>
-                  <ShareComponent shareUrl={ shareUrl + 'product_details' +  product.id} quote={product.name} />
+                  <ShareComponent
+                    shareUrl={shareUrl + "product_details" + product.id}
+                    quote={product.name}
+                  />
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
                   <p className="text-gray-500">

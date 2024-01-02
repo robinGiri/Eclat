@@ -3,6 +3,7 @@ import "./TheRecentInvoice.css";
 import { IoFilterSharp } from "react-icons/io5";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { HiMiniEye } from "react-icons/hi2";
+import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import TheImageMagnifier from "./TheImageMagnifier";
 import TheViewModal from "./TheViewModal";
@@ -122,13 +123,14 @@ function TheRecentInvoice() {
           <p className="text-xl font-bold">Recent Invoice</p>
         </div>
         <div className="flex gap-5">
-          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1" onClick={openAddModal}>
-            Add
-            <IoFilterSharp />
-          </button>
           <button
             className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1"
+            onClick={openAddModal}
           >
+            Add
+            <FaPlus />
+          </button>
+          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1">
             Filter
             <IoFilterSharp />
           </button>
