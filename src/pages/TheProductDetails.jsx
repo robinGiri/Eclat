@@ -92,9 +92,9 @@ function TheProductDetails() {
                 <p className="font-semibold mt-5 text-xl">
                 {product.discountedPrice !== undefined &&
               product.discountedPrice !== null
-                ? `Rs ${product.discountedPrice}`
+                ? `$${product.discountedPrice}`
                 : product.price !== undefined
-                ? `Rs ${product.price}`
+                ? `$${product.price}`
                 : "Loading"}
                 </p>
 
@@ -116,12 +116,7 @@ function TheProductDetails() {
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
                   <p className="text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    accumsan varius metus, ac fringilla libero hendrerit ac.
-                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla metus, ac fringilla libero
-                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
-                    malesuada, justo ligula rhoncus nulla
+                    {product.description}
                   </p>
                 </div>
                 <p className="font-light hover:font-bold cursor-pointer">

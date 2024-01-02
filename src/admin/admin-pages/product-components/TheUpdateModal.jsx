@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
 const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
-  const [updatedProduct, setUpdatedProduct] = useState({});
+  const [updatedProduct, setUpdatedProduct] = useState({ description: product.description || ''});
 
   useEffect(() => {
     setUpdatedProduct({ ...product });
@@ -24,6 +24,12 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
           [name]: event.target.result,
         }));
       };
+      if (e.target.name === "description") {
+        setUpdatedProduct((prevProduct) => ({
+          ...prevProduct,
+          description: e.target.value,
+        }));
+      }
 
       reader.readAsDataURL(files[0]);
     } else {
@@ -57,7 +63,7 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
 
   return (
     <div className="fixed inset-0 top-11 z-50 flex justify-end items-center click-close">
-      <div className="bg-white rounded-l-lg shadow-md w-[60%] h-[80vh] overflow-auto click-close">
+      <div className="bg-white rounded-l-lg shadow-md w-[85%] h-[80vh] overflow-auto click-close">
         <div>
           <IoClose
             onClick={closeModal}
@@ -182,6 +188,22 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
                           onChange={handleChange}
                           className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
                         />
+                      </div>
+                    </div>
+
+                    <div className="w-[50%] border-l p-3">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">
+                          Description
+                        </label>
+                      </div>
+                      <div>
+                      <textarea
+                          name="description"
+                          placeholder={`Change ${product.description}`}
+                          onChange={handleChange}
+                          className="border w-full h-[50vh] max-h-[50vh] focus:outline-none p-3"
+                        ></textarea>
                       </div>
                     </div>
 
