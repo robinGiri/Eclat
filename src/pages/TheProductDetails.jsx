@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaFeather } from "react-icons/fa";
 import axios from "axios";
-import { FaHeart, FaFeather } from "react-icons/fa";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
