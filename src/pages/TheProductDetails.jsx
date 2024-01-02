@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { FaHeart, FaEdit, FaFeather } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaHeart, FaFeather } from "react-icons/fa";
 import axios from "axios";
 import products from "../data/products";
 import { useParams, useNavigate } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
+import { convertToDollar } from "../utils/convertToDollar";
 
 const API = "http://localhost:5000/api/v1/product/";
 const staticAPI = "http://localhost:5000/api/v1/uploads/";
@@ -36,6 +37,32 @@ function TheProductDetails() {
     navigate("/cart");
   };
 
+  const [rates, setRates] = useState([]);
+  const [selectedRate, setSelectedRate] = useState(null);
+
+  useEffect(() => {
+    // Fetch rates from the API
+    fetch("https://www.nrb.org.np/api/forex/v1/rate")
+      .then((response) => response.json())
+      .then((data) => {
+        // Extract rates from the API response
+        const fetchedRates = data.data.payload.rates;
+        setRates(fetchedRates);
+
+        // Set the default selected rate (you can choose any currency)
+        setSelectedRate(fetchedRates[0]);
+      })
+      .catch((error) => console.error("Error fetching rates:", error));
+  }, []);
+
+  const handleDropdownChange = (event) => {
+    const selectedValue = event.target.value;
+    const selectedRate = rates.find(
+      (rate) => rate.currency.iso3 === selectedValue
+    );
+    setSelectedRate(selectedRate);
+  };
+
   return (
     <>
       <div className="flex justify-center mx-10">
@@ -43,24 +70,6 @@ function TheProductDetails() {
           <div className="flex gap-4 p-4 bg-neutral-100 w-full">
             <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
               <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
-                {/* {products.slice(0,1).map((product) => {
-              const { id, images } = product;
-              return (
-                <div className="card" key={id}>
-                  <div className="flex flex-wrap">
-                    {images.map((image) => (
-                      <img
-                        key={image.id}
-                        // src={staticAPI+image.url}
-                        src={image}
-                        className="m-2 w-[300px] h-[400px] border-2 border-black rounded-md"
-                        alt={`Product ${id} Image`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })} */}
                 <img
                   src={product.images}
                   className="p-4 w-[400px] h-[300px] rounded-md object-contain"
@@ -72,7 +81,6 @@ function TheProductDetails() {
                 <ProductDetailsCarousel />
               </div>
             </div>
-            {/* div 2 */}
             <div className="flex p-4 rounded-md bg-neutral-50">
               <div className="details p-2">
                 <div className="flex justify-between ">
@@ -82,9 +90,63 @@ function TheProductDetails() {
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
-                <p className="text-gray-500 mt-4">Product Category</p>
-                <p className="font-semibold mt-5 text-xl">Rs {product.price}</p>
-                <div className="flex">
+
+                {/* Pricing section */}
+                <div>
+                  <div className="flex gap-2 items-center">
+                    <p className="font-medium mt-3 text-md">NPR</p>
+                    <p className="font-semibold mt-3 text-xl">
+                      {product.price}
+                    </p>
+                  </div>
+
+                  <div className="py-4 flex items-center">
+                    <div className="text-sm font-medium rounded-lg bg-yellow-50 p-3 border border-amber-400 pl-3 w-auto">
+                      <label htmlFor="priceDropdown" className="font-bold">
+                        Convert to:
+                      </label>
+                      <select
+                        id="priceDropdown"
+                        onChange={handleDropdownChange}
+                        value={selectedRate?.currency.iso3}
+                        className="mt-1 block p-2 w-auto border-b rounded-lg bg-white shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-b-green-400 focus:border-b-4 sm:text-sm "
+                      >
+                        {rates.map((rate) => (
+                          <option
+                            key={rate.currency.iso3}
+                            value={rate.currency.iso3}
+                            className="mt-10"
+                          >
+                            {rate.currency.name} (Rate: {rate.sell})
+                          </option>
+                        ))}
+                      </select>
+                      <div className="">
+                        {/* Display the product price based on the selected rate */}
+                        <p className="font-semibold text-lg mt-2 px-2">
+                          {selectedRate ? (
+                            <>
+                              {selectedRate.currency.iso3 === "USD" && "$"}
+                              {selectedRate.currency.iso3 === "INR" && "₨"}
+                              {selectedRate.currency.iso3 === "EUR" && "€"}
+                              {selectedRate.currency.iso3 === "GBP" && "£"}
+                              {/* Add more conditions for other currencies as needed */}
+                              {` `+convertToDollar(
+                                product.price,
+                                selectedRate.sell
+                              )}
+                            </>
+                          ) : (
+                            `Original Price: ${product.price}`
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Other sections */}
+                <div className="">
                   <p className="text-red-500 mt-5">
                     Vouchers Available:
                     <select className="mx-2 font-bold w-[25vh] border rounded-md p-2">
@@ -95,7 +157,10 @@ function TheProductDetails() {
                   </p>
                 </div>
                 <div>
-                  <ShareComponent shareUrl={ shareUrl + 'product_details' +  product.id} quote={product.name} />
+                  <ShareComponent
+                    shareUrl={shareUrl + "product_details" + product.id}
+                    quote={product.name}
+                  />
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
                   <p className="text-gray-500">
