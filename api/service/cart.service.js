@@ -5,113 +5,116 @@ class CartService {
   include = {
     cartItem: true,
   };
-  async createCart(userId) {
+  createCart = async (userId) => {
     try {
-      const newCart = await prisma.cart.create({
-        data: { total: 0, userId: userId },
+      console.log("cart create");
+      const createdCart = await prisma.cart.create({
+        data: { userId: userId },
       });
-
-      return newCart;
+      return createdCart;
     } catch (error) {
-      throw new Error(`Error creating cart: ${error.message}`);
+      console.log(error);
+      throw error;
     }
-  }
+  };
 
-  async getCartById(cartId) {
+  getCartById = async (cartId) => {
     try {
       const cart = await prisma.cart.findUnique({
-        where: {
-          id: cartId,
-        },
-        include: {
-          user: true,
-          cartItems: true,
-        },
+        where: { id: cartId },
+        include: { cartItems: true },
       });
-
       return cart;
     } catch (error) {
-      throw new Error(`Error fetching cart: ${error.message}`);
+      throw error;
     }
-  }
+  };
 
-  async deleteCart(cartId) {
+  updateCart = async (cartId, updatedData) => {
+    try {
+      const updatedCart = await prisma.cart.update({
+        where: { id: cartId },
+        data: updatedData,
+      });
+      return updatedCart;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  deleteCart = async (cartId) => {
     try {
       const deletedCart = await prisma.cart.delete({
-        where: {
-          id: cartId,
-        },
+        where: { id: cartId },
       });
-
       return deletedCart;
     } catch (error) {
-      throw new Error(`Error deleting cart: ${error.message}`);
+      throw error;
     }
-  }
+  };
 }
 
 class CartItemService {
-  async createCartItem(data) {
+  include = {
+    product: true,
+  };
+  // Create CartItem
+  async createCartItem(cartId, productId, quantity) {
     try {
-      const newCartItem = await prisma.cartItem.createMany({
-        data: data,
-      });
-
-      return newCartItem;
-    } catch (error) {
-      throw new Error(`Error creating cart item: ${error.message}`);
-    }
-  }
-
-  async updateCartItem(cartItemId, quantity) {
-    try {
-      const updatedCartItem = await prisma.cartItem.update({
-        where: {
-          id: cartItemId,
-        },
+      const createdCartItem = await prisma.cartItem.create({
         data: {
+          cartId,
+          productId,
           quantity,
         },
+        include: this.include,
       });
-
-      return updatedCartItem;
+      return createdCartItem;
     } catch (error) {
-      throw new Error(`Error updating cart item: ${error.message}`);
+      console.log(error);
+      throw error;
     }
   }
 
+  // Read CartItem by ID
   async getCartItemById(cartItemId) {
     try {
       const cartItem = await prisma.cartItem.findUnique({
-        where: {
-          id: cartItemId,
-        },
+        where: { id: cartItemId },
+        include: include,
       });
-
       return cartItem;
     } catch (error) {
-      throw new Error(`Error fetching cart item: ${error.message}`);
+      throw error;
     }
   }
 
+  // Update CartItem
+  async updateCartItem(cartItemId, updatedData) {
+    try {
+      const updatedCartItem = await prisma.cartItem.update({
+        where: { id: cartItemId },
+        data: updatedData,
+      });
+      return updatedCartItem;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Delete CartItem by ID
   async deleteCartItem(cartItemId) {
     try {
       const deletedCartItem = await prisma.cartItem.delete({
-        where: {
-          id: cartItemId,
-        },
+        where: { id: cartItemId },
       });
-
       return deletedCartItem;
     } catch (error) {
-      throw new Error(`Error deleting cart item: ${error.message}`);
+      throw error;
     }
   }
 }
 const cartService = new CartService();
 const cartItemService = new CartItemService();
 
-module.exports = {
-  cartService,
-  cartItemService,
-};
+module.exports = { cartService, cartItemService };

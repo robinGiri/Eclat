@@ -5,6 +5,7 @@ const include = {
   brand: true,
   stock: true,
   images: true,
+  Season: true,
 };
 
 class ProductService {
@@ -116,6 +117,20 @@ class ProductService {
       return res;
     } catch (error) {
       console.error("Error updating product:", error.message);
+      throw error;
+    }
+  }
+  async getProductsBySeason(seasonId) {
+    try {
+      const products = await prisma.product.findMany({
+        where: {
+          seasonId: seasonId,
+        },
+        include,
+      });
+
+      return products;
+    } catch (error) {
       throw error;
     }
   }

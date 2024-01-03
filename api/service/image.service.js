@@ -35,6 +35,28 @@ class ImageService {
       console.error("Error saving image:", error.message);
     }
   }
+  async deleteImageByUrl(imageUrl) {
+    try {
+      const deletedImage = await prisma.image.delete({
+        where: { url: imageUrl },
+      });
+
+      return deletedImage;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async findImageByUrl(imageUrl) {
+    try {
+      const image = await prisma.image.findUnique({
+        where: { url: imageUrl },
+      });
+
+      return image;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new ImageService();
