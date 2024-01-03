@@ -1,7 +1,10 @@
+/* eslint-disable react/no-deprecated */
 import React from "react"
 import ReactDOM from "react-dom"
 import "./styles.css"
 import "react-colorful/dist/index.css"
-import App from "./Customizer"
+import Customizer from "./Customizer"
+import Router from "./router/Router"
 
-ReactDOM.render(<App />, document.getElementById("root"))
+ /* eslint-disable */
+ReactDOM.render(<Customizer />, document.getElementById("root"))

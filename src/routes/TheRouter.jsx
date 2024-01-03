@@ -12,6 +12,7 @@ import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
 import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
+import Customizer from "../../eclat-customization/src/Customizer";
 
 const routes = [
   { path: "/", element: <TheHome /> },

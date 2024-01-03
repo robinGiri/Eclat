@@ -5,7 +5,7 @@ function TheCustomize() {
   const productID = useParams();
 
   const redirectToLink = () => {
-    window.location.href = `http://localhost:3000/product?${productID}`;
+    window.location.href = `http://localhost:3000/product?${productID.productID}`;
   };
 
   return (
