@@ -3,17 +3,20 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
 const { cartService } = require("../service/cart.service");
-const cors = require("cors");
-require("dotenv").config();
 
 router.get("/users", async (req, res) => {
-  const users = await userService.getAllUsers();
-  res.json({
-    code: 200,
-    users: users,
-    message: "Users data found",
-    meta: null,
-  });
+  try {
+    const users = await userService.getAllUsers();
+    res.json({
+      code: 200,
+      users: users,
+      message: "Users data found",
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -32,7 +35,8 @@ router.post("/", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.json({ code: 500, message: error, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
@@ -68,7 +72,8 @@ router.post("/login", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).send();
+    console.log(error);
+    next(error);
   }
 });
 
@@ -87,22 +92,24 @@ router.get("/logout", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.json({
-      message: error,
-      code: 500,
-      meta: null,
-    });
+    console.log(error);
+    next(error);
   }
 });
 
 router.get("/:id", async (req, res) => {
-  const userId = parseInt(req.params.id);
-  const user = await userService.getUserById(userId);
-  res.json({
-    userdetail: user,
-    code: 200,
-    meta: null,
-  });
+  try {
+    const userId = parseInt(req.params.id);
+    const user = await userService.getUserById(userId);
+    res.json({
+      userdetail: user,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 
 module.exports = router;

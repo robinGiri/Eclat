@@ -15,7 +15,8 @@ router.post("/", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
@@ -29,7 +30,8 @@ router.get("/", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
@@ -52,7 +54,8 @@ router.get("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
@@ -68,7 +71,8 @@ router.put("/:id", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
@@ -91,7 +95,8 @@ router.delete("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 

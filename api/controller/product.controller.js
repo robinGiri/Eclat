@@ -39,8 +39,6 @@ router.post("/", uploader.array("image"), async (req, res) => {
       status,
       seasonId: parseInt(seasonId),
     };
-    console.log("I am final data");
-    console.log(finalData);
 
     const { id } = await productService.save(finalData);
 
@@ -50,6 +48,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       });
       imageService.saveMultiple(images, id);
     }
+
     res.json({
       result: await productService.fetchByID(id),
       message: "Product created successfully",
@@ -57,7 +56,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 });
 
@@ -84,7 +83,8 @@ router.get("/season/:id", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
@@ -102,7 +102,8 @@ router.get("/search", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
@@ -119,7 +120,8 @@ router.get("/:id", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
@@ -140,8 +142,19 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
       delImg,
     } = req.body;
 
-    //list of all images from the list
-    const delete_image_array = delImg.split(",");
+    if (delImg) {
+      //list of all images from the list
+      const delete_image_array = delImg.split(",");
+
+      // will delete the images from the database
+      delete_image_array.forEach(async (img) => {
+        const image = imageService.findImageByUrl(img);
+        if (image) {
+          await imageService.deleteImageByUrl(img);
+          deleteFile("./public/uploads/" + img);
+        }
+      });
+    }
 
     const afterDiscount =
       parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
@@ -163,15 +176,6 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
 
     await productService.update(updatedProductData, productId);
 
-    // will delete the images from the database
-    delete_image_array.forEach(async (img) => {
-      const image = imageService.findImageByUrl(img);
-      if (image) {
-        await imageService.deleteImageByUrl(img);
-        deleteFile("./public/uploads/" + img);
-      }
-    });
-
     //will update upload the updated images
     const images = [];
     req.files.forEach(({ filename }) => {
@@ -186,7 +190,7 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 });
 
@@ -200,7 +204,8 @@ router.delete("/:id", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.error(e);
+    next(e);
   }
 });
 
