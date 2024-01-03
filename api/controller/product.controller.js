@@ -18,6 +18,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       discount,
       status,
       sellerId,
+      seasonId,
     } = req.body;
 
     const afterDiscount =
@@ -36,6 +37,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       tags: "tag1, tag2, tag3",
       sellerId: parseInt(sellerId),
       status,
+      seasonId: parseInt(seasonId),
     };
     console.log("I am final data");
     console.log(finalData);
@@ -62,6 +64,20 @@ router.post("/", uploader.array("image"), async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const product = await productService.fetchAll();
+    res.json({
+      result: product,
+      message: "product fetched successfully",
+      meta: null,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.get("/season/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productService.getProductsBySeason(parseInt(id));
     res.json({
       result: product,
       message: "product fetched successfully",

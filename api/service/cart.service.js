@@ -9,7 +9,7 @@ class CartService {
     try {
       console.log("cart create");
       const createdCart = await prisma.cart.create({
-        data: { id: userId },
+        data: { userId: userId },
       });
       return createdCart;
     } catch (error) {
@@ -55,6 +55,9 @@ class CartService {
 }
 
 class CartItemService {
+  include = {
+    product: true,
+  };
   // Create CartItem
   async createCartItem(cartId, productId, quantity) {
     try {
@@ -64,9 +67,11 @@ class CartItemService {
           productId,
           quantity,
         },
+        include: this.include,
       });
       return createdCartItem;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -76,6 +81,7 @@ class CartItemService {
     try {
       const cartItem = await prisma.cartItem.findUnique({
         where: { id: cartItemId },
+        include: include,
       });
       return cartItem;
     } catch (error) {
@@ -103,18 +109,6 @@ class CartItemService {
         where: { id: cartItemId },
       });
       return deletedCartItem;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  // Delete multiple CartItems by IDs
-  async deleteManyCartItems(cartItemIds) {
-    try {
-      const deletedCartItems = await prisma.cartItem.deleteMany({
-        where: { id: { in: cartItemIds } },
-      });
-      return deletedCartItems;
     } catch (error) {
       throw error;
     }

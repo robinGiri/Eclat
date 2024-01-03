@@ -55,11 +55,16 @@ class OrderService {
 
 class OrderItemsService {
   // Create OrderItem
-  async createOrderItem(data) {
+  async createOrderItem(orderId, productId, quantity) {
     try {
       const createdOrderItem = await prisma.orderItems.create({
-        data,
+        data: {
+          OrderId: orderId,
+          productId: productId,
+          quantity: quantity,
+        },
       });
+
       return createdOrderItem;
     } catch (error) {
       throw error;
@@ -101,6 +106,41 @@ class OrderItemsService {
       return deletedOrderItem;
     } catch (error) {
       throw error;
+    }
+  }
+  async getOrdersWithProducts() {
+    try {
+      const ordersWithProducts = await prisma.order.findMany({
+        include: {
+          OrderItems: {
+            include: {
+              product: {
+                include: {
+                  // Include other related models if needed
+                  brand: true,
+                  stock: true,
+                  images: true,
+                  season: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      res.json({
+        code: 200,
+        data: ordersWithProducts,
+        message: "Orders with products retrieved successfully.",
+        meta: null,
+      });
+    } catch (error) {
+      console.error("Error fetching orders with products:", error);
+      res.status(500).json({
+        code: 500,
+        message: "Internal server error.",
+        meta: null,
+      });
     }
   }
 }

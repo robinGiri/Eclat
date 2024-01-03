@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
     const hashedPassword = await bcrypt.hash(data.password, salt);
     data.password = hashedPassword;
     const { id } = await userService.save(data);
+    console.log(id);
     const cart = await cartService.createCart(id);
     res.json({
       result: user,

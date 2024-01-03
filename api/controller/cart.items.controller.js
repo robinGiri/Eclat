@@ -10,6 +10,7 @@ router.post("/:id", async (req, res) => {
       Cart: [{ id }],
     } = await userService.getUserById(userId);
     const cartId = id;
+    console.log(cartId);
 
     //from the body it will receive the quantity and product
     const { productId, quantity } = req.body;
@@ -35,6 +36,7 @@ router.post("/:id", async (req, res) => {
     });
   }
 });
+
 router.put("/:id", async (req, res) => {
   try {
     const cartItemId = parseInt(req.params.id);
@@ -61,12 +63,13 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
+
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
     // Call the deleteCart method from the service
-    const deletedCart = await cartService.deleteCart(id);
+    const deletedCart = await cartItemService.deleteCartItem(id);
 
     res.json({
       code: 200,
