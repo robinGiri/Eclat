@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaHeart, FaFeather } from "react-icons/fa";
 import axios from "axios";
+import { FaHeart, FaFeather } from "react-icons/fa";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
@@ -184,12 +184,7 @@ function TheProductDetails() {
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
                   <p className="text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    accumsan varius metus, ac fringilla libero hendrerit ac.
-                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla metus, ac fringilla libero
-                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
-                    malesuada, justo ligula rhoncus nulla
+                    {product.description}
                   </p>
                 </div>
                 <p className="font-light hover:font-bold cursor-pointer">
