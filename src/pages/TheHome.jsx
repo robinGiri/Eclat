@@ -21,6 +21,22 @@ function TheHome() {
     navigate(`/product_details/${productId}`, { productId });
   };
 
+  const handleMensClick = () => {
+    navigate(`/mens`);
+  };
+
+  const handleWomensClick = () => {
+    navigate(`/women`);
+  };
+
+  const handleKidsClick = () => {
+    navigate(`/kids`);
+  };
+
+
+ 
+
+
 
   return (
     <div>
@@ -56,12 +72,14 @@ function TheHome() {
         {/* sections */}
 
         <div className="mt-3 mx-10 p-4 bg-white">
-          {/* Seasonal section______________________________________________________________________ */}
-          <div className="p-5 rounded-md">
+          
+          {/* Seasonal section */}
+          <div className="p-5  rounded-md">
             <h1 className="font-bold p-4 text-4xl px-4">Seasonal</h1>
             <div className="flex flex-wrap">
               {products
                 .filter((product) => product.category === "sales")
+                .slice(0, 4) // Limit the number of items 
                 .map((item) => (
                   <div
                     key={item.id}
@@ -72,15 +90,20 @@ function TheHome() {
                   </div>
                 ))}
             </div>
+            <div className=" flex justify-end px-5 py-6">
+            <h2 className="hover:font-bold hover:text-yellow-500 cursor-pointer text-lg" >View More {">"}</h2>
+            </div>
+            
           </div>
 
           {/* Men's section______________________________________________________________________ */}
 
-          <div className="p-5 rounded-md">
+          <div className="p-5  rounded-md">
             <h1 className="font-bold text-4xl p-4 px-4">Men's</h1>
             <div className="flex flex-wrap">
               {products
                 .filter((product) => product.category === "mens")
+                .slice(0,4)
                 .map((item) => (
                   <div
                     key={item.id}
@@ -90,16 +113,20 @@ function TheHome() {
                     <Thecard {...item} />
                   </div>
                 ))}
+            </div>
+            <div className=" flex justify-end px-5 py-6">
+            <h2 className="hover:font-bold  hover:text-yellow-500  cursor-pointer text-lg" onClick={handleMensClick}>View More {">"}</h2>
             </div>
           </div>
 
           {/* Women's section______________________________________________________________________ */}
 
-          <div className="p-5 rounded-md">
+          <div className="p-5 rounded-md ">
             <h1 className="font-bold text-4xl p-4 px-4">Women's</h1>
             <div className="flex flex-wrap">
               {products
                 .filter((product) => product.category === "womens")
+                .slice(0,4)
                 .map((item) => (
                   <div
                     key={item.id}
@@ -109,6 +136,9 @@ function TheHome() {
                     <Thecard {...item} />
                   </div>
                 ))}
+            </div>
+            <div className=" flex justify-end px-5 py-4">
+            <h2 className="hover:font-bold  hover:text-yellow-500 cursor-pointer text-lg" onClick={handleWomensClick}>View More {">"}</h2>
             </div>
           </div>
 
@@ -119,6 +149,7 @@ function TheHome() {
             <div className="flex flex-wrap">
               {products
                 .filter((product) => product.category === "kids")
+                .slice(0,4)
                 .map((item) => (
                   <div
                     key={item.id}
@@ -129,6 +160,9 @@ function TheHome() {
                   </div>
                 ))}
             </div>
+          <div className=" flex justify-end px-5 py-6">
+            <h2 className="hover:font-bold  hover:text-yellow-500  cursor-pointer text-lg" onClick={handleKidsClick}>View More {">"}</h2>
+            </div>
           </div>
         </div>
 
@@ -136,7 +170,7 @@ function TheHome() {
           <ThirdHomepageSection />
         </div>
 
-        <div className="mt-28">
+        <div className="mt-28 p-10">
           <TailInfoSection />
         </div>
       </div>

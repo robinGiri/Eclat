@@ -15,7 +15,7 @@ const Thecard = (props) => {
     <div className="">
       <div className="relative group">
         <div className="bg-white shadow rounded-sm max-w-sm w-full h-[25rem] overflow-hidden">
-          <div className="aspect-w-16 h-[15rem] relative">
+          <div className="aspect-w-16 h-[15rem] relative ">
             <img
               className="object-cover w-full h-full transition-transform transform group-hover:scale-105 pb-2"
               src={images}
@@ -23,7 +23,7 @@ const Thecard = (props) => {
             />
           </div>
 
-          <div className="mt-2">
+          <div className="py-3 h-[50vh] bg-gradient-to-t from-stone-100 to-white">
             {discount && (
               <div className="flex px-4 w-full justify-between items-center">
                 <a href="#">
@@ -40,26 +40,25 @@ const Thecard = (props) => {
             )}
 
             <div className="px-4 ">
-              <div className="flex items-start justify-between py-5">
+              <div className="flex flex-col items-start justify-between py-1">
+                <div className="text-xl font-bold">
+                  ${discount ? afterdiscount : price}
+                </div>
                 {discount && (
                   <div className=" font-bold text-sm my-1">
-                    <span className="text-gray-500 px-1">List Price:</span>
-                    <span className="line-through text-xl text-neutral-400">
+                    <span className="line-through text-lg text-gray-400">
                       ${price}
                     </span>
                   </div>
                 )}
-                <div className="text-2xl font-bold">
-                  ${discount ? afterdiscount : price}
-                </div>
               </div>
-            </div>
-          </div>
           <div
-            className="flex justify-end px-5 text-xs font-light"
+            className="flex justify-end"
             onClick={handleProductClick}
           >
-            <p className="hover:font-medium cursor-pointer">View Details</p>
+            <p className="hover:text-yellow-500 hover:font-semibold cursor-pointer text-md">View Details</p>
+          </div>
+            </div>
           </div>
         </div>
       </div>

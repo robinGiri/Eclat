@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { FaHeart, FaFeather } from "react-icons/fa";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import products from "../data/products";
+import { useParams, useNavigate } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
@@ -14,36 +15,23 @@ const shareUrl = "https://eclatbags.netlify.app/";
 function TheProductDetails() {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const [isError, setIsError] = useState(false);
+
+  const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
-  const [products, setProducts] = useState([]);
-  const selectedImage = location.state?.selectedImage || "";
+
+  const getApiData = async () => {
+    try {
+      // try to get data from API
+      const res = products.find((p) => p.id == productId);
+      setProduct(res);
+    } catch (error) {
+      setIsError("Error fetching data");
+    }
+  };
 
   useEffect(() => {
-    const getApiData = async () => {
-      try {
-        const resp = await axios.get(`${API}/${productId}`);
-        console.log("API Response:", resp.data.result);
-
-        if (Array.isArray(resp.data.result) && resp.data.result.length === 1) {
-          const fetchDiscount = resp.data.result[0];
-          if (fetchDiscount.discount) {
-            const discountedPrice = fetchDiscount.price * (1 - fetchDiscount.discount / 100);
-            fetchDiscount.discountedPrice = discountedPrice;
-          }
-          setProduct(fetchDiscount);
-        } else {
-          setIsError(true);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsError(true);
-      }
-    };
-
     getApiData();
-  }, [productId]);
+  }, []);
 
   const handleCartClick = () => {
     navigate("/cart");
@@ -59,21 +47,17 @@ function TheProductDetails() {
       .then((data) => {
         // Extract rates from the API response
         const fetchedRates = data.data.payload.rates;
-        setRates(fetchedRates);
 
-        // Set the default selected rate (you can choose any currency)
-        setSelectedRate(fetchedRates[0]);
+        // Find the rate for USD
+        const usdRate = fetchedRates.find(
+          (rate) => rate.currency.iso3 === "USD"
+        );
+
+        // Set the default selected rate to USD
+        setSelectedRate(usdRate);
       })
       .catch((error) => console.error("Error fetching rates:", error));
   }, []);
-
-  const handleDropdownChange = (event) => {
-    const selectedValue = event.target.value;
-    const selectedRate = rates.find(
-      (rate) => rate.currency.iso3 === selectedValue
-    );
-    setSelectedRate(selectedRate);
-  };
 
   return (
     <>
@@ -82,86 +66,40 @@ function TheProductDetails() {
           <div className="flex gap-4 p-4 bg-neutral-100 w-full">
             <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
               <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
-                {selectedImage ? (
-                  <img
-                    src={selectedImage}
-                    className="p-4 w-[400px] h-[300px] rounded-md object-contain"
-                    alt={`Product ${product.id} Image`}
-                  />
-                ) : (
-                  <p>No image available</p>
-                )}
+                <img
+                  src={product.images}
+                  className="p-4 w-[400px] h-[300px] rounded-md object-contain"
+                  alt={`Product ${product.id} Image`}
+                />
                 {isError && <h1>{isError}</h1>}
               </div>
-              <div className=" flex w-full h-[30vh] overflow-clip">
+              <div className=" flex w-full h-[30vh] overflow-clip ">
                 <ProductDetailsCarousel />
               </div>
             </div>
-            {/* div 2 */}
-
             <div className="flex p-4 rounded-md bg-neutral-50">
               <div className="details p-2">
                 <div className="flex justify-between ">
-                  <p className="font-bold text-3xl w-auto ">{product.name !== undefined
-                    ? `${product.name}`
-                    : "Loading"}</p>
+                  <p className="font-bold text-3xl w-auto ">{product.name}</p>
                   <div className="flex mt-2">
-                  <button className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500" onClick={()=>{navigate(`/customize/product?${product.id}}`)}}>Customize with Eclat</button>
+                    <FaFeather className="text-xl text-yellow-600" />
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
 
                 {/* Pricing section */}
-                <div>
+                <div className="flex items-center mt-5">
                   <div className="flex gap-2 items-center">
-                    <p className="font-medium mt-3 text-md">NPR</p>
-                    <p className="font-semibold mt-3 text-xl">
-                      {product.price}
+                    <p className="font-medium text-neutral-700 text-xl">
+                      Rs {product.price}
                     </p>
-                  </div>
-
-                  <div className="py-4 flex items-center">
-                    <div className="text-sm font-medium rounded-lg bg-yellow-50 p-3 border border-amber-400 pl-3 w-auto">
-                      <label htmlFor="priceDropdown" className="font-bold">
-                        Convert to:
-                      </label>
-                      <select
-                        id="priceDropdown"
-                        onChange={handleDropdownChange}
-                        value={selectedRate?.currency.iso3}
-                        className="mt-1 block p-2 w-auto border-b rounded-lg bg-white shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-b-green-400 focus:border-b-4 sm:text-sm "
-                      >
-                        {rates.map((rate) => (
-                          <option
-                            key={rate.currency.iso3}
-                            value={rate.currency.iso3}
-                            className="mt-10"
-                          >
-                            {rate.currency.name} (Rate: {rate.sell})
-                          </option>
-                        ))}
-                      </select>
-                      <div className="">
-                        {/* Display the product price based on the selected rate */}
-                        <p className="font-semibold text-lg mt-2 px-2">
-                          {selectedRate ? (
-                            <>
-                              {selectedRate.currency.iso3 === "USD" && "$"}
-                              {selectedRate.currency.iso3 === "INR" && "₨"}
-                              {selectedRate.currency.iso3 === "EUR" && "€"}
-                              {selectedRate.currency.iso3 === "GBP" && "£"}
-                              {/* Add more conditions for other currencies as needed */}
-                              {` `+convertToDollar(
-                                product.price,
-                                selectedRate.sell
-                              )}
-                            </>
-                          ) : (
-                            `Original Price: ${product.price}`
-                          )}
-                        </p>
-                      </div>
-                    </div>
+                    <span className="text-neutral-400 "> | </span>
+                    <p className="font-medium text-neutral-700 text-xl">
+                      {`$ ${convertToDollar(
+                        product.price,
+                        selectedRate?.sell
+                      )}`}
+                    </p>
                   </div>
                 </div>
 
@@ -176,20 +114,26 @@ function TheProductDetails() {
                     </select>
                   </p>
                 </div>
-                <div>
+                <div className="flex flex-wrap description mt-5 w-[100%]">
+                  <p className="text-gray-500">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    accumsan varius metus, ac fringilla libero hendrerit ac.
+                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
+                    justo ligula rhoncus nulla metus, ac fringilla libero
+                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
+                    malesuada, justo ligula rhoncus nulla
+                    {product.discription}
+                  </p>
+                </div>
+                <p className="font-light text-sm hover:font-bold cursor-pointer mt-4">
+                  Shipping Details
+                </p>
+                <div className="mt-4">
                   <ShareComponent
                     shareUrl={shareUrl + "product_details" + product.id}
                     quote={product.name}
                   />
                 </div>
-                <div className="flex flex-wrap description mt-5 w-[65vh]">
-                  <p className="text-gray-500">
-                    {product.description}
-                  </p>
-                </div>
-                <p className="font-light hover:font-bold cursor-pointer">
-                  {product.discription}
-                </p>
 
                 <div className="flex justify-between">
                   <button
