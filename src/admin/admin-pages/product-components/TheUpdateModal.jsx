@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
 const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
-  const [updatedProduct, setUpdatedProduct] = useState({ description: product.description || ''});
+  const [updatedProduct, setUpdatedProduct] = useState({
+    description: product.description || "",
+  });
 
   useEffect(() => {
     setUpdatedProduct({ ...product });
@@ -100,13 +102,19 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
                         <label className="text-sm font-medium text-gray-700">
                           Product Category : {product.category}
                         </label>
-                        <input
-                          type="text"
+                        <div>
+                        <select
+                          id="category"
                           name="category"
-                          placeholder={`Change ${product.category}`}
                           onChange={handleChange}
-                          className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none  placeholder:text-sm placeholder:font-light"
-                        />
+                          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+                        >
+                          <option value="">Change category</option>
+                          <option value="mens">Mens</option>
+                          <option value="womens">Womens</option>
+                          <option value="kids">Kids</option>
+                        </select>
+                        </div>
                       </div>
 
                       <div>
@@ -198,7 +206,7 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
                         </label>
                       </div>
                       <div>
-                      <textarea
+                        <textarea
                           name="description"
                           placeholder={`Change ${product.description}`}
                           onChange={handleChange}

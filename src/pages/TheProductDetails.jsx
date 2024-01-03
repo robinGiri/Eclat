@@ -29,7 +29,8 @@ function TheProductDetails() {
         if (Array.isArray(resp.data.result) && resp.data.result.length === 1) {
           const fetchDiscount = resp.data.result[0];
           if (fetchDiscount.discount) {
-            const discountedPrice = fetchDiscount.price * (1 - fetchDiscount.discount / 100);
+            const discountedPrice =
+              fetchDiscount.price * (1 - fetchDiscount.discount / 100);
             fetchDiscount.discountedPrice = discountedPrice;
           }
           setProduct(fetchDiscount);
@@ -102,11 +103,18 @@ function TheProductDetails() {
             <div className="flex p-4 rounded-md bg-neutral-50">
               <div className="details p-2">
                 <div className="flex justify-between ">
-                  <p className="font-bold text-3xl w-auto ">{product.name !== undefined
-                    ? `${product.name}`
-                    : "Loading"}</p>
+                  <p className="font-bold text-3xl w-auto ">
+                    {product.name !== undefined ? `${product.name}` : "Loading"}
+                  </p>
                   <div className="flex mt-2">
-                  <button className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500" onClick={()=>{navigate(`/customize/product?${product.id}}`)}}>Customize with Eclat</button>
+                    <button
+                      className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
+                      onClick={() => {
+                        navigate(`/customize/product?${product.id}}`);
+                      }}
+                    >
+                      Customize with Eclat
+                    </button>
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
@@ -116,7 +124,9 @@ function TheProductDetails() {
                   <div className="flex gap-2 items-center">
                     <p className="font-medium mt-3 text-md">NPR</p>
                     <p className="font-semibold mt-3 text-xl">
-                      {product.price}
+                      {product.discount
+                        ? Math.floor(product.afterdiscount)
+                        : product.price}
                     </p>
                   </div>
 
@@ -151,10 +161,11 @@ function TheProductDetails() {
                               {selectedRate.currency.iso3 === "EUR" && "€"}
                               {selectedRate.currency.iso3 === "GBP" && "£"}
                               {/* Add more conditions for other currencies as needed */}
-                              {` `+convertToDollar(
-                                product.price,
-                                selectedRate.sell
-                              )}
+                              {` ` +
+                                convertToDollar(
+                                  product.price,
+                                  selectedRate.sell
+                                )}
                             </>
                           ) : (
                             `Original Price: ${product.price}`
@@ -183,9 +194,7 @@ function TheProductDetails() {
                   />
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[65vh]">
-                  <p className="text-gray-500">
-                    {product.description}
-                  </p>
+                  <p className="text-gray-500">{product.description}</p>
                 </div>
                 <p className="font-light hover:font-bold cursor-pointer">
                   {product.discription}
