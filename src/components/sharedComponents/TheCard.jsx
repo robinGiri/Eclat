@@ -1,48 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+// const staticUrl = "http://localhost:4000/api/v1/uploads/";
 
-const Thecard = () => {
+const Thecard = (props) => {
+  const { images, name, discount, price, afterdiscount } = props;
   const navigate = useNavigate();
 
   const handleProductClick = (productId) => {
     navigate(`/product_details/${productId}`, { productId });
   };
 
-  useEffect(() => {
-    getApiData();
-  }, []);
-
-  const kidsProducts = products.filter((item) => item.category === "kids");
-
   return (
-    <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
-      {kidsProducts.map((product) => (
-        <div key={product.id} className="relative group">
-          <div className="bg-white shadow rounded-sm max-w-sm w-[320px] h-[25rem] overflow-hidden mb-5">
-            <div className="aspect-w-16 h-[15rem] relative flex justify-center items-center">
-              {product.images.length > 0 && (
-                <img
-                  key={product.images[0].id}
-                  src={staticAPI + product.images[0].url}
-                  className="object-contain w-[300px] h-full transition-transform transform group-hover:scale-105 pb-2 cursor-pointer"
-                  alt={product.id}
-                  onClick={() =>
-                    handleProductClick(product, staticAPI + product.images[0].url)
-                  }
-                />
-              )}
-            </div>
+    <div className="">
+      <div className="relative group">
+        <div className="bg-white shadow rounded-sm max-w-sm w-full h-[25rem] overflow-hidden">
+          <div className="aspect-w-16 h-[15rem] relative">
+            <img
+              className="object-cover w-full h-full transition-transform transform group-hover:scale-105 pb-2"
+              src={images}
+              alt="Product Image"
+            />
+          </div>
 
-            <div className="mt-2">
+          <div className="mt-2">
+            {discount && (
               <div className="flex px-4 w-full justify-between items-center">
+                <a href="#">
                   <h3 className="mt-2 text-gray-900 font-semibold text-xl tracking-tight">
-                    {product.name}
+                    {name}
                   </h3>
+                </a>
+                <div className="flex">
+                  <div className="left bg-red-600 text-sm text-white px-2 py-1 rounded h-7 w-[5rem]">
+                    {discount}% OFF
+                  </div>
+                </div>
               </div>
+            )}
 
             <div className="px-4 ">
               <div className="flex items-start justify-between py-5">
@@ -67,9 +62,6 @@ const Thecard = () => {
             <p className="hover:font-medium cursor-pointer">View Details</p>
           </div>
         </div>
-      ))}
-      <div className="flex justify-center items-center">
-        {isError && <h1>{isError}</h1>}
       </div>
     </div>
   );
