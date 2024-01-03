@@ -12,7 +12,9 @@ function TheKids() {
   const navigate = useNavigate();
 
   const handleProductClick = (clickedProduct, clickedImage) => {
-    navigate(`/product_details/${clickedProduct.id}`, { state: { item: clickedProduct, selectedImage: clickedImage } });
+    navigate(`/product_details/${clickedProduct.id}`, {
+      state: { item: clickedProduct, selectedImage: clickedImage },
+    });
   };
 
   const [products, setProducts] = useState([]);
@@ -43,55 +45,65 @@ function TheKids() {
         </div>
         <div className="p-5">
           <div className="content">
-          <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
-      {kidsProducts.map((product) => (
-        <div key={product.id} className="relative group">
-          <div className="bg-white shadow rounded-sm max-w-sm w-[320px] h-[25rem] overflow-hidden mb-5">
-            <div className="aspect-w-16 h-[15rem] relative flex justify-center items-center">
-              {product.images.length > 0 && (
-                <img
-                  key={product.images[0].id}
-                  src={staticAPI + product.images[0].url}
-                  className="object-contain w-[300px] h-full transition-transform transform group-hover:scale-105 pb-2 cursor-pointer"
-                  alt={product.id}
-                  onClick={() =>
-                    handleProductClick(product, staticAPI + product.images[0].url)
-                  }
-                />
-              )}
-            </div>
+            <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
+              {kidsProducts.map((product) => (
+                <div key={product.id} className="relative group">
+                  <div className="bg-white shadow rounded-sm max-w-sm w-[320px] h-[25rem] overflow-hidden mb-5">
+                    <div className="aspect-w-16 h-[15rem] relative flex justify-center items-center">
+                      {product.images.length > 0 && (
+                        <img
+                          key={product.images[0].id}
+                          src={staticAPI + product.images[0].url}
+                          className="object-contain w-[300px] h-full transition-transform transform group-hover:scale-105 pb-2 cursor-pointer"
+                          alt={product.id}
+                          onClick={() =>
+                            handleProductClick(
+                              product,
+                              staticAPI + product.images[0].url
+                            )
+                          }
+                        />
+                      )}
+                    </div>
 
-            <div className="mt-2">
-              <div className="flex px-4 w-full justify-between items-center">
-                  <h3 className="mt-2 text-gray-900 font-semibold text-xl tracking-tight">
-                    {product.name}
-                  </h3>
-              </div>
+                    <div className="mt-2">
+                      <div className="flex px-4 w-full justify-between items-center">
+                        <h3 className="mt-2 text-gray-900 font-semibold text-xl tracking-tight">
+                          {product.name}
+                        </h3>
+                      </div>
 
-              <div className="px-4">
-                <div className="flex items-start justify-between py-5">
-                  <div className="font-bold text-sm my-1">
-                    <span className="text-gray-500 px-1">List Price:</span>
-                    <span className="line-through text-xl text-neutral-400">${product.price}</span>
-                  </div>
-                  <div className="text-2xl font-bold">
-                    ${product.discount ? product.afterdiscount : product.price}
+                      <div className="px-4">
+                        <div className="flex items-start justify-between py-5">
+                          <div className="font-bold text-sm my-1">
+                            <span className="text-gray-500 px-1">
+                              List Price:
+                            </span>
+                            <span className="line-through text-xl text-neutral-400">
+                              Rs.{product.price}
+                            </span>
+                          </div>
+                          <div className="text-2xl font-bold">
+                            Rs.
+                            {product.discount
+                              ? Math.floor(product.afterdiscount)
+                              : product.price}{" "}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-end px-5 text-xs font-light">
+                      <p className="hover:font-medium cursor-pointer">
+                        View Details
+                      </p>
+                    </div>
                   </div>
                 </div>
+              ))}
+              <div className="flex justify-center items-center">
+                {isError && <h1>{isError}</h1>}
               </div>
             </div>
-            <div className="flex justify-end px-5 text-xs font-light">
-              <p className="hover:font-medium cursor-pointer">
-                View Details
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
-      <div className="flex justify-center items-center">
-        {isError && <h1>{isError}</h1>}
-      </div>
-    </div>
           </div>
         </div>
       </div>

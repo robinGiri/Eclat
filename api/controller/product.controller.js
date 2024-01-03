@@ -141,7 +141,7 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     } = req.body;
 
     //list of all images from the list
-    const delete_image_array = delImg.split(",");
+    // const delete_image_array = delImg.split(",");
 
     const afterDiscount =
       parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
@@ -164,13 +164,13 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     await productService.update(updatedProductData, productId);
 
     // will delete the images from the database
-    delete_image_array.forEach(async (img) => {
-      const image = imageService.findImageByUrl(img);
-      if (image) {
-        await imageService.deleteImageByUrl(img);
-        deleteFile("./public/uploads/" + img);
-      }
-    });
+    // delete_image_array.forEach(async (img) => {
+    //   const image = imageService.findImageByUrl(img);
+    //   if (image) {
+    //     await imageService.deleteImageByUrl(img);
+    //     deleteFile("./public/uploads/" + img);
+    //   }
+    // });
 
     //will update upload the updated images
     const images = [];

@@ -11,6 +11,7 @@ class UserService {
       });
       return user;
     } catch (e) {
+      console.log(e);
       throw e;
     }
 
@@ -35,13 +36,17 @@ class UserService {
     return user;
   }
   async updateUser(email, data) {
-    const user = await prisma.user.update({
-      where: { email: email },
-      data: data,
-      include: this.include,
-    });
-    console.log(user);
-    return user;
+    try {
+      const user = await prisma.user.update({
+        where: { email: email },
+        data: data,
+        include: this.include,
+      });
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
   async logout(email) {
     await prisma.user.update({

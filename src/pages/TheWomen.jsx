@@ -80,13 +80,13 @@ function TheWomen() {
                               List Price:
                             </span>
                             <span className="line-through text-xl text-neutral-400">
-                              ${product.price}
+                              Rs.{product.price}
                             </span>
                           </div>
                           <div className="text-2xl font-bold">
-                            $
+                            Rs.
                             {product.discount
-                              ? product.afterdiscount
+                              ? Math.floor(product.afterdiscount)
                               : product.price}
                           </div>
                         </div>

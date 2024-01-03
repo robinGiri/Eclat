@@ -6,7 +6,7 @@ import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-const registerURL = "http://localhost:4000/api/v1/user/";
+const registerURL = "http://localhost:5000/api/v1/user/";
 
 function TheRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -93,7 +93,7 @@ function TheRegistration() {
               <div>
                 <p className="text-xs mb-1">Email*</p>
                 <input
-                  type="text"
+                  type="email"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Please enter your Email"
                   onChange={(e) => setEmail(e.target.value)}
