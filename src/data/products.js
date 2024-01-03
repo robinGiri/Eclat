@@ -274,6 +274,38 @@ const products = [
         discription: 'This is for sale',
         category: 'sales',
     },
+    {
+        id : 29,
+        price: 200.0,
+        name: 'productName',
+        images: 'https://images.meesho.com/images/products/225407367/iwshq_512.webp',
+        discription: 'This is for sale',
+        category: 'custom',
+    },
+    {
+        id : 30,
+        price: 200.0,
+        name: 'productName',
+        images: 'https://rukminim2.flixcart.com/image/850/1000/xif0q/hand-messenger-bag/j/3/o/stylish-women-hand-bags-14-811-shoulder-bag-pari-fancy-41-original-imagm97a5ffecar9.jpeg?q=90',
+        discription: 'This is for sale',
+        category: 'custom',
+    },
+    {
+        id : 31,
+        price: 200.0,
+        name: 'productName',
+        images: 'https://m.media-amazon.com/images/I/91i3W-5QLIL.jpg',
+        discription: 'This is for sale',
+        category: 'custom',
+    },
+    {
+        id : 32,
+        price: 200.0,
+        name: 'productName',
+        images: 'https://video-play.daraz.com.np/cover/382727.jpg',
+        discription: 'This is for sale',
+        category: 'custom',
+    },
 
 ];
 
