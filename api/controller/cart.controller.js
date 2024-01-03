@@ -1,13 +1,11 @@
 const express = require("express");
 const { cartService, cartItemService } = require("../service/cart.service");
-const errorHandler = require("../middleware/errorHandler"); // Import the error handling middleware
 
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
   try {
     const { user, cartItems } = req.body;
-    console.log(req.body);
 
     // Create a new cart for the user
     const { id: cartId } = await cartService.createCart(user);
@@ -86,8 +84,5 @@ router.get("/:id", async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 });
-
-// Apply the error handling middleware to the router
-router.use(errorHandler);
 
 module.exports = router;

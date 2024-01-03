@@ -38,7 +38,6 @@ model Product {
   brandId       Int?
 
   CartItem   CartItem[]
-  Seller     Seller?      @relation(fields: [sellerId], references: [id])
   OrderItems OrderItems[]
   Season     Season?      @relation(fields: [seasonId], references: [id])
   seasonId   Int?
@@ -55,12 +54,6 @@ model Brand {
   id       Int       @id @default(autoincrement())
   name     String?
   products Product[]
-}
-
-model Seller {
-  id      Int       @id @default(autoincrement())
-  name    String?
-  Product Product[]
 }
 
 model User {

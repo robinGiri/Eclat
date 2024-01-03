@@ -153,6 +153,12 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
           await imageService.deleteImageByUrl(img);
           deleteFile("./public/uploads/" + img);
         }
+        //will update upload the updated images
+        const images = [];
+        req.files.forEach(({ filename }) => {
+          images.push(filename);
+        });
+        imageService.saveMultiple(images, productId);
       });
     }
 
@@ -175,13 +181,6 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     };
 
     await productService.update(updatedProductData, productId);
-
-    //will update upload the updated images
-    const images = [];
-    req.files.forEach(({ filename }) => {
-      images.push(filename);
-    });
-    imageService.saveMultiple(images, productId);
 
     res.json({
       result: await productService.fetchByID(productId),
