@@ -1,5 +1,5 @@
 import React from "react";
-const staticUrl = "http://localhost:4000/api/v1/uploads/";
+import { apiConfig } from "../../services/api/config";
 
 const Thecard = (props) => {
   const { images, name, discount, price, afterdiscount } = props;
@@ -12,7 +12,7 @@ const Thecard = (props) => {
           <div className="aspect-w-16 h-[15rem] relative">
             <img
               className="object-cover w-full h-full transition-transform transform group-hover:scale-105 pb-2"
-              src={staticUrl + url}
+              src={`${apiConfig.baseUrl}uploads/${url}`}
               alt="Product Image"
             />
           </div>

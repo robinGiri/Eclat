@@ -5,8 +5,7 @@ import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
-const registerURL = "http://localhost:5000/api/v1/user/";
+import { apiConfig } from "../services/api/config";
 
 function TheRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +52,7 @@ function TheRegistration() {
       email: email,
       password: password,
     };
-    await axios.post(registerURL, user);
+    await axios.post(`${apiConfig.baseUrl}user/`, user);
   };
 
   const handleLoginClick = () => {
