@@ -31,10 +31,12 @@ class UserService {
     });
     return user;
   }
+
   async getAllUsers() {
     const user = await prisma.user.findMany();
     return user;
   }
+
   async updateUser(email, data) {
     try {
       const user = await prisma.user.update({

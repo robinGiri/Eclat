@@ -1,5 +1,6 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service");
+const settingService = require("../service/setting.service");
 const uploader = require("../jobs/imageUploaderJob");
 const { deleteFile } = require("../helper/helper");
 const router = require("express").Router();
@@ -39,8 +40,6 @@ router.post("/", uploader.array("image"), async (req, res) => {
       status,
       seasonId: parseInt(seasonId),
     };
-    console.log("I am final data");
-    console.log(finalData);
 
     const { id } = await productService.save(finalData);
 
@@ -50,6 +49,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
       });
       imageService.saveMultiple(images, id);
     }
+
     res.json({
       result: await productService.fetchByID(id),
       message: "Product created successfully",
@@ -57,7 +57,7 @@ router.post("/", uploader.array("image"), async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 });
 
@@ -74,17 +74,21 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/season/:id", async (req, res) => {
+router.get("/season", async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await productService.getProductsBySeason(parseInt(id));
+    const { currentSeason } = await settingService.getSetting();
+    console.log(currentSeason);
+    const product = await productService.getProductsBySeason(
+      parseInt(currentSeason)
+    );
     res.json({
       result: product,
       message: "product fetched successfully",
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
@@ -102,11 +106,12 @@ router.get("/search", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await productService.fetchByID(productId);
@@ -119,11 +124,12 @@ router.get("/:id", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.log(e);
+    next(e);
   }
 });
 
-router.put("/:productId", uploader.array("image"), async (req, res) => {
+router.put("/:productId", uploader.array("image"), async (req, res, next) => {
   try {
     const productId = req.params.productId;
 
@@ -140,8 +146,25 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
       delImg,
     } = req.body;
 
-    //list of all images from the list
-    // const delete_image_array = delImg.split(",");
+    if (delImg) {
+      //list of all images from the list
+      const delete_image_array = delImg.split(",");
+
+      // will delete the images from the database
+      delete_image_array.forEach(async (img) => {
+        const image = imageService.findImageByUrl(img);
+        if (image) {
+          await imageService.deleteImageByUrl(img);
+          deleteFile("./public/uploads/" + img);
+        }
+        //will update upload the updated images
+        const images = [];
+        req.files.forEach(({ filename }) => {
+          images.push(filename);
+        });
+        imageService.saveMultiple(images, productId);
+      });
+    }
 
     const afterDiscount =
       parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
@@ -163,22 +186,6 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
 
     await productService.update(updatedProductData, productId);
 
-    // will delete the images from the database
-    // delete_image_array.forEach(async (img) => {
-    //   const image = imageService.findImageByUrl(img);
-    //   if (image) {
-    //     await imageService.deleteImageByUrl(img);
-    //     deleteFile("./public/uploads/" + img);
-    //   }
-    // });
-
-    //will update upload the updated images
-    const images = [];
-    req.files.forEach(({ filename }) => {
-      images.push(filename);
-    });
-    imageService.saveMultiple(images, productId);
-
     res.json({
       result: await productService.fetchByID(productId),
       message: "Product updated successfully",
@@ -186,11 +193,11 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    next(e);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
     const data = await productService.deleteByID(productId);
@@ -200,11 +207,12 @@ router.delete("/:id", async (req, res) => {
       meta: null,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.error(e);
+    next(e);
   }
 });
 
-router.post("/upload", uploader.single("image"), async (req, res) => {
+router.post("/upload", uploader.single("image"), async (req, res, next) => {
   imageService.save(req.file.filename, 8);
   res.json({
     file: req.file.filename,

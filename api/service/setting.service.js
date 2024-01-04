@@ -3,25 +3,42 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class SettingService {
-  // Read Setting
-  async getSetting() {
+  // Create Setting
+  async createOrUpdateSetting(currentSeasonId) {
     try {
-      const setting = await prisma.setting.findFirst();
-      return setting;
+      // Check if there is existing data
+      const existingSetting = await prisma.setting.findFirst();
+
+      if (existingSetting) {
+        // If data exists, update it
+        const updatedSetting = await prisma.setting.update({
+          where: { id: existingSetting.id },
+          data: {
+            currentSeason: parseInt(currentSeasonId),
+          },
+        });
+
+        return updatedSetting;
+      } else {
+        // If no data exists, create a new row
+        const createdSetting = await prisma.setting.create({
+          data: {
+            currentSeason: parseInt(currentSeasonId),
+          },
+        });
+
+        return createdSetting;
+      }
     } catch (error) {
       throw error;
     }
   }
 
-  // Update Setting
-  async updateSetting(updatedData) {
+  // Read Setting
+  async getSetting() {
     try {
-      const updatedSetting = await prisma.setting.update({
-        where: { id: 1 }, // Assuming there's only one setting row
-        data: updatedData,
-      });
-
-      return updatedSetting;
+      const setting = await prisma.setting.findFirst();
+      return setting;
     } catch (error) {
       throw error;
     }

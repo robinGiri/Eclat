@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 const include = {
   seller: true,
   brand: true,
-  stock: true,
   images: true,
   Season: true,
 };

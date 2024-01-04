@@ -7,6 +7,7 @@ const path = require("path");
 const app = express();
 const BASE_URL = "/api/v1";
 
+const errorHandler = require("../middleware/error.handler");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,17 +34,11 @@ app.use(`${BASE_URL}/cartItem`, require("../controller/cart.items.controller"));
 app.use(`${BASE_URL}/season`, require("../controller/season.controller"));
 app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
+app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 
 //service runner
 
-app.use((error, req, res, next) => {
-  const code = error.code || 500;
-  const message = error.message || "Internal Server Error";
-
-  res.status(code).json({
-    message,
-  });
-});
+app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));
 app.post("/send-email", require("../helper/sendMail"));

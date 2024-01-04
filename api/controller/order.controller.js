@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const { orderItemsService, orderService } = require("../service/order.service");
 const { cartService, cartItemService } = require("../service/cart.service");
-router.post("/:id", async (req, res) => {
+
+router.post("/:id", async (req, res, next) => {
   try {
     let OrderItems;
     //extract cart id
@@ -32,12 +33,11 @@ router.post("/:id", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error);
   }
 });
-router.put("/", async (req, res) => {
+
+router.put("/", async (req, res, next) => {
   try {
     const { id, quantity } = req.body;
     if (id) {
@@ -57,12 +57,11 @@ router.put("/", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error);
   }
 });
-router.delete("/:id", async (req, res) => {
+
+router.delete("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 
@@ -76,28 +75,41 @@ router.delete("/:id", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error);
   }
 });
-router.get("/:id", async (req, res) => {
-  const cartId = parseInt(req.params.id);
-  const cart = await cartService.getCartById(cartId);
-  res.json({
-    code: 200,
-    message: cart,
-    meta: null,
-  });
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const cartId = parseInt(req.params.id);
+    const cart = await cartService.getCartById(cartId);
+
+    if (!cart) {
+      throw new KnownError(404, "Cart not found");
+    }
+
+    res.json({
+      code: 200,
+      message: cart,
+      meta: null,
+    });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
 });
-router.get("/allproduct", async (req, res) => {
-  console.log("Get by product and order");
-  const jointable = await orderItemsService.getOrdersWithProducts();
-  res.json({
-    code: 200,
-    message: jointable,
-    meta: null,
-  });
+
+router.get("/allproduct", async (req, res, next) => {
+  try {
+    const jointable = await orderItemsService.getOrdersWithProducts();
+
+    res.json({
+      code: 200,
+      message: jointable,
+      meta: null,
+    });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
 });
 
 module.exports = router;
