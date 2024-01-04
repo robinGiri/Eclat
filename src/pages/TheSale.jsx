@@ -55,7 +55,7 @@ function TheSale() {
             {tabs.map((tab) => (
               <div key={tab.id} style={{ display: currentTab === tab.id ? 'block' : 'none' }}>
                 <div className="flex flex-wrap">
-                  {products.filter((product) => product.category === 'sales').map((item) => (
+                  {products?.filter((product) => product.category === 'sales')?.map((item) => (
                     <div
                       onClick={() => handleProductClick(item.id)}
                       key={item.id}

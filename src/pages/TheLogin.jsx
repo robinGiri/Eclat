@@ -5,7 +5,7 @@ import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-const loginUrl = "http://localhost:5000/api/v1/user/login";
+import { apiConfig } from "../services/api/config";
 
 function TheLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ function TheLogin() {
   };
   const handleLogin = async () => {
     const login = { email: email, password: password };
-    const { data } = await axios.post(loginUrl, login);
+    const { data } = await axios.post(`${apiConfig.baseUrl}user/login`, login);
     const { code } = data;
     if (code == 200) {
       handleAdminDashboardClick();

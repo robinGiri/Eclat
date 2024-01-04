@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaHeart, FaFeather } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
 import { convertToDollar } from "../utils/convertToDollar";
+import { apiConfig } from "../services/api/config";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
 const shareUrl = "https://eclatbags.netlify.app/";
 
 function TheProductDetails() {
@@ -17,17 +16,15 @@ function TheProductDetails() {
   const location = useLocation();
   const [isError, setIsError] = useState(false);
   const [product, setProduct] = useState({});
-  const [products, setProducts] = useState([]);
   const selectedImage = location.state?.selectedImage || "";
 
   useEffect(() => {
     const getApiData = async () => {
       try {
-        const resp = await axios.get(`${API}/${productId}`);
-        console.log("API Response:", resp.data.result);
+        const { data } = await axios.get(`${apiConfig.baseUrl}product//${productId}`);
 
-        if (Array.isArray(resp.data.result) && resp.data.result.length === 1) {
-          const fetchDiscount = resp.data.result[0];
+        if (Array.isArray(data.result) && data.result.length === 1) {
+          const fetchDiscount = data.result[0];
           if (fetchDiscount.discount) {
             const discountedPrice =
               fetchDiscount.price * (1 - fetchDiscount.discount / 100);
