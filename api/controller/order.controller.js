@@ -1,28 +1,34 @@
 const router = require("express").Router();
+const { orderItemsService, orderService } = require("../service/order.service");
 const { cartService, cartItemService } = require("../service/cart.service");
-router.post("/", async (req, res) => {
+router.post("/:id", async (req, res) => {
   try {
-    const { user, cartItems } = req.body;
-    console.log(req.body);
+    let OrderItems;
+    //extract cart id
+    const cartId = parseInt(req.params.id);
+    //create order table
+    const { userId } = req.body;
+    const data = {
+      userId: userId,
+    };
+    const { id } = await orderService.createOrder(data);
 
-    // Create a new cart for the user
-    const { id: cartId } = await cartService.createCart(user);
+    const orderId = id;
 
-    // Modify cartItems to include the cartId
-    const modifiedCartItems = cartItems.items.map((item) => ({
-      ...item,
-      cartId: cartId,
-    }));
+    //extract cart items from cart id
+    const { cartItems } = await cartService.getCartById(cartId);
 
-    // Create cart items associated with the newly created cart
-    const createdCartItems = await cartItemService.createCartItem(
-      modifiedCartItems
-    );
+    cartItems.map((item) => {
+      const { id, cartId, productId, quantity } = item;
+      console.log(cartId);
+      orderItemsService.createOrderItem(orderId, productId, quantity);
+      cartItemService.deleteCartItem(id);
+    });
 
     res.json({
       code: 200,
-      message: "Cart and cart items created successfully",
-      meta: createdCartItems,
+      message: OrderItems,
+      meta: null,
     });
   } catch (error) {
     console.error(error);
@@ -81,6 +87,15 @@ router.get("/:id", async (req, res) => {
   res.json({
     code: 200,
     message: cart,
+    meta: null,
+  });
+});
+router.get("/allproduct", async (req, res) => {
+  console.log("Get by product and order");
+  const jointable = await orderItemsService.getOrdersWithProducts();
+  res.json({
+    code: 200,
+    message: jointable,
     meta: null,
   });
 });

@@ -7,7 +7,6 @@ const Thecard = (props) => {
   const { images, name, discount, price, afterdiscount } = props;
   const navigate = useNavigate();
 
-
   const handleProductClick = (productId) => {
     navigate(`/product_details/${productId}`, { productId });
   };
@@ -41,25 +40,27 @@ const Thecard = (props) => {
             )}
 
             <div className="px-4 ">
-            <div className="flex items-start justify-between py-5">
-              
-              {discount && (
-                <div className=" font-bold text-sm my-1">
-                  <span className="text-gray-500 px-1">List Price:</span>
-                  <span className="line-through text-xl text-neutral-400">${price}</span>
+              <div className="flex items-start justify-between py-5">
+                {discount && (
+                  <div className=" font-bold text-sm my-1">
+                    <span className="text-gray-500 px-1">List Price:</span>
+                    <span className="line-through text-xl text-neutral-400">
+                      ${price}
+                    </span>
+                  </div>
+                )}
+                <div className="text-2xl font-bold">
+                  ${discount ? afterdiscount : price}
                 </div>
-                
-              )}
-              <div className="text-2xl font-bold">
-                ${discount ? afterdiscount : price}
-              </div>
               </div>
             </div>
-
           </div>
-          <div className="flex justify-end px-5 text-xs font-light" onClick={handleProductClick}>
+          <div
+            className="flex justify-end px-5 text-xs font-light"
+            onClick={handleProductClick}
+          >
             <p className="hover:font-medium cursor-pointer">View Details</p>
-            </div>
+          </div>
         </div>
       </div>
     </div>

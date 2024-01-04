@@ -4,7 +4,6 @@ import ReactDOM from "react-dom"
 import "./styles.css"
 import "react-colorful/dist/index.css"
 import Customizer from "./Customizer"
-import Router from "./router/Router"
 
 
 // eslint-disable-next-line react/no-deprecated

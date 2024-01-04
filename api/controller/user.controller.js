@@ -2,8 +2,10 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
+const { cartService } = require("../service/cart.service");
 const cors = require("cors");
 require("dotenv").config();
+
 router.get("/users", async (req, res) => {
   const users = await userService.getAllUsers();
   res.json({
@@ -13,15 +15,17 @@ router.get("/users", async (req, res) => {
     meta: null,
   });
 });
+
 router.post("/", async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const saltRound = 10;
     const salt = await bcrypt.genSalt(saltRound);
     const hashedPassword = await bcrypt.hash(data.password, salt);
     data.password = hashedPassword;
-    const user = await userService.save(data);
+    const { id } = await userService.save(data);
+    console.log(id);
+    const cart = await cartService.createCart(id);
     res.json({
       result: user,
       code: 200,
@@ -31,6 +35,7 @@ router.post("/", async (req, res) => {
     res.json({ code: 500, message: error, meta: null });
   }
 });
+
 router.post("/login", async (req, res) => {
   try {
     const data = req.body;
@@ -66,6 +71,7 @@ router.post("/login", async (req, res) => {
     res.status(500).send();
   }
 });
+
 router.get("/logout", async (req, res) => {
   try {
     const token = req.headers.authorization;
@@ -86,6 +92,35 @@ router.get("/logout", async (req, res) => {
       code: 500,
       meta: null,
     });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const userId = parseInt(req.params.id);
+  const user = await userService.getUserById(userId);
+  res.json({
+    userdetail: user,
+    code: 200,
+    meta: null,
+  });
+});
+
+router.put("/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+    const findUser = await userService.getUserByFilter({ email: email });
+    if (findUser) {
+      const user = await userService.updateUser(email, data);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    }
+    throw new Error("User Not found");
+  } catch (error) {
+    console.log(error);
   }
 });
 

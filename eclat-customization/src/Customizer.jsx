@@ -55,8 +55,6 @@ function Bag() {
     document.body.style.cursor = `url('data:image/svg+xml;base64,${btoa(hovered ? cursor : auto)}'), auto`
   }, [hovered])
 
-  console.log(location.href)
-
   return (
     <group
       ref={ref}
