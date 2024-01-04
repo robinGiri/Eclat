@@ -1,7 +1,8 @@
 // middleware/errorHandler.js
 const { PrismaClientKnownRequestError } = require("@prisma/client");
 const errorHandler = (err, req, res, next) => {
-  console.error(err);
+  console.log(err);
+  const { code, message } = err;
 
   // Handle Prisma-specific errors
   if (err instanceof PrismaClientKnownRequestError) {
@@ -9,6 +10,24 @@ const errorHandler = (err, req, res, next) => {
       code: 400,
       message: "Bad Request: Prisma error",
       details: err.meta, // Include Prisma error details if needed
+      meta: null,
+    });
+  }
+
+  // Handle Not Found
+  if (code == 404) {
+    return res.status(404).json({
+      code: code,
+      message: message,
+      meta: null,
+    });
+  }
+
+  // Handle Authentication Error
+  if (code == 401) {
+    return res.status(401).json({
+      code: code,
+      message: "Authentication Failed",
       meta: null,
     });
   }

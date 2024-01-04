@@ -6,12 +6,13 @@ class PurchaseService {
     Order: true,
   };
   // Create Purchase
-  async createPurchase(paymentmethod, orderId) {
+  async createPurchase(paymentmethod, orderId, token) {
     try {
       const createdPurchase = await prisma.purchase.create({
         data: {
           paymentmethod: paymentmethod,
           OrderId: orderId,
+          token: token,
         },
         include: this.include,
       });
@@ -38,19 +39,6 @@ class PurchaseService {
         where: { id: purchaseId },
       });
       return purchase;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  // Update Purchase by ID
-  async updatePurchase(purchaseId, updatedData) {
-    try {
-      const updatedPurchase = await prisma.purchase.update({
-        where: { id: purchaseId },
-        data: updatedData,
-      });
-      return updatedPurchase;
     } catch (error) {
       throw error;
     }

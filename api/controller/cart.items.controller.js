@@ -29,7 +29,7 @@ router.post("/:id", async (req, res, next) => {
       meta: null,
     });
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    next(error);
   }
 });
 

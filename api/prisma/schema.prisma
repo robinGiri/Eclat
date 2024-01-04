@@ -15,6 +15,18 @@ enum UserRole {
   DRIVER
 }
 
+enum PaymentMethod {
+  khalti
+  esewa
+  cashondelivery
+}
+
+enum ShippingStatus {
+  ordered
+  shipping
+  delivered
+}
+
 model Product {
   id            Int      @id @default(autoincrement())
   name          String?
@@ -103,8 +115,9 @@ model Order {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @default(now()) @updatedAt
   OrderItems OrderItems[]
-  customer   User?        @relation(fields: [userId], references: [id])
   Purchase   Purchase[]
+  Shipping   Shipping[]
+  customer   User?        @relation(fields: [userId], references: [id])
 }
 
 model OrderItems {
@@ -130,12 +143,26 @@ model Setting {
 }
 
 model Purchase {
-  id            Int      @id @default(autoincrement())
-  paymentmethod String?
+  id            Int            @id @default(autoincrement())
+  paymentmethod PaymentMethod?
+  token         String
+  amount        Float?
   OrderId       Int?
-  Order         Order?   @relation(fields: [OrderId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  Shipping      Shipping[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Order         Order?         @relation(fields: [OrderId], references: [id])
+}
+
+model Shipping {
+  id         Int            @id @default(autoincrement())
+  OrderId    Int?
+  status     ShippingStatus @default(ordered)
+  purchaseId Int?
+  Order      Order?         @relation(fields: [OrderId], references: [id])
+  Purchase   Purchase?      @relation(fields: [purchaseId], references: [id])
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 }
 
 // model Wishlist {
