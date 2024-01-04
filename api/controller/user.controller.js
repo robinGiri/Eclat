@@ -3,20 +3,23 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
 const { cartService } = require("../service/cart.service");
-const cors = require("cors");
-require("dotenv").config();
 
-router.get("/users", async (req, res) => {
-  const users = await userService.getAllUsers();
-  res.json({
-    code: 200,
-    users: users,
-    message: "Users data found",
-    meta: null,
-  });
+router.get("/users", async (req, res, next) => {
+  try {
+    const users = await userService.getAllUsers();
+    res.json({
+      code: 200,
+      users: users,
+      message: "Users data found",
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const data = req.body;
     const saltRound = 10;
@@ -27,21 +30,24 @@ router.post("/", async (req, res) => {
     console.log(id);
     const cart = await cartService.createCart(id);
     res.json({
-      result: user,
+      result: id,
       code: 200,
       meta: null,
     });
   } catch (error) {
-    res.json({ code: 500, message: error, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
     const userData = await userService.getUserByFilter({ email: data.email });
     if (!userData) {
-      res.json({ code: 404, message: "User not found", meta: null });
+      res
+        .status(404)
+        .json({ code: 404, message: "User not found", meta: null });
     }
     const passwordCorrect = await bcrypt.compare(
       data.password,
@@ -68,11 +74,12 @@ router.post("/login", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).send();
+    console.log(error);
+    next(error);
   }
 });
 
-router.get("/logout", async (req, res) => {
+router.get("/logout", async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const tokenWithoutBearer = token.split(" ")[1];
@@ -87,22 +94,62 @@ router.get("/logout", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.json({
-      message: error,
-      code: 500,
-      meta: null,
-    });
+    console.log(error);
+    next(error);
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const userId = parseInt(req.params.id);
-  const user = await userService.getUserById(userId);
-  res.json({
-    userdetail: user,
-    code: 200,
-    meta: null,
-  });
+router.get("/:id", async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.id);
+    const user = await userService.getUserById(userId);
+    res.json({
+      userdetail: user,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+router.put("/:email", async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+    const findUser = await userService.getUserByFilter({ email: email });
+    if (findUser) {
+      const user = await userService.updateUser(email, data);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    }
+    throw new Error("User Not found");
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+router.put("/:email", async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+    const findUser = await userService.getUserByFilter({ email: email });
+    if (findUser) {
+      const user = await userService.updateUser(email, data);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    }
+    throw new Error("User Not found");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

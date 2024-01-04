@@ -7,9 +7,8 @@ import VerticalScrollContainer from "../components/sharedComponents/carouselComp
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
 import { convertToDollar } from "../utils/convertToDollar";
+import { apiConfig } from "../services/api/config";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
 const shareUrl = "https://eclatbags.netlify.app/";
 
 function TheProductDetails() {
@@ -157,7 +156,6 @@ function TheProductDetails() {
           <VerticalScrollContainer />
         </div>
       </div>
-      <div>Suggested prodocks</div>
     </>
   );
 }

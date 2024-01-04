@@ -8,7 +8,7 @@ function TheAddModal({ closeModal }) {
     category: "",
     price: "",
     viewCount: "",
-    status: "",
+    status: "Active",
     discount: "",
     image: null,
     imageUrl: "",
@@ -49,6 +49,7 @@ function TheAddModal({ closeModal }) {
     const requiredFields = [
       "name",
       "category",
+      "description",
       "price",
       "viewCount",
       "status",
@@ -66,7 +67,7 @@ function TheAddModal({ closeModal }) {
       const formDataToSend = new FormData();
 
       formDataToSend.append("name", formData.name);
-      formDataToSend.append("description", "Product description");
+      formDataToSend.append("description", formData.description);
       formDataToSend.append("category", formData.category);
       formDataToSend.append("price", parseFloat(formData.price));
       formDataToSend.append("isFeatured", true);
@@ -98,6 +99,7 @@ function TheAddModal({ closeModal }) {
         name: "",
         category: "",
         price: "",
+        description: "",
         viewCount: "",
         status: "",
         discount: "",
@@ -110,18 +112,23 @@ function TheAddModal({ closeModal }) {
   };
   return (
     <div className="fixed inset-0  z-50 w-[100%] flex items-center justify-end">
-      <div className="bg-white rounded-lg p-8 pt-4 w-[80%] h-[80vh] mr-9 mt-14 shadow-custom-shadow">
+      <div className="bg-white rounded-lg p-8 pt-4 w-[81%] h-[80vh] mr-9 mt-14 shadow-custom-shadow">
         <div className="flex justify-end">
           <button onClick={closeModal} title="Close">
             <IoClose className="text-2xl " />
           </button>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-col">
+          <p className="w-full">
+            {formError && (
+              <p className="text-red-600 text-sm mb-4">{formError}</p>
+            )}
+          </p>
           <h2 className="text-xl font-bold mb-4">Add New Product</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex gap-1 border">
-            <div className="w-[50%] border-r p-3">
+            <div className="w-[35%] border-r p-3">
               <div className="flex flex-col">
                 <label htmlFor="name" className="mb-1 text-sm">
                   Product Name
@@ -139,15 +146,20 @@ function TheAddModal({ closeModal }) {
                 <label htmlFor="category" className="mb-1 text-sm">
                   Product Category
                 </label>
-                <input
-                  type="text"
+                <select
                   id="category"
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2  focus:outline-none"
-                />
+                  className="border border-gray-300 rounded-md p-2 focus:outline-none"
+                >
+                  <option value="">Choose category</option>
+                  <option value="mens">Mens</option>
+                  <option value="womens">Womens</option>
+                  <option value="kids">Kids</option>
+                </select>
               </div>
+
               <div className="flex flex-col">
                 <label htmlFor="viewCount" className="mb-1 text-sm">
                   Quantity
@@ -182,7 +194,7 @@ function TheAddModal({ closeModal }) {
                     Status:
                   </label>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-5 ml-5">
                   <button
                     type="button"
                     onClick={() =>
@@ -227,31 +239,54 @@ function TheAddModal({ closeModal }) {
                 />
               </div>
             </div>
-            {formError && (
-              <p className="text-red-600 text-xs mb-4 w-[10rem]">{formError}</p>
-            )}
-            <div className="w-[50%] border-l">
-              <div className="flex items-center gap-4 justify-center pt-2">
-                <label htmlFor="image" className="mb-1 text-sm">
-                  Select Image
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={handleImageChange}
-                  className="border border-gray-200 rounded-md p-2 text-xs cursor-pointer"
-                />
-              </div>
-              {formData.imageUrl && (
-                <div className="h-full flex justify-center mt-5">
-                  <img
-                    src={formData.imageUrl}
-                    alt="Selected Image"
-                    className="max-w-[300px] max-h-[300px]"
-                  />
+
+            <div className="w-[70%] flex justify-between px-8">
+              <div className="border-l">
+                <div className="w-[100%] p-3">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      Description
+                    </label>
+                  </div>
+                  <div>
+                    <textarea
+                      name="description"
+                      placeholder={`Change `}
+                      onChange={handleChange}
+                      className="border w-full h-[40vh] max-h-[40vh] focus:outline-none p-3"
+                    ></textarea>
+                  </div>
                 </div>
-              )}
+                <div>
+                  <div className="px-5 flex justify-center items-center gap-4">
+                    <label htmlFor="image" className="mb-1 text-sm">
+                      Select Image
+                    </label>
+                    <input
+                      type="file"
+                      id="image"
+                      name="image"
+                      onChange={handleImageChange}
+                      className="border border-gray-200 rounded-md p-2 text-xs cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <div className="mt-10">
+                    {formData.imageUrl && (
+                      <div className="h-full">
+                        <img
+                          src={formData.imageUrl}
+                          alt="Selected Image"
+                          className="max-w-[300px] max-h-[300px]"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

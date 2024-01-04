@@ -1,13 +1,14 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import Customizer from '../Customizer'
-function Router() {
-  return (
-   <Router>
-        <Routes>
-            <Route path = "/:productID" element = <Customizer/> />
-        </Routes>
-   </Router>
-  )
-}
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Customizer from '../Customizer';
 
-export default Router
+const AppRouter = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="*" element={<Customizer />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default AppRouter;

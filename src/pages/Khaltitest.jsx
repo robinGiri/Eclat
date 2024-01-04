@@ -1,7 +1,5 @@
 import KhaltiCheckout from "khalti-checkout-web";
 import React from "react";
-import axios from "axios";
-const verificationAPI = "http://localhost:5000/api/v1/pay-verify/";
 
 function Khaltitest() {
   let config = {

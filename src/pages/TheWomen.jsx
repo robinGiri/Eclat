@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import SecondSectionWomen from "../components/sharedComponents/carouselComponents/SecondSectionWomen";
+import SecondCarousel from "../components/sharedComponents/carouselComponents/SecondCarousel";
 import TheFooter from "../components/specificComponents/TheFooter";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+import { apiConfig } from "../services/api/config";
 
 function TheWomen() {
   const navigate = useNavigate();
@@ -22,10 +20,9 @@ function TheWomen() {
 
   const getApiData = async () => {
     try {
-      const resp = await axios.get(API);
-      setProducts(resp.data.result);
+      const { data } = await axios.get(`${apiConfig.baseUrl}product/`);
+      setProducts(data.result);
     } catch (error) {
-      console.error("Error fetching data:", error);
       setIsError("Error fetching data");
     }
   };
@@ -34,32 +31,34 @@ function TheWomen() {
     getApiData();
   }, []);
 
-  const kidsProducts = products.filter((item) => item.category === "womens");
-
   return (
     <div>
       <div className="bg-neutral-100 px-16">
         <h1 className="mx-[5%] text-5xl py-6 font-bold"></h1>
         <div className="mx-[5%] my-5">
-          <SecondSectionWomen />{" "}
+        <SecondCarousel
+            products={products?.filter((item) => item.category === "womens")}
+            isError={isError}
+            handleProductClick={handleProductClick}
+          />
         </div>
         <div className="p-5">
           <div className="content">
             <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
-              {kidsProducts.map((product) => (
+              {products?.filter((item) => item.category === "womens")?.map((product) => (
                 <div key={product.id} className="relative group">
                   <div className="bg-white shadow rounded-sm max-w-sm w-[320px] h-[25rem] overflow-hidden mb-5">
                     <div className="aspect-w-16 h-[15rem] relative flex justify-center items-center">
                       {product.images.length > 0 && (
                         <img
                           key={product.images[0].id}
-                          src={staticAPI + product.images[0].url}
+                          src={`${apiConfig.baseUrl}uploads/${product.images[0].url}`}
                           className="object-contain w-[300px] h-full transition-transform transform group-hover:scale-105 pb-2 cursor-pointer"
                           alt={product.id}
                           onClick={() =>
                             handleProductClick(
                               product,
-                              staticAPI + product.images[0].url
+                              `${apiConfig.baseUrl}uploads/${product.images[0].url}`
                             )
                           }
                         />
@@ -80,13 +79,13 @@ function TheWomen() {
                               List Price:
                             </span>
                             <span className="line-through text-xl text-neutral-400">
-                              ${product.price}
+                              Rs.{product.price}
                             </span>
                           </div>
                           <div className="text-2xl font-bold">
-                            $
+                            Rs.
                             {product.discount
-                              ? product.afterdiscount
+                              ? Math.floor(product.afterdiscount)
                               : product.price}
                           </div>
                         </div>

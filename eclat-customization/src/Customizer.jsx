@@ -1,3 +1,4 @@
+/* eslint-disable */
 import  { Suspense, useRef, useState, useEffect } from "react"
 import { Canvas, act, useFrame } from "@react-three/fiber"
 import { ContactShadows, Environment, useGLTF, OrbitControls } from "@react-three/drei"
@@ -6,6 +7,7 @@ import { proxy, useProxy } from "valtio"
 import logo from './resources/image.png'
 import left from './resources/chevron-left-solid.svg'
 import right from './resources/chevron-right-solid.svg'
+import { useParams } from "react-router-dom"
 
 const state = proxy({
   current: null,
@@ -24,7 +26,7 @@ const rotationState = proxy({
   current : null
 })
 
-function Shoe() {
+function Bag() {
   const ref = useRef()
   const snap = useProxy(state)
   const { nodes, materials } = useGLTF("bag.glb")
@@ -140,14 +142,15 @@ function Picker() {
   )
 }
 
-export default function App() {
+export default function Customizer() {
+  
   return (
     <>
       <Canvas concurrent pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 2.75] }}>
         <ambientLight intensity={0.3} />
         <spotLight intensity={0.3} angle={0.1} penumbra={1} position={[5, 25, 20]} />
         <Suspense fallback={null}>
-            <Shoe />
+            <Bag />
           <Environment files="royal_esplanade_1k.hdr" />
           <ContactShadows rotation-x={Math.PI / 2} position={[0, -0.8, 0]} opacity={0.25} width={10} height={10} blur={2} far={1} />
         </Suspense>
@@ -157,3 +160,4 @@ export default function App() {
     </>
   )
 }
+/* eslint-enable */

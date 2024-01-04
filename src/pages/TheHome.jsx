@@ -1,21 +1,14 @@
 import React from "react";
-import { useState } from "react";
 import TheHeroCarousel from "../components/sharedComponents/carouselComponents/TheHeroCarousel";
 import ThirdHomepageSection from "../components/specificComponents/ThirdHomepageSection";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 import TheFooter from "../components/specificComponents/TheFooter";
-import TheProductDetails from "./TheProductDetails";
-import { useNavigate, Link } from "react-router-dom";
-import TabbedSection from "../components/sharedComponents/TabbedSection";
+import { useNavigate } from "react-router-dom";
 import Thecard from "../components/sharedComponents/TheCard";
 import products from "../data/products";
 
 function TheHome() {
-  // Get the current path from the location prop
-  const currentPath = location.pathname;
   const navigate = useNavigate();
-
-  const handleDragStart = (e) => e.preventDefault();
 
   const handleProductClick = (productId) => {
     navigate(`/product_details/${productId}`, { productId });
@@ -32,11 +25,6 @@ function TheHome() {
   const handleKidsClick = () => {
     navigate(`/kids`);
   };
-
-
- 
-
-
 
   return (
     <div>

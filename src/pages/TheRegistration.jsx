@@ -5,8 +5,7 @@ import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
-const registerURL = "http://localhost:4000/api/v1/user/";
+import { apiConfig } from "../services/api/config";
 
 function TheRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +52,7 @@ function TheRegistration() {
       email: email,
       password: password,
     };
-    await axios.post(registerURL, user);
+    await axios.post(`${apiConfig.baseUrl}user/`, user);
   };
 
   const handleLoginClick = () => {
@@ -93,7 +92,7 @@ function TheRegistration() {
               <div>
                 <p className="text-xs mb-1">Email*</p>
                 <input
-                  type="text"
+                  type="email"
                   className="border w-full p-2 mb-6 text-sm focus:outline-none"
                   placeholder="Please enter your Email"
                   onChange={(e) => setEmail(e.target.value)}

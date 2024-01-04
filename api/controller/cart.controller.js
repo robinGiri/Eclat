@@ -1,9 +1,11 @@
-const router = require("express").Router();
+const express = require("express");
 const { cartService, cartItemService } = require("../service/cart.service");
-router.post("/", async (req, res) => {
+
+const router = express.Router();
+
+router.post("/", async (req, res, next) => {
   try {
     const { user, cartItems } = req.body;
-    console.log(req.body);
 
     // Create a new cart for the user
     const { id: cartId } = await cartService.createCart(user);
@@ -25,23 +27,20 @@ router.post("/", async (req, res) => {
       meta: createdCartItems,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error); // Pass the error to the error handling middleware
   }
 });
-router.put("/", async (req, res) => {
+
+router.put("/", async (req, res, next) => {
   try {
     const { id, quantity } = req.body;
+    let updatedCartItem;
+
     if (id) {
       // Update only the quantity
-      const updatedCartItem = await cartItemService.updateCartItem(
-        id,
-        quantity
-      );
+      updatedCartItem = await cartItemService.updateCartItem(id, quantity);
     } else {
-      const updateCartItem = cartItemService.createCartItem(quantity);
+      updatedCartItem = await cartItemService.createCartItem(quantity);
     }
 
     res.json({
@@ -50,18 +49,16 @@ router.put("/", async (req, res) => {
       meta: updatedCartItem,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error); // Pass the error to the error handling middleware
   }
 });
-router.delete("/:id", async (req, res) => {
+
+router.delete("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 
     // Call the deleteCart method from the service
-    const deletedCart = await cartService.deleteCart(cartId);
+    await cartService.deleteCart(cartId);
 
     res.json({
       code: 200,
@@ -69,20 +66,23 @@ router.delete("/:id", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ code: 500, message: "Internal Server Error", meta: null });
+    next(error); // Pass the error to the error handling middleware
   }
 });
-router.get("/:id", async (req, res) => {
-  const cartId = parseInt(req.params.id);
-  const cart = await cartService.getCartById(cartId);
-  res.json({
-    code: 200,
-    message: cart,
-    meta: null,
-  });
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const cartId = parseInt(req.params.id);
+    const cart = await cartService.getCartById(cartId);
+
+    res.json({
+      code: 200,
+      message: cart,
+      meta: null,
+    });
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware
+  }
 });
 
 module.exports = router;

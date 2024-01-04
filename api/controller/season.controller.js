@@ -4,7 +4,7 @@ const seasonService = require("../service/season.service");
 const router = express.Router();
 
 // Create Season
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const { name } = req.body;
 
@@ -15,12 +15,13 @@ router.post("/", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
 // Read All Seasons
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const seasons = await seasonService.getAllSeasons();
     res.json({
@@ -29,12 +30,13 @@ router.get("/", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
 // Read Season by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const seasonId = parseInt(req.params.id);
     const season = await seasonService.getSeasonById(seasonId);
@@ -52,12 +54,13 @@ router.get("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
 // Update Season by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const seasonId = parseInt(req.params.id);
     const { name } = req.body;
@@ -68,12 +71,13 @@ router.put("/:id", async (req, res) => {
       meta: null,
     });
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
 // Delete Season by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const seasonId = parseInt(req.params.id);
     const deletedSeason = await seasonService.deleteSeason(seasonId);
@@ -91,7 +95,8 @@ router.delete("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ code: 500, message: error.message, meta: null });
+    console.log(error);
+    next(error);
   }
 });
 
