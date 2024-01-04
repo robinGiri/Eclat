@@ -112,4 +112,17 @@ router.get("/allproduct", async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const orderItems = await orderItemsService.getOrderItems();
+    res.json({
+      orderItems,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

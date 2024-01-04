@@ -23,14 +23,20 @@ function TheLogin() {
   const handleLogin = async () => {
     const login = { email: email, password: password };
     const { data } = await axios.post(loginUrl, login);
-    const { code } = data;
-    if (code == 200) {
+    const { userdetail:{role} } = data;
+    if (role== "SELLER") {
       handleAdminDashboardClick();
+    }
+    else{
+      handleHomeClick();
     }
   };
 
   const handleAdminDashboardClick = () => {
     navigate("/admin-dashboard");
+  };
+  const handleHomeClick = () => {
+    navigate("/");
   };
 
   return (

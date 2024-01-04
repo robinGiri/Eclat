@@ -53,7 +53,12 @@ function TheRegistration() {
       email: email,
       password: password,
     };
-    await axios.post(registerURL, user);
+    const {data:{code}} = await axios.post(registerURL, user);
+    console.log(code);
+    if(code=="200"){
+      navigate("/login");
+    }
+
   };
 
   const handleLoginClick = () => {
