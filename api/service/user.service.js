@@ -1,40 +1,56 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 class UserService {
-  include = { Cart: true };
+  select = {
+    id: true,
+    name: true,
+    email: true,
+    role: true,
+    address: true,
+    phone: true,
+    password: false,
+    image: true,
+    token: true,
+    forgetToken: true,
+    Cart: { select: { id: true } },
+  };
 
   async save(data) {
     try {
       const user = await prisma.user.create({
         data: data,
-        include: this.include,
+        select: this.select,
       });
       return user;
     } catch (e) {
       console.log(e);
       throw e;
     }
-
-    return user;
   }
   async getUserByFilter(filter = {}) {
     const user = await prisma.user.findUnique({
       where: filter,
-      include: this.include,
+      select: this.select,
     });
     return user;
   }
   async getUserById(userId) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: this.include,
+      select: this.select,
     });
     return user;
   }
 
   async getAllUsers() {
-    const user = await prisma.user.findMany();
-    return user;
+    try {
+      const user = await prisma.user.findMany({
+        select: this.select,
+      });
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateUser(email, data) {
@@ -42,21 +58,24 @@ class UserService {
       const user = await prisma.user.update({
         where: { email: email },
         data: data,
-        include: this.include,
+        select: this.select,
       });
       return user;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
+
   async logout(email) {
-    await prisma.user.update({
-      where: { email: email },
-      data: { token: null },
-      include: this.include,
-    });
-    return;
+    try {
+      await prisma.user.update({
+        where: { email: email },
+        data: { token: null },
+      });
+      return;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

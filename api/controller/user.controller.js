@@ -14,7 +14,6 @@ router.get("/users", async (req, res, next) => {
       meta: null,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });

@@ -5,20 +5,35 @@ class ShippingService {
   // Include related models
   include = {
     Order: {
-      include: {
-        customer: true,
+      select: {
+        id: true,
+        total: true,
+        userId: true,
+        customer: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
         OrderItems: {
-          include: {
+          select: {
+            id: true,
+            productId: true,
+            quantity: true,
             product: {
-              include: {
-                images: true, // Include images for each product
+              select: {
+                id: true,
+                name: true,
+                afterdiscount: true, // Include afterdiscount field
+                images: true,
               },
             },
           },
         },
-        Purchase: true,
       },
     },
+    Purchase: true,
   };
 
   // Create Shipping
@@ -52,13 +67,13 @@ class ShippingService {
     }
   }
 
-  //Read All shipping
+  // Read All Shipping
   async getAllShipping() {
     try {
-      const shipping = await prisma.shipping.findMany({
+      const shippingList = await prisma.shipping.findMany({
         include: this.include,
       });
-      return shipping;
+      return shippingList;
     } catch (error) {
       console.error(error);
       throw error;
