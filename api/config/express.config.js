@@ -34,6 +34,7 @@ app.use(`${BASE_URL}/cartItem`, require("../controller/cart.items.controller"));
 app.use(`${BASE_URL}/season`, require("../controller/season.controller"));
 app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
+app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 
 //service runner
 

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { orderItemsService, orderService } = require("../service/order.service");
 const { cartService, cartItemService } = require("../service/cart.service");
 
-router.post("/:id", async (req, res) => {
+router.post("/:id", async (req, res, next) => {
   try {
     let OrderItems;
     //extract cart id
@@ -37,7 +37,7 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+router.put("/", async (req, res, next) => {
   try {
     const { id, quantity } = req.body;
     if (id) {
@@ -61,7 +61,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 

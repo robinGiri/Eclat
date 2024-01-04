@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
 const { cartService } = require("../service/cart.service");
 
-router.get("/users", async (req, res) => {
+router.get("/users", async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();
     res.json({
@@ -19,7 +19,7 @@ router.get("/users", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const data = req.body;
     const saltRound = 10;
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
     console.log(id);
     const cart = await cartService.createCart(id);
     res.json({
-      result: user,
+      result: id,
       code: 200,
       meta: null,
     });
@@ -40,12 +40,14 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
     const userData = await userService.getUserByFilter({ email: data.email });
     if (!userData) {
-      res.json({ code: 404, message: "User not found", meta: null });
+      res
+        .status(404)
+        .json({ code: 404, message: "User not found", meta: null });
     }
     const passwordCorrect = await bcrypt.compare(
       data.password,
@@ -77,7 +79,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
+router.get("/logout", async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const tokenWithoutBearer = token.split(" ")[1];
@@ -97,7 +99,7 @@ router.get("/logout", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
     const user = await userService.getUserById(userId);
@@ -111,7 +113,7 @@ router.get("/:id", async (req, res) => {
     next(error);
   }
 });
-router.put("/:email", async (req, res) => {
+router.put("/:email", async (req, res, next) => {
   try {
     const email = req.params.email;
     const data = req.body;
@@ -131,7 +133,7 @@ router.put("/:email", async (req, res) => {
   }
 });
 
-router.put("/:email", async (req, res) => {
+router.put("/:email", async (req, res, next) => {
   try {
     const email = req.params.email;
     const data = req.body;

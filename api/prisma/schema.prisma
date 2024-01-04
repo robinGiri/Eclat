@@ -103,8 +103,8 @@ model Order {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @default(now()) @updatedAt
   OrderItems OrderItems[]
-  // Purchase   Purchase[]
   customer   User?        @relation(fields: [userId], references: [id])
+  Purchase   Purchase[]
 }
 
 model OrderItems {
@@ -129,15 +129,14 @@ model Setting {
   currentSeason Int @default(0)
 }
 
-// model Purchase {
-//   id            Int      @id @default(autoincrement())
-//   paymentmethod String?
-//   status        String
-//   OrderId       Int?
-//   Order         Order?   @relation(fields: [OrderId], references: [id])
-//   createdAt     DateTime @default(now())
-//   updatedAt     DateTime @updatedAt
-// }
+model Purchase {
+  id            Int      @id @default(autoincrement())
+  paymentmethod String?
+  OrderId       Int?
+  Order         Order?   @relation(fields: [OrderId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
 
 // model Wishlist {
 //   id        Int      @id @default(autoincrement())

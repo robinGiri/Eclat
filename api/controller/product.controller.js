@@ -1,5 +1,6 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service");
+const settingService = require("../service/setting.service");
 const uploader = require("../jobs/imageUploaderJob");
 const { deleteFile } = require("../helper/helper");
 const router = require("express").Router();
@@ -73,10 +74,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/season/:id", async (req, res) => {
+router.get("/season", async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await productService.getProductsBySeason(parseInt(id));
+    const { currentSeason } = await settingService.getSetting();
+    console.log(currentSeason);
+    const product = await productService.getProductsBySeason(
+      parseInt(currentSeason)
+    );
     res.json({
       result: product,
       message: "product fetched successfully",
@@ -107,7 +111,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await productService.fetchByID(productId);
@@ -125,7 +129,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:productId", uploader.array("image"), async (req, res) => {
+router.put("/:productId", uploader.array("image"), async (req, res, next) => {
   try {
     const productId = req.params.productId;
 
@@ -193,7 +197,7 @@ router.put("/:productId", uploader.array("image"), async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
     const data = await productService.deleteByID(productId);
@@ -208,7 +212,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.post("/upload", uploader.single("image"), async (req, res) => {
+router.post("/upload", uploader.single("image"), async (req, res, next) => {
   imageService.save(req.file.filename, 8);
   res.json({
     file: req.file.filename,
