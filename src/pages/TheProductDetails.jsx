@@ -107,9 +107,6 @@ function TheProductDetails() {
                     {product.name !== undefined ? `${product.name}` : "Loading"}
                   </p>
                   <div className="flex mt-2">
-<<<<<<< HEAD
-                  <button className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500" onClick={()=>{navigate(`/customize/product?${product.id}`)}}>Customize with Eclat</button>
-=======
                     <button
                       className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
                       onClick={() => {
@@ -118,7 +115,6 @@ function TheProductDetails() {
                     >
                       Customize with Eclat
                     </button>
->>>>>>> main
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
