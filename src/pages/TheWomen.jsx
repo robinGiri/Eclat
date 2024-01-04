@@ -37,7 +37,7 @@ function TheWomen() {
         <h1 className="mx-[5%] text-5xl py-6 font-bold"></h1>
         <div className="mx-[5%] my-5">
         <SecondCarousel
-            products={products?.filter((item) => item.category === "kids")}
+            products={products?.filter((item) => item.category === "womens")}
             isError={isError}
             handleProductClick={handleProductClick}
           />
