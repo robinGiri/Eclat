@@ -74,14 +74,13 @@ router.get("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
     const cart = await cartService.getCartById(cartId);
-
     res.json({
       code: 200,
       message: cart,
       meta: null,
     });
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    next(error);
   }
 });
 

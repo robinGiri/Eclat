@@ -26,6 +26,15 @@ class OrderService {
       throw error;
     }
   }
+  // Read All Order
+  // async getOrders() {
+  //   try {
+  //     const order = await prisma.order.findMany();
+  //     return order;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   // Update Order
   async updateOrder(orderId, updatedData) {
@@ -108,39 +117,14 @@ class OrderItemsService {
       throw error;
     }
   }
-  async getOrdersWithProducts() {
+  async getAllOrderItems() {
     try {
-      const ordersWithProducts = await prisma.order.findMany({
-        include: {
-          OrderItems: {
-            include: {
-              product: {
-                include: {
-                  // Include other related models if needed
-                  brand: true,
-                  stock: true,
-                  images: true,
-                  season: true,
-                },
-              },
-            },
-          },
-        },
+      const orderItems = await prisma.orderItems.findMany({
+        include: { product: true, Order: true },
       });
-
-      res.json({
-        code: 200,
-        data: ordersWithProducts,
-        message: "Orders with products retrieved successfully.",
-        meta: null,
-      });
+      return orderItems;
     } catch (error) {
-      console.error("Error fetching orders with products:", error);
-      res.status(500).json({
-        code: 500,
-        message: "Internal server error.",
-        meta: null,
-      });
+      throw error;
     }
   }
 }

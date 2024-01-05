@@ -1,18 +1,21 @@
 const router = require("express").Router();
 const purchaseService = require("../service/purchase.service");
 const paymentService = require("../service/purchase.service");
+const shippingService = require("../service/shipping.service");
 
 router.post("/", async (req, res, next) => {
   try {
     const purchaseDetails = req.body;
-    const { paymentmethod, OrderId } = purchaseDetails;
-    const purchase = await purchaseService.createPurchase(
+    const { paymentmethod, OrderId, token } = purchaseDetails;
+    const { id } = await purchaseService.createPurchase(
       paymentmethod,
-      OrderId
+      OrderId,
+      token
     );
-    if (purchase) {
-      res.json({
-        purchase: purchase,
+    if (id) {
+      const shipping = await shippingService.createShipping(OrderId, id);
+      res.status(201).json({
+        shipping: shipping,
         status: "successful",
       });
     }
@@ -25,7 +28,7 @@ router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
     const payment = await paymentService.getPurchaseById(parseInt(id));
     if (payment) {
-      res.json({
+      res.status(200).json({
         purchase: payment,
         status: "successful",
       });
