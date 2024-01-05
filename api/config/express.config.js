@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 
-const { consola } = require("consola");
 const path = require("path");
 
 const app = express();
@@ -42,5 +41,7 @@ app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));
 app.post("/send-email", require("../helper/sendMail"));
+app.get("/send-email-to-all", require("../helper/sendMailToAll"));
+app.post("/send-email-to-all", require("../helper/sendMailToAll"));
 
 module.exports = app;

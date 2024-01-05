@@ -143,6 +143,18 @@ class OrderItemsService {
       });
     }
   }
+
+
+  async getOrderItems() {
+    try {
+      const orderItem = await prisma.orderItems.findMany({
+        include: { product: true, Order: true }, // Include associated Product and Order if needed
+      });
+      return orderItem;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const orderItemsService = new OrderItemsService();

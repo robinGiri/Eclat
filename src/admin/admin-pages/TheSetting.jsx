@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
-const api = "http://localhost:5000/api/v1/";
+import { apiConfig } from "../../services/api/config";
 
 function TheSetting() {
   const [seasons, setSeasons] = useState([]);
@@ -12,7 +11,7 @@ function TheSetting() {
     try {
       const {
         data: { seasons },
-      } = await axios.get(api + "season");
+      } = await axios.get(`${apiConfig.baseUrl}season`);
       setSeasons(seasons);
     } catch (error) {
       setError("Error fetching seasons");
@@ -25,8 +24,10 @@ function TheSetting() {
         data: {
           season: { id },
         },
-      } = await axios.get(api + "setting/currentSeason");
+      } = await axios.get(`${apiConfig.baseUrl}setting/currentSeason`);
       setCurrentSeasonId(id);
+      const storedSeasonId = localStorage.getItem("selectedSeasonId");
+      setSeasonId(storedSeasonId || id);
     } catch (error) {
       console.log(error);
     }
@@ -43,13 +44,13 @@ function TheSetting() {
 
     try {
       const { data } = await axios.post(
-        api + "setting/currentSeason",
+        `${apiConfig.baseUrl}setting/currentSeason`,
         setcurrentseason
       );
       console.log(data);
+      localStorage.setItem("selectedSeasonId", selectedSeasonId);
     } catch (error) {
       console.error("Error setting current season", error);
-      // Handle error as needed
     }
   };
 
@@ -58,24 +59,44 @@ function TheSetting() {
     getCurrentSeason();
   }, []);
 
+  const sendEmailToAll = async () => {
+    try {
+      const response = await axios.post(`${apiConfig.emailSendAllUrl}send-email-to-all`, {
+        recipient: "abhisekmagarvivo@gmail.com",
+        subject: "Confirm",
+        text: "Email",
+      });
+
+      if (response.status === 200) {
+        console.log("Email sent successfully!");
+      } else {
+        console.log("Failed to send email.");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   return (
-    <div className="flex mt-20">
+    <div className="flex m-24 flex-col gap-5">
+      <div>
       <select
         id="season"
         name="season"
         className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
         onChange={(e) => handelChange(e)}
+        value={seasonId}
       >
         {seasons.map((season) => (
-          <option
-            key={season.id}
-            value={season.id}
-            selected={season.id === currentSeasonId} // Set selected attribute
-          >
+          <option key={season.id} value={season.id}>
             {season.name}
           </option>
         ))}
       </select>
+      </div>
+      <div>
+        <button className="border p-2 rounded-md" onClick={sendEmailToAll}>Bulk Newsletter</button>
+      </div>
     </div>
   );
 }
