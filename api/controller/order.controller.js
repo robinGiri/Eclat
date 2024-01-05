@@ -21,7 +21,6 @@ router.post("/:id", async (req, res, next) => {
 
     cartItems.map((item) => {
       const { id, cartId, productId, quantity } = item;
-      console.log(cartId);
       orderItemsService.createOrderItem(orderId, productId, quantity);
       cartItemService.deleteCartItem(id);
     });
@@ -65,6 +64,8 @@ router.delete("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 
+    // const cart = await cartService.
+
     // Call the deleteCart method from the service
     const deletedCart = await cartService.deleteCart(cartId);
 
@@ -98,17 +99,17 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.get("/allproduct", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const jointable = await orderItemsService.getOrdersWithProducts();
+    const orderItems = await orderItemsService.getAllOrderItems();
 
     res.json({
+      orderItems,
       code: 200,
-      message: jointable,
       meta: null,
     });
   } catch (error) {
-    next(error); // Pass the error to the error handling middleware
+    next(error);
   }
 });
 

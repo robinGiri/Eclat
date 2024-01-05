@@ -24,7 +24,7 @@ app.use(
 
 //controller paths
 
-app.use(`${BASE_URL}/pay-verify/`, require("../controller/payment.controller"));
+// app.use(`${BASE_URL}/pay-verify/`, require("../controller/payment.controller"));
 app.use(`${BASE_URL}/product`, require("../controller/product.controller"));
 app.use(`${BASE_URL}/cart`, require("../controller/cart.controller"));
 app.use(`${BASE_URL}/user`, require("../controller/user.controller"));
@@ -34,6 +34,7 @@ app.use(`${BASE_URL}/season`, require("../controller/season.controller"));
 app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
 app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
+app.use(`${BASE_URL}/shipping`, require("../controller/shipping.controller"));
 
 //service runner
 

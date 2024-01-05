@@ -1,18 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TheHeroCarousel from "../components/sharedComponents/carouselComponents/TheHeroCarousel";
 import ThirdHomepageSection from "../components/specificComponents/ThirdHomepageSection";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate } from "react-router-dom";
 import Thecard from "../components/sharedComponents/TheCard";
-import products from "../data/products";
+import { apiConfig } from "../services/api/config";
+import axios from "axios";
 
 function TheHome() {
   const navigate = useNavigate();
 
+  const lists = [
+    { id: "sales", name: "Seasonal" },
+    { id: "mens", name: "Men's", path: "/men" },
+    { id: "womens", name: "Women's", path: "/women" },
+    { id: "kids", name: "Kids's", path: "/kids" },
+  ];
+
   const handleProductClick = (productId) => {
     navigate(`/product_details/${productId}`, { productId });
   };
+
+  const handleViewMoreClick = (path) => {
+    navigate(path);
+  };
+
+  const [products, setProducts] = useState([]);
+  const [isError, setIsError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getApiData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(`${apiConfig.baseUrl}product/`);
+      setProducts(data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsError("Error fetching data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
+
+  console.log(products);
 
   return (
     <div>
@@ -45,90 +80,43 @@ function TheHome() {
           </div>
         </div>
 
-        {/* sections */}
-
         <div className="mt-3 mx-10 p-4 bg-white">
-          {/* Seasonal section______________________________________________________________________ */}
-          <div className="p-5 rounded-md">
-            <h1 className="font-bold p-4 text-4xl px-4">Seasonal</h1>
-            <div className="flex flex-wrap">
-              {products
-                .filter((product) => product.category === "sales")
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                    onClick={() => handleProductClick(item.id)}
+          {lists.map((list) => (
+            <div className="p-5  rounded-md" key={list.id}>
+              <h1 className="font-bold text-4xl p-4 px-4">{list.name}</h1>
+              <div className="flex flex-wrap">
+                {products
+                  .filter((product) => product.category === list.id)
+                  .slice(0, 4)
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
+                      onClick={() => handleProductClick(item.id)}
+                    >
+                      <Thecard {...item} />
+                    </div>
+                  ))}
+              </div>
+              {list.path && (
+                <div className=" flex justify-end px-5 py-6">
+                  <h2
+                    className="hover:font-bold  hover:text-yellow-500  cursor-pointer text-lg"
+                    onClick={() => handleViewMoreClick(list.path)}
                   >
-                    <Thecard {...item} />
-                  </div>
-                ))}
+                    View More {">"}
+                  </h2>
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* Men's section______________________________________________________________________ */}
-
-          <div className="p-5 rounded-md">
-            <h1 className="font-bold text-4xl p-4 px-4">Men's</h1>
-            <div className="flex flex-wrap">
-              {products
-                .filter((product) => product.category === "mens")
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                    onClick={() => handleProductClick(item.id)}
-                  >
-                    <Thecard {...item} />
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          {/* Women's section______________________________________________________________________ */}
-
-          <div className="p-5 rounded-md">
-            <h1 className="font-bold text-4xl p-4 px-4">Women's</h1>
-            <div className="flex flex-wrap">
-              {products
-                .filter((product) => product.category === "womens")
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                    onClick={() => handleProductClick(item.id)}
-                  >
-                    <Thecard {...item} />
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          {/* Kids section______________________________________________________________________ */}
-
-          <div className="p-5 rounded-md">
-            <h1 className="font-bold text-4xl p-4 px-4">Kids'</h1>
-            <div className="flex flex-wrap">
-              {products
-                .filter((product) => product.category === "kids")
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                    onClick={() => handleProductClick(item.id)}
-                  >
-                    <Thecard {...item} />
-                  </div>
-                ))}
-            </div>
-          </div>
+          ))}
         </div>
 
         <div className="mx-6 p-4">
           <ThirdHomepageSection />
         </div>
 
-        <div className="mt-28">
+        <div className="mt-28 p-10">
           <TailInfoSection />
         </div>
       </div>

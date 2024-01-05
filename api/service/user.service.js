@@ -1,65 +1,90 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-class UserService {
-  include = { Cart: true };
 
-  async save(data) {
-    try {
-      const user = await prisma.user.create({
-        data: data,
-        include: this.include,
-      });
-      return user;
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
+const userSelect = {
+  id: true,
+  name: true,
+  email: true,
+  role: true,
+  address: true,
+  phone: true,
+  password: false,
+  image: true,
+  token: true,
+  forgetToken: true,
+  Cart: { select: { id: true } },
+};
 
-    return user;
-  }
-  async getUserByFilter(filter = {}) {
-    const user = await prisma.user.findUnique({
-      where: filter,
-      include: this.include,
+async function saveUser(data) {
+  try {
+    const user = await prisma.user.create({
+      data: data,
+      select: userSelect,
     });
     return user;
-  }
-  async getUserById(userId) {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: this.include,
-    });
-    return user;
-  }
-
-  async getAllUsers() {
-    const user = await prisma.user.findMany();
-    return user;
-  }
-
-  async updateUser(email, data) {
-    try {
-      const user = await prisma.user.update({
-        where: { email: email },
-        data: data,
-        include: this.include,
-      });
-      return user;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-  async logout(email) {
-    await prisma.user.update({
-      where: { email: email },
-      data: { token: null },
-      include: this.include,
-    });
-    return;
+  } catch (e) {
+    console.log(e);
+    throw e;
   }
 }
 
-const userService = new UserService();
+async function getUserByFilter(filter = {}) {
+  const user = await prisma.user.findUnique({
+    where: filter,
+    select: userSelect,
+  });
+  return user;
+}
 
-module.exports = userService;
+async function getUserById(userId) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: userSelect,
+  });
+  return user;
+}
+
+async function getAllUsers() {
+  try {
+    const users = await prisma.user.findMany({
+      select: userSelect,
+    });
+    return users;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateUserByEmail(email, data) {
+  try {
+    const user = await prisma.user.update({
+      where: { email: email },
+      data: data,
+      select: userSelect,
+    });
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function logoutUser(email) {
+  try {
+    await prisma.user.update({
+      where: { email: email },
+      data: { token: null },
+    });
+    return;
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = {
+  saveUser,
+  getUserByFilter,
+  getUserById,
+  getAllUsers,
+  updateUserByEmail,
+  logoutUser,
+};
