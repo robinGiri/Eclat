@@ -24,7 +24,7 @@ function TheTopNavbarOne() {
       <div className="flex justify-center items-center bg-gradient-to-t from-white to-neutral-100 text-neutral-600">
         <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
           <Link to="/" onClick={handleLogoClick} className="relative">
-           <img src="assets/logo.png" alt="Logo" />
+           <img src="src/assets/logo.png" alt="Logo" />
           </Link>
         </div>
         <div className="flex translate-x-[350%] items-center  gap-2">
