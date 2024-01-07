@@ -42,7 +42,9 @@ router.post("/", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
+    console.log(data);
     const userData = await userService.getUserByFilter({ email: data.email });
+    console.log(userData);
     if (!userData) {
       res
         .status(404)
@@ -124,30 +126,13 @@ router.put("/:email", async (req, res, next) => {
         code: 200,
         meta: null,
       });
+    }else{
+      throw new Error("User Not found");
     }
-    throw new Error("User Not found");
+    
   } catch (error) {
     console.log(error);
     next(error);
-  }
-});
-
-router.put("/:email", async (req, res, next) => {
-  try {
-    const email = req.params.email;
-    const data = req.body;
-    const findUser = await userService.getUserByFilter({ email: email });
-    if (findUser) {
-      const user = await userService.updateUser(email, data);
-      res.json({
-        userdetail: user,
-        code: 200,
-        meta: null,
-      });
-    }
-    throw new Error("User Not found");
-  } catch (error) {
-    console.log(error);
   }
 });
 
