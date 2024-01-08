@@ -12,10 +12,10 @@ const userSelect = {
   image: true,
   token: true,
   forgetToken: true,
-  Cart: { select: { id: true } },
+  // Cart: { select: { id: true } },
 };
 
-async function saveUser(data) {
+async function save(data) {
   try {
     const user = await prisma.user.create({
       data: data,
@@ -23,7 +23,6 @@ async function saveUser(data) {
     });
     return user;
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }
@@ -31,7 +30,6 @@ async function saveUser(data) {
 async function getUserByFilter(filter = {}) {
   const user = await prisma.user.findUnique({
     where: filter,
-    select: userSelect,
   });
   return user;
 }
@@ -55,7 +53,7 @@ async function getAllUsers() {
   }
 }
 
-async function updateUserByEmail(email, data) {
+async function updateUser(email, data) {
   try {
     const user = await prisma.user.update({
       where: { email: email },
@@ -81,10 +79,10 @@ async function logoutUser(email) {
 }
 
 module.exports = {
-  saveUser,
+  save,
   getUserByFilter,
   getUserById,
   getAllUsers,
-  updateUserByEmail,
+  updateUser,
   logoutUser,
 };

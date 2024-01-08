@@ -1,27 +1,24 @@
 const express = require("express");
 const cors = require("cors");
-
-const { consola } = require("consola");
 const path = require("path");
+const cookieParser = require("cookie-parser");
+const errorHandler = require("../middleware/error.handler");
 
 const app = express();
 const BASE_URL = "/api/v1";
 
-const errorHandler = require("../middleware/error.handler");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //handel static file
-
-app.use(
-  `${BASE_URL}/uploads`,
-  express.static(path.join(__dirname, "..", "public/uploads"))
-);
 app.use(
   `${BASE_URL}/uploads`,
   express.static(path.join(__dirname, "..", "public", "uploads"))
 );
+
+//cookie parser
+app.use(cookieParser());
 
 //controller paths
 
@@ -37,8 +34,7 @@ app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
 app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 app.use(`${BASE_URL}/shipping`, require("../controller/shipping.controller"));
 
-//service runner
-
+//error handeler
 app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));

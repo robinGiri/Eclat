@@ -11,7 +11,6 @@ router.post("/:id", async (req, res, next) => {
       Cart: [{ id }],
     } = await userService.getUserById(userId);
     const cartId = id;
-    console.log(cartId);
 
     // From the body, it will receive the quantity and product
     const { productId, quantity } = req.body;

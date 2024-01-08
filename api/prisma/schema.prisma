@@ -28,38 +28,37 @@ enum ShippingStatus {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   name          String?
-  slug          String?
   description   String?
   category      String?
-  brand         Brand?   @relation(fields: [brandId], references: [id])
+  brand         Brand?       @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        User?    @relation(fields: [sellerId], references: [id])
+  sellerId      Int?
+  User          User?        @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
-  tags          String?
   stock         Int?
   status        String?
   viewCount     Int?
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
-  images        Image[]  @relation("ProductImages")
-  sellerId      Int?
+  createdAt     DateTime     @default(now())
+  updateAt      DateTime     @updatedAt
+  images        Image[]      @relation("ProductImages")
   brandId       Int?
-
-  CartItem   CartItem[]
-  OrderItems OrderItems[]
-  Season     Season?      @relation(fields: [seasonId], references: [id])
-  seasonId   Int?
+  CartItem      CartItem[]
+  OrderItems    OrderItems[]
+  Season        Season       @relation(fields: [seasonId], references: [id])
+  seasonId      Int
 }
 
 model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
+  seasonId  Int
   product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
+  Season    Season  @relation(fields: [seasonId], references: [id])
 }
 
 model Brand {
@@ -111,13 +110,13 @@ model CartItem {
 model Order {
   id         Int          @id @default(autoincrement())
   total      Float?       @default(0)
-  userId     Int?
+  customerId Int?
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @default(now()) @updatedAt
   OrderItems OrderItems[]
   Purchase   Purchase[]
   Shipping   Shipping[]
-  customer   User?        @relation(fields: [userId], references: [id])
+  User       User?        @relation(fields: [customerId], references: [id])
 }
 
 model OrderItems {
@@ -134,6 +133,7 @@ model OrderItems {
 model Season {
   id      Int       @id @default(autoincrement())
   name    String?
+  images  Image[]
   Product Product[]
 }
 
