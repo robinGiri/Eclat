@@ -3,5 +3,6 @@ export const apiConfig = {
     authUrl: '/Account/Authorize?client_id=web&response_type=token',
     loginUrl: 'https://',
     logoutUrl: 'https://',
+    emailSendAllUrl:'http://localhost:4000/',
   };
   
