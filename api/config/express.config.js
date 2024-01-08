@@ -39,5 +39,7 @@ app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));
 app.post("/send-email", require("../helper/sendMail"));
+app.get("/send-email-to-all", require("../helper/sendMailToAll"));
+app.post("/send-email-to-all", require("../helper/sendMailToAll"));
 
 module.exports = app;

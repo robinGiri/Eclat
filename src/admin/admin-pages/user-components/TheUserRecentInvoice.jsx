@@ -7,7 +7,7 @@ import axios from "axios";
 import TheUserViewModal from "./TheUserViewModal";
 import TheUserUpdateModal from "./TheUserUpdateModal";
 
-const API = "http://localhost:5000/api/v1/user/";
+const API = "http://localhost:4000/api/v1/user/";
 
 function TheUserRecentInvoice() {
   const [products, setProducts] = useState([]);
@@ -46,7 +46,7 @@ function TheUserRecentInvoice() {
     try {
       const {
         data: { users },
-      } = await axios.get(API+"users/");
+      } = await axios.get(API + "users/");
       console.log(users);
       setProducts(users);
     } catch (error) {
@@ -135,15 +135,16 @@ function TheUserRecentInvoice() {
                       <td className="px-6 w-44">
                         <span
                           className={`text-[40px] mr-1 ${
-                            item.token === ""
+                            item.token === null
                               ? "text-yellow-600"
                               : "text-green-600"
                           }`}
                         >
                           .
                         </span>
-                        {item.token}
+                        {item.token !== null ? "Active" : "Inactive"}
                       </td>
+
                       <td className="px-6 flex justify-center items-center h-[7rem] -ml-2">
                         <div className="flex gap-3">
                           <button

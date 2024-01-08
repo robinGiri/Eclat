@@ -61,7 +61,9 @@ router.get("/login", verifyToken, async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
+    console.log(data);
     const userData = await userService.getUserByFilter({ email: data.email });
+    console.log(userData);
     if (!userData) {
       res
         .status(404)

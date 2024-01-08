@@ -20,14 +20,14 @@ function TheUserViewModal({ product, closeUserModal }) {
               <p className="mb-4 text-xl font-semibold">Last Purchased: <span className="font-light text-lg"> {product.createdAt}</span></p>
 
               <p className="mb-4 -mt-6 text-xl font-semibold ">Status: <span className="font-light text-lg"><span
-                          className={`text-[80px] ${
-                            product.token === ""
+                          className={`text-[80px] mr-1 ${
+                            product.token === null
                               ? "text-yellow-600"
-                              : "text-green-600 "
+                              : "text-green-600"
                           }`}
                         >
                           .
-                        </span> {product.token}</span></p>
+                        </span> {product.token !== null ? "Active" : "Inactive"}</span></p>
             </div>
           </div>
         </div>

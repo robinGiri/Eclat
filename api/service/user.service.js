@@ -12,7 +12,7 @@ const userSelect = {
   image: true,
   token: true,
   forgetToken: true,
-  // Cart: { select: { id: true } },
+  Cart: { select: { id: true } },
 };
 
 async function save(data) {
@@ -37,7 +37,19 @@ async function getUserByFilter(filter = {}) {
 async function getUserById(userId) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: userSelect,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      address: true,
+      phone: true,
+      password: false,
+      image: true,
+      token: true,
+      forgetToken: true,
+      Cart: { select: { id: true } },
+    },
   });
   return user;
 }
@@ -55,10 +67,10 @@ async function getAllUsers() {
 
 async function updateUser(email, data) {
   try {
+    console.log(data);
     const user = await prisma.user.update({
       where: { email: email },
       data: data,
-      select: userSelect,
     });
     return user;
   } catch (error) {

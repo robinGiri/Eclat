@@ -2,12 +2,12 @@ import React from "react";
 import { HiOutlineTicket } from "react-icons/hi2";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { CiDiscount1 } from "react-icons/ci";
-import axios from "axios";
+import { apiConfig } from "../../services/api/config";
 
 function TheCartPlaceOrderCheckout({ total }) {
   const sendEmail = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/send-email", {
+      const response = await axios.post(`${apiConfig.emailSendAllUrl}send-mail`, {
         recipient: "abhisekmagarvivo@gmail.com",
         subject: "Confirm",
         text: "Email",

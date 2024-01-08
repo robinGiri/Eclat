@@ -1,9 +1,10 @@
 import React from "react";
+import TheOrderComponentMain from "./order-component/TheOrderComponentMain";
 
 function TheOrders() {
   return (
     <div className="flex mt-20">
-      <h1>The Orders</h1>
+      <TheOrderComponentMain />
     </div>
   );
 }

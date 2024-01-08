@@ -11,8 +11,8 @@ import TheDeleteConfirm from "./TheDeleteConfirm";
 import TheUpdateModal from "./TheUpdateModal";
 import TheAddModal from "./TheAddModal";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+const API = "http://localhost:4000/api/v1/product/";
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheRecentInvoice() {
   const [products, setProducts] = useState([]);
@@ -76,7 +76,7 @@ function TheRecentInvoice() {
 
   useEffect(() => {
     getApiData();
-  }, [products]);
+  }, []);
 
   const openViewModal = (product) => {
     setSelectedViewProduct(product);
