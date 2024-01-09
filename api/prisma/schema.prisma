@@ -46,10 +46,11 @@ model Product {
   updateAt      DateTime     @updatedAt
   images        Image[]      @relation("ProductImages")
   brandId       Int?
-  CartItem      CartItem[]
-  OrderItems    OrderItems[]
-  Season        Season       @relation(fields: [seasonId], references: [id])
-  seasonId      Int
+  CartItem   CartItem[]
+  OrderItems OrderItems[]
+  Season     Season?      @relation(fields: [seasonId], references: [id])
+  seasonId   Int?
+  Wishlist   Wishlist[]
 }
 
 model Image {
@@ -68,10 +69,10 @@ model Brand {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
-  email        String    @unique
-  role         UserRole  @default(CUSTOMER)
+  email        String     @unique
+  role         UserRole   @default(CUSTOMER)
   address      String
   phone        String?
   password     String?
@@ -79,11 +80,12 @@ model User {
   token        String?
   forgetToken  String?
   validateTill DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   Cart         Cart[]
   Product      Product[]
   Order        Order[]
+  Wishlist     Wishlist[]
 }
 
 model Cart {
@@ -165,12 +167,12 @@ model Shipping {
   updatedAt  DateTime       @updatedAt
 }
 
-// model Wishlist {
-//   id        Int      @id @default(autoincrement())
-//   productId Int
-//   Product   Product  @relation(fields: [productId], references: [id])
-//   userId    Int?
-//   User      User?    @relation(fields: [userId], references: [id])
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  Product   Product  @relation(fields: [productId], references: [id])
+  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
