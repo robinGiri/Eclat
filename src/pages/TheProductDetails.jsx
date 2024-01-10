@@ -88,7 +88,7 @@ function TheProductDetails() {
                 <div className="flex items-center mt-5">
                   <div className="flex gap-2 items-center">
                     <p className="font-medium text-neutral-700 text-xl">
-                      Rs {product.price}
+                      Rs {product.afterdiscount}
                     </p>
                     <span className="text-neutral-400 "> | </span>
                     <p className="font-medium text-neutral-700 text-xl">
@@ -113,13 +113,7 @@ function TheProductDetails() {
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[100%]">
                   <p className="text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    accumsan varius metus, ac fringilla libero hendrerit ac.
-                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla metus, ac fringilla libero
-                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
-                    malesuada, justo ligula rhoncus nulla
-                    {product.discription}
+                    {product.description}
                   </p>
                 </div>
                 <p className="font-light text-sm hover:font-bold cursor-pointer mt-4">
