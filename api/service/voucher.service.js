@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const include = {
-  Product: true,
+  Order: true,
 };
 
 // Create Voucher
@@ -30,27 +30,13 @@ async function getVoucherById(voucherId) {
     throw error;
   }
 }
-
-// Update Voucher
-async function updateVoucher(voucherId, updatedData) {
+// Read All Voucher
+async function getAllVoucher() {
   try {
-    const updatedVoucher = await prisma.voucher.update({
-      where: { id: voucherId },
-      data: updatedData,
+    const voucher = await prisma.voucher.findMany({
+      include,
     });
-    return updatedVoucher;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// Delete Voucher by ID
-async function deleteVoucher(voucherId) {
-  try {
-    const deletedVoucher = await prisma.voucher.delete({
-      where: { id: voucherId },
-    });
-    return deletedVoucher;
+    return voucher;
   } catch (error) {
     throw error;
   }
@@ -59,6 +45,5 @@ async function deleteVoucher(voucherId) {
 module.exports = {
   createVoucher,
   getVoucherById,
-  updateVoucher,
-  deleteVoucher,
+  getAllVoucher,
 };

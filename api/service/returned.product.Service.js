@@ -2,13 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // Create ReturnedOrder
-async function createReturnedOrder(productId, orderId, amount) {
+async function createReturnedOrder(productId, orderId) {
   try {
     const createdReturnedOrder = await prisma.returnedOrder.create({
       data: {
         productId,
         orderId,
-        amount,
       },
     });
     return createdReturnedOrder;
@@ -34,34 +33,7 @@ async function getReturnedOrderById(returnedOrderId) {
   }
 }
 
-// Update ReturnedOrder
-async function updateReturnedOrder(returnedOrderId, updatedData) {
-  try {
-    const updatedReturnedOrder = await prisma.returnedOrder.update({
-      where: { id: returnedOrderId },
-      data: updatedData,
-    });
-    return updatedReturnedOrder;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// Delete ReturnedOrder by ID
-async function deleteReturnedOrder(returnedOrderId) {
-  try {
-    const deletedReturnedOrder = await prisma.returnedOrder.delete({
-      where: { id: returnedOrderId },
-    });
-    return deletedReturnedOrder;
-  } catch (error) {
-    throw error;
-  }
-}
-
 module.exports = {
   createReturnedOrder,
   getReturnedOrderById,
-  updateReturnedOrder,
-  deleteReturnedOrder,
 };
