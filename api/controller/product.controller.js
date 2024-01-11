@@ -17,7 +17,7 @@ router.post(
   "/",
   validatedRequest(productCreateSchema),
   uploader.array("image"),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const {
         name,

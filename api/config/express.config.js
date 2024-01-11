@@ -33,6 +33,7 @@ app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
 app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 app.use(`${BASE_URL}/shipping`, require("../controller/shipping.controller"));
+app.use(`${BASE_URL}/strip-payment`, require("../controller/strip.payment"));
 
 //error handeler
 app.use(errorHandler);
