@@ -5,7 +5,7 @@ function TheTopProducts() {
   return (
     <div>
       <div>
-        <div className="border border-white w-[350px] h-[670px] rounded-2xl bg-white shadow-custom-shadow">
+        <div>
           <h1 className="text-[23px] font-bold m-[10px]">Top products</h1>
           <div className="mx-3">
             <div className="flex felx-row items-center mr-2 border-2 border-slate-300 p-2 w-full rounded-md bg-white">

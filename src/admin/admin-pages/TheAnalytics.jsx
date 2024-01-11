@@ -2,7 +2,7 @@ import React from "react";
 
 function TheAnalytics() {
   return (
-    <div className="flex mt-20">
+    <div>
       <h1>Analytics</h1>
     </div>
   );
