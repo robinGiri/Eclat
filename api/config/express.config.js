@@ -35,7 +35,8 @@ app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
 app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 app.use(`${BASE_URL}/shipping`, require("../controller/shipping.controller"));
-
+app.use(`${BASE_URL}/wishlist`, require("../controller/wishlist.controller"));
+app.use(`${BASE_URL}/review`, require("../controller/review.controller"));
 //service runner
 
 app.use(errorHandler);
