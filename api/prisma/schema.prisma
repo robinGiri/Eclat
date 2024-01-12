@@ -54,6 +54,7 @@ model Product {
   Season     Season?      @relation(fields: [seasonId], references: [id])
   seasonId   Int?
   Wishlist   Wishlist[]
+  Reviews    Review[]
 }
 
 model Image {
@@ -87,6 +88,7 @@ model User {
   Product      Product[]
   Order        Order[]
   Wishlist     Wishlist[]
+  Reviews      Review[]
 }
 
 model Cart {
@@ -175,4 +177,14 @@ model Wishlist {
   User      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        Int       @id @default(autoincrement())
+  productID Int       
+  Product   Product   @relation(fields: [productID], references: [id])
+  userId    Int? 
+  User      User?     @relation(fields: [userId], references: [id])
+  review    String? 
+  createdAt DateTime @default(now())
 }
