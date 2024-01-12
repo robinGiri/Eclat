@@ -37,6 +37,10 @@ app.use(`${BASE_URL}/strip-payment`, require("../controller/strip.payment"));
 app.use(`${BASE_URL}/return`, require("../controller/return.controller"));
 
 //error handeler
+app.use(`${BASE_URL}/wishlist`, require("../controller/wishlist.controller"));
+app.use(`${BASE_URL}/review`, require("../controller/review.controller"));
+//service runner
+
 app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));
