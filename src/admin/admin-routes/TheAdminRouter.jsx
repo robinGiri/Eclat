@@ -39,19 +39,20 @@ export default function TheAdminRouter() {
     location.pathname.includes("/kids") ||
     location.pathname.includes("/sale") ||
     location.pathname.includes("/cart") ||
-    location.pathname.includes("/product_details");
+    location.pathname.includes("/product_details") ||
+    location.pathname.includes("/order-detail");
 
   return (
-    <div className="flex">
+    <div className="flex relative">
       {!isUserPage && (
-        <div className=" w-[14rem] border-2 border-l-slate-500 fixed bg-white">
+        <div className="sticky top-0  min-w-[240px] h-[100vh] bg-white">
           <TheAdminNavbar />
         </div>
       )}
 
-      <div className="ml-[14.7%]">
+      <div className="border-l w-[100%]">
         {!isUserPage && (
-          <div className="fixed w-[90%] bg-white border-b-2 h-[5rem] flex items-center">
+          <div className=" bg-white border-b h-[5rem] flex items-center">
             <TheTopAdminNav />
           </div>
         )}

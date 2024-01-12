@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
 function TheEnquiry() {
   return (
-    <div className="flex mt-20">
-      <h1>The Enquiry</h1>
+    <div>
+      The Enquiry
     </div>
-  );
+  )
 }
 
-export default TheEnquiry;
+export default TheEnquiry

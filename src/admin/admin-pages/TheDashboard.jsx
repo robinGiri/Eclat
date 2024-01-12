@@ -9,31 +9,29 @@ import TheTopProducts from "./dashboard-components/TheTopProducts";
 function TheDashboard() {
   return (
     <div>
-      <div className="flex mt-20 gap-4">
-        <div className="w-[65%] m-8 flex flex-col gap-8">
-          <div>
-            <div className="flex justify-between gap-9">
-              <div>
+      <div className="flex gap-8 flex-wrap p-5">
+        <div className="w-[65%] flex flex-col gap-8">
+            <div className="w-[100%] flex justify-between gap-5 flex-wrap">
+              <div className="w-[380px] min-w-[380px] h-[180px] border border-white rounded-2xl bg-white shadow-custom-shadow">
                 <TheAverageRevenue />
               </div>
-              <div>
+              <div className="w-[380px] min-w-[380px] h-[180px] border border-white rounded-2xl bg-white shadow-custom-shadow">
                 <TheCustomerReturn />
               </div>
             </div>
-          </div>
-          <div>
+          <div className=" border border-white min-w-[380px] h-[300px] rounded-2xl flex justify-center items-center bg-white shadow-custom-shadow">
             <TheRevenueVsOrder />
           </div>
-          <div>
+          <div className=" border min-w-[380px] border-white h-[500px] rounded-2xl flex justify-center items-center mb-10 bg-white shadow-custom-shadow">
             <TheRecetInvoice />
           </div>
         </div>
 
-        <div>
-          <div className="mt-8">
+        <div className="flex flex-col gap-6">
+          <div className="border border-white min-w-[380px] h-[350px] rounded-2xl flex justify-center items-center bg-white shadow-custom-shadow">
             <TheSalesByCategory />
           </div>
-          <div className="mt-8">
+          <div className="border border-white min-w-[380px] h-[670px] rounded-2xl bg-white shadow-custom-shadow">
             <TheTopProducts />
           </div>
         </div>

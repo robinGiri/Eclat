@@ -1,7 +1,7 @@
 import React from "react";
 import TheImageMagnifier from "./TheImageMagnifier";
 import { IoClose } from "react-icons/io5";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheViewModal({ product, closeModal }) {
   return (

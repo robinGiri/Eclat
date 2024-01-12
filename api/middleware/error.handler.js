@@ -1,8 +1,10 @@
-// middleware/errorHandler.js
 const { PrismaClientKnownRequestError } = require("@prisma/client");
+const { ZodError } = require("zod");
+const jwt = require("jsonwebtoken");
+
 const errorHandler = (err, req, res, next) => {
   console.log(err);
-  const { code, message } = err;
+  let { code, message } = err;
 
   // Handle Prisma-specific errors
   if (err instanceof PrismaClientKnownRequestError) {
@@ -14,19 +16,48 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
+  // Handle Zod error
+  if (err instanceof ZodError) {
+    // Validation exception
+    let errorMsg = {};
+    err.errors.map((errorObj) => {
+      errorMsg[errorObj.path[0]] = errorObj.message;
+    });
+    code = 400;
+    message = errorMsg;
+  }
+
+  // Handle JWT errors
+  if (err instanceof jwt.JsonWebTokenError) {
+    return res.status(401).json({
+      code: 401,
+      message: "Invalid token",
+      meta: null,
+    });
+  }
+
+  // Handle JWT expiration errors
+  if (err instanceof jwt.TokenExpiredError) {
+    return res.status(401).json({
+      code: 401,
+      message: "Token has expired",
+      meta: null,
+    });
+  }
+
   // Handle Not Found
-  if (code == 404) {
+  if (code === 404) {
     return res.status(404).json({
-      code: code,
-      message: message,
+      code,
+      message,
       meta: null,
     });
   }
 
   // Handle Authentication Error
-  if (code == 401) {
+  if (code === 401) {
     return res.status(401).json({
-      code: code,
+      code,
       message: "Authentication Failed",
       meta: null,
     });

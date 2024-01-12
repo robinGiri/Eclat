@@ -10,9 +10,10 @@ import TheViewModal from "./TheViewModal";
 import TheDeleteConfirm from "./TheDeleteConfirm";
 import TheUpdateModal from "./TheUpdateModal";
 import TheAddModal from "./TheAddModal";
+import TheFilterModal from "./TheFilterModal";
 
-const API = "http://localhost:5000/api/v1/product/";
-const staticAPI = "http://localhost:5000/api/v1/uploads/";
+const API = "http://localhost:4000/api/v1/product/";
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheRecentInvoice() {
   const [products, setProducts] = useState([]);
@@ -24,6 +25,8 @@ function TheRecentInvoice() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedEditProduct, setSelectedEditProduct] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
 
   const handleDelete = async (productId) => {
     try {
@@ -76,7 +79,7 @@ function TheRecentInvoice() {
 
   useEffect(() => {
     getApiData();
-  }, [products]);
+  }, []);
 
   const openViewModal = (product) => {
     setSelectedViewProduct(product);
@@ -115,6 +118,18 @@ function TheRecentInvoice() {
   const closeAddModal = () => {
     setIsAddModalOpen(false);
   };
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+  const closeFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
+  const applyPriceRangeFilter = (minPrice, maxPrice) => {
+    const filteredProducts = products.filter(
+      (item) => item.price >= minPrice && item.price <= maxPrice
+    );
+    setProducts(filteredProducts);
+  };
 
   return (
     <div className="bg-white border-2 border-white rounded-2xl w-[90%] mt-5 mx-12 shadow-custom-shadow">
@@ -130,7 +145,7 @@ function TheRecentInvoice() {
             Add
             <FaPlus />
           </button>
-          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1">
+          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1" onClick={() => openFilterModal()}>
             Filter
             <IoFilterSharp />
           </button>
@@ -248,6 +263,12 @@ function TheRecentInvoice() {
         />
       )}
       {isAddModalOpen && <TheAddModal closeModal={closeAddModal} />}
+      {isFilterModalOpen && (
+        <TheFilterModal
+          closeModal={closeFilterModal}
+          applyFilter={applyPriceRangeFilter}
+        />
+      )}
     </div>
   );
 }

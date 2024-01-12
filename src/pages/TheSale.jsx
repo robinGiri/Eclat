@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import TheFooter from '../components/specificComponents/TheFooter'
 import Thecard from '../components/sharedComponents/TheCard'
-import products from '../data/products';
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
+import { apiConfig } from "../services/api/config";
 
 function TheSale() {
   const [currentTab, setCurrentTab] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [isError, setIsError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const tabs = [
@@ -35,6 +39,23 @@ function TheSale() {
   const handleProductClick = (productId) => {
     navigate(`/product_details/${productId}`, { productId });
   };
+
+  const getApiData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(`${apiConfig.baseUrl}product/`);
+      setProducts(data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsError("Error fetching data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
 
   return (
     <>

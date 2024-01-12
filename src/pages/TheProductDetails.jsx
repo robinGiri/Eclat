@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaFeather } from "react-icons/fa";
 import axios from "axios";
-import products from "../data/products";
 import { useParams, useNavigate } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
@@ -20,9 +19,8 @@ function TheProductDetails() {
 
   const getApiData = async () => {
     try {
-      // try to get data from API
-      const res = products.find((p) => p.id == productId);
-      setProduct(res);
+      const { data } = await axios.get(`${apiConfig.baseUrl}product/${productId}}`);
+      setProduct(data.result[0]);
     } catch (error) {
       setIsError("Error fetching data");
     }
@@ -72,14 +70,14 @@ function TheProductDetails() {
             <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
               <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
                 <img
-                  src={product.images}
+                  src={`${apiConfig.baseUrl}uploads/${product.images}`}
                   className="p-4 w-[400px] h-[300px] rounded-md object-contain"
                   alt={`Product ${product.id} Image`}
                 />
                 {isError && <h1>{isError}</h1>}
               </div>
               <div className=" flex w-full h-[30vh] overflow-clip ">
-                <ProductDetailsCarousel />
+                <ProductDetailsCarousel images={product.images} />
               </div>
             </div>
             <div className="flex p-4 rounded-md bg-neutral-50">
@@ -96,7 +94,7 @@ function TheProductDetails() {
                 <div className="flex items-center mt-5">
                   <div className="flex gap-2 items-center">
                     <p className="font-medium text-neutral-700 text-xl">
-                      Rs {product.price}
+                      Rs {product.afterdiscount}
                     </p>
                     <span className="text-neutral-400 "> | </span>
                     <p className="font-medium text-neutral-700 text-xl">
@@ -121,13 +119,7 @@ function TheProductDetails() {
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[100%]">
                   <p className="text-gray-500">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    accumsan varius metus, ac fringilla libero hendrerit ac.
-                    Nulla facilisi. Nunc euismod, nulla a luctus malesuada,
-                    justo ligula rhoncus nulla metus, ac fringilla libero
-                    hendrerit ac. Nulla facilisi. Nunc euismod, nulla a luctus
-                    malesuada, justo ligula rhoncus nulla
-                    {product.discription}
+                    {product.description}
                   </p>
                 </div>
                 <p className="font-light text-sm hover:font-bold cursor-pointer mt-4">

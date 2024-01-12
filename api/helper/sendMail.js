@@ -51,7 +51,7 @@ const sendMail = async (req, res) => {
       
         <p><strong>Warm regards,</strong><br>
         Abhisek<br>
-        Chief Technology Officer<br>
+        CTO<br>
         Eclat<br>
         abhisekmagarlinkedin@gmail.com<br>
         https://deploy-preview-44--eclatbags.netlify.app</p>`
