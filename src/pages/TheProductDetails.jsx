@@ -32,6 +32,12 @@ function TheProductDetails() {
     getApiData();
   }, []);
 
+  const handleWishlistClick = async(productID) =>{
+    await axios.post(`http://localhost:4000/api/v1/wishlist/${productID}`)
+      .then(/* Add a popup message */)
+      .catch((error) => console.error("Error adding to wishlist : ", error));
+  }
+
   const handleCartClick = () => {
     navigate("/cart");
   };
@@ -82,7 +88,7 @@ function TheProductDetails() {
                   <p className="font-bold text-3xl w-auto ">{product.name}</p>
                   <div className="flex mt-2">
                     <FaFeather className="text-xl text-yellow-600" />
-                    <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
+                    <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" onClick={()=>{handleWishlistClick(productId)}}/>
                   </div>
                 </div>
 
