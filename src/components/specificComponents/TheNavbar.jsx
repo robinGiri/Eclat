@@ -34,19 +34,24 @@ function TheSidebar() {
     navigate("/cart");
   };
 
-  if (location.pathname === "/login" || location.pathname === "/registration" || location.pathname === "/cart" || location.pathname === "/cart/place-order") {
+  if (
+    location.pathname === "/login" ||
+    location.pathname === "/registration" ||
+    location.pathname === "/cart" ||
+    location.pathname === "/cart/place-order" ||
+    location.pathname === "/order-detail"
+  ) {
     return;
   }
-  
+
   const handleBurgerMenuClick = () => {
     setBurgerMenuOpen(!isBurgerMenuOpen);
   };
 
   return (
     <>
-    
       <div>
-      <TheTopNavbarOne />
+        <TheTopNavbarOne />
       </div>
       {/* Navbar */}
       <div className="mt-5 h-[12vh]">
@@ -72,27 +77,27 @@ function TheSidebar() {
 
           {/* Navbar icons and search */}
 
-<div className="flex mx-[12%]">
-          {/* Search Bar */}
-          <div className="flex items-center mx-[5%]">
-            <SearchComponent />
-          </div>
-
-          <div className="flex items-center gap-4 mx-[10%]">
-            {/* Cart Icon */}
-            <div className="">
-              <Link to="/cart" onClick={handleCartClick}>
-                <FaShoppingCart className="text-neutral-800 text-lg cursor-pointer transition duration-300 hover:text-green-900" />
-              </Link>
+          <div className="flex mx-[12%]">
+            {/* Search Bar */}
+            <div className="flex items-center mx-[5%]">
+              <SearchComponent />
             </div>
 
-            {/* Heart Icon */}
-            <div>
-              <FaHeart className="text-neutral-600 text-lg cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
+            <div className="flex items-center gap-4 mx-[10%]">
+              {/* Cart Icon */}
+              <div className="">
+                <Link to="/cart" onClick={handleCartClick}>
+                  <FaShoppingCart className="text-neutral-800 text-lg cursor-pointer transition duration-300 hover:text-green-900" />
+                </Link>
+              </div>
+
+              {/* Heart Icon */}
+              <div>
+                <FaHeart className="text-neutral-600 text-lg cursor-pointer transition duration-300 hover:text-red-500 hover:text-lg" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );

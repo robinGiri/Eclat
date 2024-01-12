@@ -12,6 +12,7 @@ const userSelect = {
   image: true,
   token: true,
   forgetToken: true,
+  Cart: { select: { id: true } },
 };
 
 async function save(data) {
@@ -22,7 +23,6 @@ async function save(data) {
     });
     return user;
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }
@@ -49,7 +49,7 @@ async function getUserById(userId) {
       token: true,
       forgetToken: true,
       Cart: { select: { id: true } },
-    }
+    },
   });
   return user;
 }

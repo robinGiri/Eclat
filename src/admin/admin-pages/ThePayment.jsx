@@ -1,9 +1,12 @@
 import React from "react";
+import TheStripPayment from "../../components/payment/TheStripPayment";
+import ThePaypalPayment from "../../components/payment/ThePaypalPayment";
 
 function ThePayment() {
   return (
-    <div>
-      <h1>Payment</h1>
+    <div className="flex mt-20">
+      <TheStripPayment />
+      <ThePaypalPayment />
     </div>
   );
 }
