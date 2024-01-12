@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SecondCarousel from "../components/sharedComponents/carouselComponents/SecondCarousel";
 import TheFooter from "../components/specificComponents/TheFooter";
 import TailInfoSection from "../components/specificComponents/TailInfoSection";
+import Thecard from "../components/sharedComponents/TheCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apiConfig } from "../services/api/config";
@@ -53,58 +54,13 @@ function TheMen() {
               <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
                 {products
                   ?.filter((item) => item.category === "mens")
-                  ?.map((product) => (
-                    <div key={product.id} className="relative group">
-                      <div className="bg-white shadow rounded-sm max-w-sm w-[320px] h-[25rem] overflow-hidden mb-5">
-                        <div className="aspect-w-16 h-[15rem] relative flex justify-center items-center">
-                          {product.images.length > 0 && (
-                            <img
-                              key={product.images[0].id}
-                              src={`${apiConfig.baseUrl}uploads/${product.images[0].url}`}
-                              className="object-contain w-[300px] h-full transition-transform transform group-hover:scale-105 pb-2 cursor-pointer"
-                              alt={product.id}
-                              onClick={() =>
-                                handleProductClick(
-                                  product,
-                                  `${apiConfig.baseUrl}uploads/${product.images[0].url}`
-                                )
-                              }
-                            />
-                          )}
-                        </div>
-
-                        <div className="mt-2">
-                          <div className="flex px-4 w-full justify-between items-center">
-                            <h3 className="mt-2 text-gray-900 font-semibold text-xl tracking-tight">
-                              {product.name}
-                            </h3>
-                          </div>
-
-                          <div className="px-4">
-                            <div className="flex items-start justify-between py-5">
-                              <div className="font-bold text-sm my-1">
-                                <span className="text-gray-500 px-1">
-                                  List Price:
-                                </span>
-                                <span className="line-through text-xl text-neutral-400">
-                                  Rs.{product.price}
-                                </span>
-                              </div>
-                              <div className="text-2xl font-bold">
-                                Rs.
-                                {product.discount
-                                  ? Math.floor(product.afterdiscount)
-                                  : product.price}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-end px-5 text-xs font-light">
-                          <p className="hover:font-medium cursor-pointer">
-                            View Details
-                          </p>
-                        </div>
-                      </div>
+                  ?.map((item) => (
+                    <div
+                      key={item.id}
+                      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
+                      onClick={() => handleProductClick(item)}
+                    >
+                      <Thecard {...item} />
                     </div>
                   ))}
                 <div className="flex justify-center items-center">

@@ -6,6 +6,8 @@ import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate } from "react-router-dom";
 import Thecard from "../components/sharedComponents/TheCard";
 import { apiConfig } from "../services/api/config";
+import images from '../data/carousel-images/HeroCarouselImages';
+
 import axios from "axios";
 
 function TheHome() {
@@ -47,8 +49,6 @@ function TheHome() {
     getApiData();
   }, []);
 
-  console.log(products);
-
   return (
     <div>
       <div className="bg-neutral-100">
@@ -64,7 +64,7 @@ function TheHome() {
           </div>
 
           <div className="h-[460px]">
-            <TheHeroCarousel />
+            <TheHeroCarousel images={images} />
           </div>
 
           <div className="w-[22%] h-[65vh] relative">

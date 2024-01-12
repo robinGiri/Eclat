@@ -72,7 +72,7 @@ export default function TheAdminNavbar() {
         {item.icon}
         <p
           className={`${
-            activeTab === item.title ? "font-bold" : "font-semibold"
+            activeTab === item.title ? "font-semibold text-sm" : "text-sm"
           } ml-2`}
         >
           {item.title}
@@ -84,7 +84,9 @@ export default function TheAdminNavbar() {
   return (
     <div className="h-[100vh]">
       <div className=" flex flex-col justify-center items-center h-[100px]">
-        <Link to='/' onClick={handleHomePageClick}><h1 className="font-extrabold text-3xl cursor-pointer">Eclat</h1></Link>
+        <Link to="/" onClick={handleHomePageClick}>
+          <h1 className="font-bold text-3xl cursor-pointer">Eclat</h1>
+        </Link>
       </div>
       <div className="flex flex-col mt-[5px] m-[10%]">
         {AdminSidebarList.map((item) => renderSidebarItem(item))}

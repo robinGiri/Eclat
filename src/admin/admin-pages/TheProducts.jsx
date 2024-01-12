@@ -3,7 +3,7 @@ import TheRecentInvoice from "./product-components/TheRecentInvoice";
 
 function TheProducts() {
   return (
-    <div className="flex mt-20">
+    <div>
       <div>
         <TheRecentInvoice />
       </div>
