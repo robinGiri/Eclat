@@ -3,6 +3,8 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("../middleware/error.handler");
+const cookieParser = require("cookie-parser");
+const errorHandler = require("../middleware/error.handler");
 
 const app = express();
 const BASE_URL = "/api/v1";
@@ -20,6 +22,9 @@ app.use(
 //cookie parser
 app.use(cookieParser());
 
+//cookie parser
+app.use(cookieParser());
+
 //controller paths
 
 // app.use(`${BASE_URL}/pay-verify/`, require("../controller/payment.controller"));
@@ -33,10 +38,15 @@ app.use(`${BASE_URL}/setting`, require("../controller/setting.controller"));
 app.use(`${BASE_URL}/home`, require("../controller/home.controller"));
 app.use(`${BASE_URL}/purchase`, require("../controller/purchase.controller"));
 app.use(`${BASE_URL}/shipping`, require("../controller/shipping.controller"));
+app.use(`${BASE_URL}/wishlist`, require("../controller/wishlist.controller"));
 app.use(`${BASE_URL}/strip-payment`, require("../controller/strip.payment"));
 app.use(`${BASE_URL}/return`, require("../controller/return.controller"));
 
 //error handeler
+app.use(`${BASE_URL}/wishlist`, require("../controller/wishlist.controller"));
+app.use(`${BASE_URL}/review`, require("../controller/review.controller"));
+//service runner
+
 app.use(errorHandler);
 
 app.get("/send-email", require("../helper/sendMail"));
