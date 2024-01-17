@@ -48,11 +48,11 @@ model Product {
   brandId       Int?
   CartItem      CartItem[]
   OrderItems    OrderItems[]
-  Season     Season?      @relation(fields: [seasonId], references: [id])
   seasonId      Int
   ReturnedOrder ReturnedOrder[]
   Wishlist      Wishlist[]
-  Reviews    Review[]
+  Season        Season          @relation(fields: [seasonId], references: [id])
+  Review        Review[]
 }
 
 model Image {
@@ -193,9 +193,9 @@ model Shipping {
   purchaseId Int?
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
-
-  Order    Order?    @relation(fields: [OrderId], references: [id])
-  Purchase Purchase? @relation(fields: [purchaseId], references: [id])
+  Order      Order?         @relation(fields: [orderId], references: [id])
+  orderId    Int?
+  Purchase   Purchase?      @relation(fields: [purchaseId], references: [id])
 }
 
 model Wishlist {
@@ -210,11 +210,11 @@ model Wishlist {
 }
 
 model Review {
-  id        Int       @id @default(autoincrement())
-  productID Int       
-  Product   Product   @relation(fields: [productID], references: [id])
-  userId    Int? 
-  User      User?     @relation(fields: [userId], references: [id])
-  review    String? 
+  id        Int      @id @default(autoincrement())
+  productID Int
+  Product   Product  @relation(fields: [productID], references: [id])
+  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  review    String?
   createdAt DateTime @default(now())
 }
