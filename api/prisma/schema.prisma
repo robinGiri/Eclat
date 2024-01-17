@@ -48,6 +48,7 @@ model Product {
   brandId       Int?
   CartItem      CartItem[]
   OrderItems    OrderItems[]
+  Reviews       Review[]
   Season     Season?      @relation(fields: [seasonId], references: [id])
   seasonId   Int?
   Wishlist   Wishlist[]
@@ -206,16 +207,6 @@ model Wishlist {
 
   User    User?   @relation(fields: [userId], references: [id])
   Product Product @relation(fields: [productId], references: [id])
-}
-
-model Wishlist {
-  id        Int      @id @default(autoincrement())
-  productId Int
-  Product   Product  @relation(fields: [productId], references: [id])
-  userId    Int?
-  User      User?    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Review {
