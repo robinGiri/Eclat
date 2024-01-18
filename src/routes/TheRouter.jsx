@@ -7,6 +7,7 @@ import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
 import TheSale from "../pages/TheSale";
 import TheCart from "../pages/TheCart";
+import TheProfile from "../pages/TheProfile"
 import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
@@ -23,6 +24,8 @@ const routes = [
   { path: "/product_details/:productId", element: <TheProductDetails /> },
   { path: "/login", element: <TheLogin /> },
   { path: "/registration", element: <TheRegistration /> },
+  { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
+  { path: "/userprofile", element: <TheProfile/> },
   { path: "/cart/place-order", element: <TheCartPlaceOrder /> },
   { path: "/order-detail", element: <TheOrderDetail /> },
 ];
