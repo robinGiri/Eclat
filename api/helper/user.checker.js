@@ -1,0 +1,1 @@
+function userChecker(user) {}

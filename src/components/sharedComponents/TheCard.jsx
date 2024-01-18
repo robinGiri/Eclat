@@ -17,7 +17,7 @@ const Thecard = (props) => {
           <div className="aspect-w-16 h-[15rem] relative ">
             <img
               className="object-cover w-full h-full transition-transform transform group-hover:scale-105 pb-2"
-              src={`${apiConfig.baseUrl}uploads/${images[0].url}`}
+              // src={`${apiConfig.baseUrl}uploads/${images[0].url}`}
               alt="Product Image"
             />
           </div>
@@ -51,12 +51,14 @@ const Thecard = (props) => {
                   </div>
                 )}
               </div>
-          <div
-            className="flex justify-end"
-            onClick={() => handleProductClick(props.id)}
-          >
-            <p className="hover:text-yellow-500 hover:font-semibold cursor-pointer text-md">View Details</p>
-          </div>
+              <div
+                className="flex justify-end"
+                onClick={() => handleProductClick(props.id)}
+              >
+                <p className="hover:text-yellow-500 hover:font-semibold cursor-pointer text-md">
+                  View Details
+                </p>
+              </div>
             </div>
           </div>
         </div>

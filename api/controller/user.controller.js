@@ -3,6 +3,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
 const { cartService } = require("../service/cart.service");
+const verifyToken = require("../middleware/token.verify");
+const validatedRequest = require("../middleware/validation.middleware");
+const {
+  userCreateSchema,
+  userUpdateSchema,
+} = require("../validator/user.validator");
 
 router.get("/users", async (req, res, next) => {
   try {
@@ -18,27 +24,40 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  try {
-    const data = req.body;
-    const saltRound = 10;
-    const salt = await bcrypt.genSalt(saltRound);
-    const hashedPassword = await bcrypt.hash(data.password, salt);
-    data.password = hashedPassword;
-    const { id } = await userService.save(data);
-    console.log(id);
-    const cart = await cartService.createCart(id);
+router.post(
+  "/signup",
+  validatedRequest(userCreateSchema),
+  async (req, res, next) => {
+    try {
+      const data = req.body;
+      const saltRound = 10;
+      const salt = await bcrypt.genSalt(saltRound);
+      const hashedPassword = await bcrypt.hash(data.password, salt);
+      data.password = hashedPassword;
+      const { id } = await userService.save(data);
+      const cart = await cartService.createCart(id);
+      res.json({
+        result: id,
+        code: 200,
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
+
+router.get("/login", verifyToken, async (req, res, next) => {
+  const user = req.user;
+  if (req.user) {
     res.json({
-      result: id,
+      user: user,
       code: 200,
       meta: null,
     });
-  } catch (error) {
-    console.log(error);
-    next(error);
   }
 });
-
 router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
@@ -56,46 +75,33 @@ router.post("/login", async (req, res, next) => {
     );
 
     if (passwordCorrect) {
-      var token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, {
+      var token = jwt.sign(userData, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
+      res.cookie("jwt", token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
     } else {
       res.json({ message: "Incorrect password", code: "401", meta: null });
     }
-
-    userService.updateUser(userData.email, { token: token });
     res.json({
-      userdetail: {
-        name: userData.name,
-        email: userData.email,
-        role: userData.role,
-      },
+      userdetail: userData,
       token: token,
       code: 200,
       meta: null,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
 
 router.get("/logout", async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const tokenWithoutBearer = token.split(" ")[1];
-    const { email } = await jwt.verify(
-      tokenWithoutBearer,
-      process.env.JWT_SECRET
-    );
-    await userService.logout(email);
+    res.clearCookie("jwt");
     res.json({
       result: "User Logout Successfully",
       code: 200,
       meta: null,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
@@ -114,26 +120,28 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
-router.put("/:email", async (req, res, next) => {
-  try {
-    const email = req.params.email;
-    const data = req.body;
-    const findUser = await userService.getUserByFilter({ email: email });
-    if (findUser) {
-      const user = await userService.updateUser(email, data);
-      res.json({
-        userdetail: user,
-        code: 200,
-        meta: null,
-      });
-    }else{
-      throw new Error("User Not found");
+router.put(
+  "/:email",
+  validatedRequest(userUpdateSchema),
+  async (req, res, next) => {
+    try {
+      const email = req.params.email;
+      const data = req.body;
+      const findUser = await userService.getUserByFilter({ email: email });
+      if (findUser) {
+        const user = await userService.updateUser(email, data);
+        res.json({
+          userdetail: user,
+          code: 200,
+          meta: null,
+        });
+      } else {
+        throw new Error("User Not found");
+      }
+    } catch (error) {
+      next(error);
     }
-    
-  } catch (error) {
-    console.log(error);
-    next(error);
   }
-});
+);
 
 module.exports = router;

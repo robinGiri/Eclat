@@ -35,6 +35,12 @@ function TheProductDetails() {
     getApiData();
   }, []);
 
+  const handleWishlistClick = async(productID) =>{
+    await axios.post(`http://localhost:4000/api/v1/wishlist/${productID}`)
+      .then(/* Add a popup message */)
+      .catch((error) => console.error("Error adding to wishlist : ", error));
+  }
+
   const handleCartClick = () => {
     navigate("/cart");
   };
@@ -86,6 +92,7 @@ function TheProductDetails() {
                 <div className="flex justify-between ">
                   <p className="font-bold text-3xl w-auto ">{product.name}</p>
                   <div className="flex mt-2">
+
                     <button
                       className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
                       onClick={() => {

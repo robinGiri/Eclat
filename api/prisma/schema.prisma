@@ -10,7 +10,7 @@ datasource db {
 }
 
 enum UserRole {
-  SELLER
+  ADMIN
   CUSTOMER
   DRIVER
 }
@@ -28,39 +28,41 @@ enum ShippingStatus {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   name          String?
-  slug          String?
   description   String?
   category      String?
-  brand         Brand?   @relation(fields: [brandId], references: [id])
+  brand         Brand?          @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  seller        User?    @relation(fields: [sellerId], references: [id])
+  sellerId      Int?
+  User          User?           @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
-  tags          String?
   stock         Int?
   status        String?
   viewCount     Int?
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
-  images        Image[]  @relation("ProductImages")
-  sellerId      Int?
+  createdAt     DateTime        @default(now())
+  updateAt      DateTime        @updatedAt
+  images        Image[]         @relation("ProductImages")
   brandId       Int?
-
-  CartItem   CartItem[]
-  OrderItems OrderItems[]
-  Season     Season?      @relation(fields: [seasonId], references: [id])
-  seasonId   Int?
-  Wishlist   Wishlist[]
+  CartItem      CartItem[]
+  OrderItems    OrderItems[]
+  seasonId      Int
+  ReturnedOrder ReturnedOrder[]
+  Wishlist      Wishlist[]
+  Season        Season          @relation(fields: [seasonId], references: [id])
+  Review        Review[]
 }
 
 model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
-  product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
+  seasonId  Int
+
+  product Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
+  Season  Season  @relation(fields: [seasonId], references: [id])
 }
 
 model Brand {
@@ -87,6 +89,7 @@ model User {
   Product      Product[]
   Order        Order[]
   Wishlist     Wishlist[]
+  Reviews      Review[]
 }
 
 model Cart {
@@ -95,7 +98,8 @@ model Cart {
   updatedAt DateTime   @updatedAt
   cartItems CartItem[]
   userId    Int?       @unique
-  User      User?      @relation(fields: [userId], references: [id])
+
+  User User? @relation(fields: [userId], references: [id])
 }
 
 // copy cart item to order and then delete
@@ -104,22 +108,27 @@ model CartItem {
   cartId    Int?
   productId Int?
   quantity  Int?
-  product   Product? @relation(fields: [productId], references: [id])
-  cart      Cart?    @relation(fields: [cartId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  product Product? @relation(fields: [productId], references: [id])
+  cart    Cart?    @relation(fields: [cartId], references: [id])
 }
 
 model Order {
-  id         Int          @id @default(autoincrement())
-  total      Float?       @default(0)
-  userId     Int?
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @default(now()) @updatedAt
-  OrderItems OrderItems[]
-  Purchase   Purchase[]
-  Shipping   Shipping[]
-  customer   User?        @relation(fields: [userId], references: [id])
+  id            Int             @id @default(autoincrement())
+  total         Float?          @default(0)
+  customerId    Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  OrderItems    OrderItems[]
+  Purchase      Purchase[]
+  Shipping      Shipping[]
+  voucherId     Int?
+  ReturnedOrder ReturnedOrder[]
+
+  User    User?    @relation(fields: [customerId], references: [id])
+  Voucher Voucher? @relation(fields: [voucherId], references: [id])
 }
 
 model OrderItems {
@@ -127,21 +136,41 @@ model OrderItems {
   OrderId   Int
   productId Int
   quantity  Int
-  product   Product  @relation(fields: [productId], references: [id])
-  Order     Order    @relation(fields: [OrderId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Order   Order   @relation(fields: [OrderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
 
 model Season {
   id      Int       @id @default(autoincrement())
   name    String?
+  images  Image[]
   Product Product[]
 }
 
 model Setting {
   id            Int @id @default(autoincrement())
   currentSeason Int @default(0)
+}
+
+model Voucher {
+  id              Int      @id @default(autoincrement())
+  discountPercent Int
+  order           Order[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ReturnedOrder {
+  id        Int      @id @default(autoincrement())
+  productId Int?
+  OrderId   Int?
+  createdAt DateTime @default(now())
+
+  Order   Order?   @relation(fields: [OrderId], references: [id])
+  Product Product? @relation(fields: [productId], references: [id])
 }
 
 model Purchase {
@@ -153,7 +182,8 @@ model Purchase {
   Shipping      Shipping[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  Order         Order?         @relation(fields: [OrderId], references: [id])
+
+  Order Order? @relation(fields: [OrderId], references: [id])
 }
 
 model Shipping {
@@ -161,18 +191,30 @@ model Shipping {
   OrderId    Int?
   status     ShippingStatus @default(ordered)
   purchaseId Int?
-  Order      Order?         @relation(fields: [OrderId], references: [id])
-  Purchase   Purchase?      @relation(fields: [purchaseId], references: [id])
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
+  Order      Order?         @relation(fields: [orderId], references: [id])
+  orderId    Int?
+  Purchase   Purchase?      @relation(fields: [purchaseId], references: [id])
 }
 
 model Wishlist {
   id        Int      @id @default(autoincrement())
   productId Int
-  Product   Product  @relation(fields: [productId], references: [id])
   userId    Int?
-  User      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  User    User?   @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  productID Int
+  Product   Product  @relation(fields: [productID], references: [id])
+  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  review    String?
+  createdAt DateTime @default(now())
 }
