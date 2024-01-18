@@ -22,6 +22,7 @@ const state = proxy({
     pouchZipper: "#ffffff",
   },
 })
+
 const rotationState = proxy({
   current : null
 })
@@ -143,7 +144,6 @@ function Picker() {
 }
 
 export default function Customizer() {
-  
   return (
     <>
       <Canvas concurrent pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 2.75] }}>

@@ -117,7 +117,8 @@ function TheProductDetails() {
                     <button
                       className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
                       onClick={() => {
-                        navigate(`/customize/product?${product.id}`);
+                        const token = "abcdefgh"
+                        window.location.href = `http://localhost:3000/${productId}-${token}`;
                       }}
                     >
                       Customize with Eclat
