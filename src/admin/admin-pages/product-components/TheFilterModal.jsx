@@ -8,15 +8,26 @@ function TheFilterModal({ closeModal, applyFilter }) {
   const [maxPrice, setMaxPrice] = useState(
     localStorage.getItem("maxPrice") || ""
   );
+  const [discount, setDiscount] = useState("0");
 
-  const handleApplyFilter = () => {
-    applyFilter(Number(minPrice), Number(maxPrice));
+  const handleApplyFilter = async () => {
+    await applyFilter(Number(minPrice), Number(maxPrice), Number(discount));
     localStorage.setItem("minPrice", minPrice);
     localStorage.setItem("maxPrice", maxPrice);
     closeModal();
   };
 
+  const clearFilter = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setDiscount("0");
+
+    localStorage.removeItem("minPrice");
+    localStorage.removeItem("maxPrice");
+  };
+
   const isFilterButtonDisabled = !(minPrice && maxPrice);
+  const isClearFilterButtonDisabled = !(minPrice !== "" || maxPrice !== "" || discount !== "0");
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end items-center">
@@ -72,6 +83,24 @@ function TheFilterModal({ closeModal, applyFilter }) {
                 </div>
               </div>
               <div>
+              <div className="relative">
+                  <label
+                    htmlFor="discount"
+                    className="absolute left-2 top-[16%]"
+                  >
+                    %
+                  </label>
+                  <input
+                    type="number"
+                    id="discount"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                    placeholder="Discount"
+                    className="border border-gray-300 rounded-md p-2 pl-11 text-sm focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-5">
                 <button
                   onClick={handleApplyFilter}
                   disabled={isFilterButtonDisabled}
@@ -82,6 +111,15 @@ function TheFilterModal({ closeModal, applyFilter }) {
                   }`}
                 >
                   Filter
+                </button>
+                <button
+                  onClick={clearFilter}
+                  disabled={isClearFilterButtonDisabled}
+                  className={`rounded-md px-1 border border-gray-300 ${
+                    isClearFilterButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  Clear filter
                 </button>
               </div>
             </div>

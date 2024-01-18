@@ -1,94 +1,72 @@
-import { useState, useEffect, useReducer } from "react";
-import products from "../data/products";
+import React, { useState,useEffect } from "react";
 import TheCartProceedToCheckout from "../components/checkout/TheCartProceedToCheckout";
-import { FaMinus, FaPlus } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
 import "./TheCart.css";
-
-const UPDATE_QUANTITY = "UPDATE_QUANTITY";
-const UPDATE_TOTAL = "UPDATE_TOTAL";
-const UPDATE_QUANTITIES = "UPDATE_QUANTITIES";
-
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case UPDATE_QUANTITY:
-      const { index, value } = action.payload;
-      const newQuantities = [...state.quantities];
-      newQuantities[index] = Math.max(1, newQuantities[index] + value);
-      return { ...state, quantities: newQuantities };
-    case UPDATE_TOTAL:
-      return { ...state, total: action.payload };
-    case UPDATE_QUANTITIES:
-      return { ...state, quantities: action.payload };
-    default:
-      return state;
-  }
-};
-
-const initialProductSlice = products.slice(0, 8);
-const initialQuantities = initialProductSlice.map(() => 1);
+import { useCartContext } from "../custom-hooks/context/TheCartContext";
+import { apiConfig } from "../services/api/config";
+import TheCartAmountToogle from "../components/checkout/TheCartAmountToogle";
 
 function TheCart() {
-  const [selectAll, setSelectAll] = useState(false);
-
-  const [productCheckboxes, setProductCheckboxes] = useState(
-    Array(initialProductSlice.length).fill(false)
-  );
-  const [cartState, dispatch] = useReducer(cartReducer, {
-    quantities: initialQuantities,
-    total: 0,
-  });
-
-  const { quantities, total } = cartState;
+  const { cart } = useCartContext();
+  const [quantities, setQuantities] = useState({});
+  const [selectAll, setSelectAll] = useState(true);
 
   useEffect(() => {
-    let totalPrice = 0;
-    for (let i = 0; i < initialProductSlice.length; i++) {
-      totalPrice += initialProductSlice[i].afterdiscount * quantities[i];
-    }
-    dispatch({ type: UPDATE_TOTAL, payload: totalPrice });
-  }, [quantities]);
+    const initialQuantities = {};
+    cart.forEach((product) => {
+      initialQuantities[product.id] = 1;
+    });
+    setQuantities(initialQuantities);
+  }, [cart]);
 
-  const handleSelectAllToggle = () => {
-    const updatedSelectAll = !selectAll;
-    setSelectAll(updatedSelectAll);
-
-    const updatedCheckboxes = new Array(initialProductSlice.length).fill(
-      updatedSelectAll
-    );
-    setProductCheckboxes(updatedCheckboxes);
-
-    const updatedQuantities = updatedCheckboxes.map((isChecked) =>
-      isChecked ? 1 : 0
-    );
-    dispatch({ type: UPDATE_QUANTITIES, payload: updatedQuantities });
-  };
-  const handleProductCheckboxToggle = (index) => {
-    const updatedCheckboxes = [...productCheckboxes];
-    updatedCheckboxes[index] = !updatedCheckboxes[index];
-    setProductCheckboxes(updatedCheckboxes);
-
-    const allSelected = updatedCheckboxes.every((isChecked) => isChecked);
-    setSelectAll(allSelected);
-
-    const updatedQuantities = updatedCheckboxes.map((isChecked) =>
-      isChecked ? 1 : 0
-    );
-    dispatch({ type: UPDATE_QUANTITIES, payload: updatedQuantities });
-  };
-
-  const updateQuantity = (index, value) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] = Math.max(1, newQuantities[index] + value);
-
-    if (newQuantities[index] !== quantities[index]) {
-      dispatch({
-        type: UPDATE_QUANTITY,
-        payload: { index, value: newQuantities[index] - quantities[index] },
-      });
+  const setDecrease = (productId) => {
+    if (quantities[productId] > 1) {
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [productId]: prevQuantities[productId] - 1,
+      }));
     }
   };
+
+  const setIncrease = (productId) => {
+    setQuantities((prevQuantities) => {
+      const currentQuantity = prevQuantities[productId] || 0;
+      return {
+        ...prevQuantities,
+        [productId]: currentQuantity + 1,
+      };
+    });
+  };
+
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    const newQuantities = {};
+    cart.forEach((product) => {
+      newQuantities[product.id] = selectAll ? 0 : 1;
+    });
+    setQuantities(newQuantities);
+  };
+
+  const handleCheckboxChange = (productId) => {
+    setQuantities((prevQuantities) => {
+      const newQuantities = {
+        ...prevQuantities,
+        [productId]: prevQuantities[productId] ? 0 : 1,
+      };
+  
+      const allSelected = cart.every(
+        (product) => newQuantities[product.id] > 0
+      );
+  
+      setSelectAll(allSelected);
+      return newQuantities;
+    });
+  };
+  const total = cart.reduce((acc, product) => {
+    const productQuantity = quantities[product.id] || 0;
+    return acc + product.afterdiscount * productQuantity;
+  }, 0);
 
   return (
     <div className="mt-10">
@@ -100,7 +78,7 @@ function TheCart() {
                 type="checkbox"
                 className="h-4 w-4"
                 checked={selectAll}
-                onChange={handleSelectAllToggle}
+                onChange={handleSelectAll}
               />
               <p>SELECT ALL</p>
             </div>
@@ -113,7 +91,7 @@ function TheCart() {
           </div>
           <div>
             <div className=" max-h-[34rem] custom-scroll">
-              {initialProductSlice.map((product, index) => (
+              {cart.map((product) => (
                 <div key={product.id}>
                   <div className="w-full">
                     <div className="mt-4 bg-white w-full">
@@ -123,17 +101,15 @@ function TheCart() {
                             <input
                               type="checkbox"
                               className="h-4 w-4"
-                              checked={productCheckboxes[index]}
-                              onChange={() =>
-                                handleProductCheckboxToggle(index)
-                              }
+                              checked={quantities[product.id] > 0}
+                              onChange={() => handleCheckboxChange(product.id)}
                             />
                             <p>boAt {">"}</p>
                           </div>
                           <div className="flex justify-between">
                             <div className="w-[40%] flex justify-end">
                               <p className="text-xs text-gray-700">
-                                Yay! Enjoy free shipping with specific proucts
+                                Yay! Enjoy free shipping with specific products
                               </p>
                             </div>
                             <p className="text-sm text-gray-700">
@@ -148,14 +124,13 @@ function TheCart() {
                             <input
                               type="checkbox"
                               className="h-4 w-4"
-                              checked={productCheckboxes[index]}
-                              onChange={() =>
-                                handleProductCheckboxToggle(index)
-                              }
+                              checked={quantities[product.id] > 0}
+                              onChange={() => handleCheckboxChange(product.id)}
                             />
                             <img
-                              src={product.images}
+                              src={`${apiConfig.baseUrl}uploads/${product.image}`}
                               className="w-[150px] h-[150px] p-2"
+                              alt={`Product ${product.id} Image`}
                             />
                           </div>
                           <div className="flex flex-col pt-4">
@@ -178,26 +153,12 @@ function TheCart() {
                                 <PiTrashLight className="text-xl cursor-pointer" />
                               </div>
                             </div>
-                            <div className="flex justify-between gap-4">
-                              <div>
-                                <button
-                                  onClick={() => updateQuantity(index, -1)}
-                                  className="p-2 bg-slate-100 hover:bg-gray-300 text-gray-400 hover:text-white"
-                                >
-                                  <FaMinus />
-                                </button>
-                              </div>
-                              <div className="flex justify-center">
-                                <p className=" text-lg">{quantities[index]}</p>
-                              </div>
-                              <div>
-                                <button
-                                  onClick={() => updateQuantity(index, 1)}
-                                  className="p-2 bg-slate-100 hover:bg-gray-300 text-gray-400 hover:text-white"
-                                >
-                                  <FaPlus />
-                                </button>
-                              </div>
+                            <div>
+                              <TheCartAmountToogle 
+                                amount={quantities[product.id] || 1}
+                                setDecrease={() => setDecrease(product.id)}
+                                setIncrease={() => setIncrease(product.id)}
+                              />
                             </div>
                           </div>
                         </div>
@@ -210,7 +171,7 @@ function TheCart() {
           </div>
         </div>
         <div className="bg-white w-[35%] h-[46%] mt-2">
-          <TheCartProceedToCheckout total={total} />
+          <TheCartProceedToCheckout total={total}/>
         </div>
       </div>
     </div>

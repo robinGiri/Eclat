@@ -64,7 +64,7 @@ export default function TheAdminNavbar() {
         onClick={() => handleTabClick(item.title)}
         onKeyDown={(e) => handleKeyPress(e, item.title)}
         key={item.title}
-        className={`mt-5 cursor-pointer p-1 rounded-md flex justify-start items-center ${
+        className={`mt-2 cursor-pointer p-2 pl-4 rounded-md flex justify-start items-center hover:bg-blue-400 hover:text-white hover:opacity-50 ${
           activeTab === item.title ? "bg-admin-blue text-white" : ""
         }`}
         tabIndex={0}
