@@ -40,6 +40,7 @@ export default function TheAdminRouter() {
     location.pathname.includes("/sale") ||
     location.pathname.includes("/cart") ||
     location.pathname.includes("/product_details") ||
+    location.pathname.includes("/userprofile");
     location.pathname.includes("/order-detail");
 
   return (
