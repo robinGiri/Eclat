@@ -29,11 +29,12 @@ router.post(
   validatedRequest(userCreateSchema),
   async (req, res, next) => {
     try {
-      const data = req.body;
+      let data = req.body;
       const saltRound = 10;
       const salt = await bcrypt.genSalt(saltRound);
       const hashedPassword = await bcrypt.hash(data.password, salt);
       data.password = hashedPassword;
+      data={...data, image:""};
       const { id } = await userService.save(data);
       const cart = await cartService.createCart(id);
       res.json({
