@@ -13,10 +13,11 @@ import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
 import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
+import TheOrderDetail from "../pages/TheOrderDetail";
 
 const routes = [
   { path: "/", element: <TheHome /> },
-  { path: "/customize/:productID", element: <TheCustomize/> },
+  { path: "/customize/:productID", element: <TheCustomize /> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },
@@ -27,7 +28,8 @@ const routes = [
   { path: "/registration", element: <TheRegistration /> },
   { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
   { path: "/userprofile", element: <TheProfile/> },
-
+  { path: "/cart/place-order", element: <TheCartPlaceOrder /> },
+  { path: "/order-detail", element: <TheOrderDetail /> },
 ];
 
 export default function TheRouter() {
@@ -45,20 +47,20 @@ export default function TheRouter() {
     location.pathname.includes("/admin-user") ||
     location.pathname.includes("/admin-logout");
 
-    return (
-      <div className="flex flex-col">
-        {!isAdminPage && (
-          <div>
-            <TheNavbar />
-          </div>
-        )}
+  return (
+    <div className="flex flex-col">
+      {!isAdminPage && (
         <div>
-          <Routes>
-            {routes.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
-          </Routes>
+          <TheNavbar />
         </div>
+      )}
+      <div>
+        <Routes>
+          {routes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Routes>
       </div>
-    );
-  }
+    </div>
+  );
+}

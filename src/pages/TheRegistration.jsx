@@ -6,7 +6,7 @@ import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-const registerURL = "http://localhost:4000/api/v1/user/";
+const registerURL = "http://localhost:4000/api/v1/user/signup";
 
 function TheRegistration() {
   const [showPassword, setShowPassword] = useState(false);

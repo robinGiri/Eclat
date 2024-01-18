@@ -41,11 +41,12 @@ export default function TheAdminRouter() {
     location.pathname.includes("/cart") ||
     location.pathname.includes("/product_details") ||
     location.pathname.includes("/userprofile");
+    location.pathname.includes("/order-detail");
 
   return (
     <div className="flex relative">
       {!isUserPage && (
-        <div className="sticky top-0  min-w-[240px] h-[100vh] bg-white">
+        <div className="sticky top-0 min-w-[240px] h-[100vh] bg-white">
           <TheAdminNavbar />
         </div>
       )}

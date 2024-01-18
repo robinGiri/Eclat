@@ -4,14 +4,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TheRouter from "./routes/TheRouter";
 import "./index.css";
 import TheAdminRouter from "./admin/admin-routes/TheAdminRouter";
+import { CartProvider } from "./custom-hooks/context/TheCartContext";
 
-createRoot(document.getElementById("root")).render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="*" element={<TheRouter />} />
-      </Routes>
-      <TheAdminRouter />
+      <CartProvider>
+        <Routes>
+          <Route path="*" element={<TheRouter />} />
+        </Routes>
+        <TheAdminRouter />
+      </CartProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
