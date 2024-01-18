@@ -64,6 +64,21 @@ class OrderService {
       throw error;
     }
   }
+  async getTotalOrderPerMonth(year, month) {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+    const totalOrder = await prisma.order.count({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+
+    return totalOrder;
+  }
 }
 
 class OrderItemsService {
