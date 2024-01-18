@@ -9,6 +9,7 @@ import ShareComponent from "../components/sharedComponents/ShareComponent";
 import { convertToDollar } from "../utils/convertToDollar";
 import { apiConfig } from "../services/api/config";
 import { useCartContext } from "../custom-hooks/context/TheCartContext";
+import { getAccessToken } from "../services/localStorage";
 
 const shareUrl = "https://eclatbags.netlify.app/";
 
@@ -116,8 +117,8 @@ function TheProductDetails() {
                   <div className="flex mt-2">
                     <button
                       className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
-                      onClick={() => {
-                        const token = "abcdefgh"
+                      onClick={ async() => {
+                        const token = await getAccessToken();
                         window.location.href = `http://localhost:3000/${productId}-${token}`;
                       }}
                     >

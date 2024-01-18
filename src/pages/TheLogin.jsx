@@ -5,6 +5,7 @@ import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { setAccessToken } from "../services/localStorage";
 const loginUrl = "http://localhost:4000/api/v1/user/login";
 
 function TheLogin() {
@@ -23,7 +24,9 @@ function TheLogin() {
   const handleLogin = async () => {
     const login = { email: email, password: password };
     const { data } = await axios.post(loginUrl, login);
+    await setAccessToken(data.token);
     const { userdetail:{role} } = data;
+    console.log(data)
     if (role== "SELLER") {
       handleAdminDashboardClick();
     }
