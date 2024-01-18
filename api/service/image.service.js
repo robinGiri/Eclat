@@ -2,12 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class ImageService {
-  async saveImage(fileName, imageData) {
+  async saveImage(fileName, productId) {
     try {
       const image = await prisma.Image.create({
         data: {
           url: fileName,
-          imageData,
+          productId: productId,
         },
       });
       return image;

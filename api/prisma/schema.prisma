@@ -59,10 +59,7 @@ model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
-  seasonId  Int
-
-  product Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
-  Season  Season  @relation(fields: [seasonId], references: [id])
+  product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Brand {
@@ -79,7 +76,7 @@ model User {
   address      String
   phone        String?
   password     String?
-  image        String?
+  image        String
   token        String?
   forgetToken  String?
   validateTill DateTime?
@@ -146,7 +143,6 @@ model OrderItems {
 model Season {
   id      Int       @id @default(autoincrement())
   name    String?
-  images  Image[]
   Product Product[]
 }
 
@@ -188,7 +184,6 @@ model Purchase {
 
 model Shipping {
   id         Int            @id @default(autoincrement())
-  OrderId    Int?
   status     ShippingStatus @default(ordered)
   purchaseId Int?
   createdAt  DateTime       @default(now())
