@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaHeart, FaFeather } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 import VerticalScrollContainer from "../components/sharedComponents/carouselComponents/VerticalScrollContainer";
 import ProductDetailsCarousel from "../components/sharedComponents/carouselComponents/ProductDetailsCarousel";
 import ShareComponent from "../components/sharedComponents/ShareComponent";
 import { convertToDollar } from "../utils/convertToDollar";
 import { apiConfig } from "../services/api/config";
+import { useCartContext } from "../custom-hooks/context/TheCartContext";
 
 const shareUrl = "https://eclatbags.netlify.app/";
 
@@ -17,9 +18,13 @@ function TheProductDetails() {
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
 
+  const {addToCart} = useCartContext();
+
   const getApiData = async () => {
     try {
-      const { data } = await axios.get(`${apiConfig.baseUrl}product/${productId}}`);
+      const { data } = await axios.get(
+        `${apiConfig.baseUrl}product/${productId}}`
+      );
       setProduct(data.result[0]);
     } catch (error) {
       setIsError("Error fetching data");
@@ -64,7 +69,9 @@ function TheProductDetails() {
             <div className="flex flex-col items-center w-[100%] h-[95vh] bg-neutral-100">
               <div className="flex w-[95%] justify-center h-[40vh] overflow-hidden bg-white rounded-md mb-3">
                 <img
-                  src={`${apiConfig.baseUrl}uploads/${product.images}`}
+                  src={`${apiConfig.baseUrl}uploads/${
+                    product.images && product.images[0]?.url
+                  }`}
                   className="p-4 w-[400px] h-[300px] rounded-md object-contain"
                   alt={`Product ${product.id} Image`}
                 />
@@ -79,7 +86,14 @@ function TheProductDetails() {
                 <div className="flex justify-between ">
                   <p className="font-bold text-3xl w-auto ">{product.name}</p>
                   <div className="flex mt-2">
-                    <FaFeather className="text-xl text-yellow-600" />
+                    <button
+                      className="text-s font-extrathin text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600 cursor-pointer transition duration-300 hover:text-red-500"
+                      onClick={() => {
+                        navigate(`/customize/product?${product.id}`);
+                      }}
+                    >
+                      Customize with Eclat
+                    </button>
                     <FaHeart className=" mx-[5vh] text-neutral-500 text-2xl cursor-pointer transition duration-300 hover:text-red-500" />
                   </div>
                 </div>
@@ -112,9 +126,7 @@ function TheProductDetails() {
                   </p>
                 </div>
                 <div className="flex flex-wrap description mt-5 w-[100%]">
-                  <p className="text-gray-500">
-                    {product.description}
-                  </p>
+                  <p className="text-gray-500">{product.description}</p>
                 </div>
                 <p className="font-light text-sm hover:font-bold cursor-pointer mt-4">
                   Shipping Details
@@ -133,12 +145,17 @@ function TheProductDetails() {
                   >
                     Buy Now
                   </button>
-                  <button
-                    onClick={handleCartClick}
+                  <NavLink
+                  to='/cart'
+                  onClick={() => {
+                    addToCart(product);
+                  }}>
+                  <button  
                     className="mt-10 h-[10vh] w-[50%] bg-neutral-900 text-white font-bold hover:bg-neutral-200 hover:text-black py-2 px-4 rounded"
                   >
                     Add to Cart
                   </button>
+                  </NavLink>
                 </div>
               </div>
             </div>

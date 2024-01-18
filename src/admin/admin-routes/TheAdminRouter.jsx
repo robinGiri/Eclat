@@ -44,7 +44,7 @@ export default function TheAdminRouter() {
   return (
     <div className="flex relative">
       {!isUserPage && (
-        <div className="sticky top-0  min-w-[240px] h-[100vh] bg-white">
+        <div className="sticky top-0 min-w-[240px] h-[100vh] bg-white">
           <TheAdminNavbar />
         </div>
       )}
