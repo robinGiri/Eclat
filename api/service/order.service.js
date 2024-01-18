@@ -26,15 +26,19 @@ class OrderService {
       throw error;
     }
   }
-  // Read All Order
-  // async getOrders() {
-  //   try {
-  //     const order = await prisma.order.findMany();
-  //     return order;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+
+  // Read Order by customerID
+  async getOrderBycustomerId(customerId) {
+    try {
+      const order = await prisma.order.findUnique({
+        where: { customerId: customerId },
+        include: { OrderItems: true }, // Include associated OrderItems if needed
+      });
+      return order;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // Update Order
   async updateOrder(orderId, updatedData) {
@@ -117,6 +121,7 @@ class OrderItemsService {
       throw error;
     }
   }
+
   async getAllOrderItems() {
     try {
       const orderItems = await prisma.orderItems.findMany({
@@ -127,7 +132,6 @@ class OrderItemsService {
       throw error;
     }
   }
-
 
   async getOrderItems() {
     try {
