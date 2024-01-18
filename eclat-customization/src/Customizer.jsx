@@ -8,6 +8,7 @@ import logo from './resources/image.png'
 import left from './resources/chevron-left-solid.svg'
 import right from './resources/chevron-right-solid.svg'
 import { useParams } from "react-router-dom"
+import { data } from "autoprefixer"
 
 const state = proxy({
   current: null,
@@ -81,6 +82,9 @@ function Bag() {
 function Picker() {
   const snap = useProxy(state)
   const [activeColor, setActiveColor] = useState('')
+  const currentUrl = window.location.href;
+  const dataPart = currentUrl.split('/')[3];
+  const [extractedID, extractedToken] = dataPart.split('-')    
 
   const handleColorChange = (color) => {
     state.items[snap.current] = color;
@@ -100,6 +104,7 @@ function Picker() {
       rotationState.current = state.current = itemKeys[nextIndex];
     }
   };
+
 
   const shadow = "rgba(197,225,213, 0.25) 0px 54px 55px, rgba(197,225,213, 0.12) 0px -12px 30px, rgba(197,225,213, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px 0px 0px"
 
@@ -144,6 +149,7 @@ function Picker() {
 }
 
 export default function Customizer() {
+
   return (
     <>
       <Canvas concurrent pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 2.75] }}>
