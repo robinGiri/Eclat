@@ -17,6 +17,7 @@ const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheRecentInvoice() {
   const [products, setProducts] = useState([]);
+  const [originalProducts, setOriginalProducts] = useState([]);
   const [isError, setIsError] = useState("");
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedViewProduct, setSelectedViewProduct] = useState(null);
@@ -70,7 +71,9 @@ function TheRecentInvoice() {
     try {
       const resp = await axios.get(API);
       console.log(resp.data);
-      setProducts(resp.data.result);
+      const apiProducts = resp.data.result;
+      setProducts(apiProducts);
+      setOriginalProducts(apiProducts);
     } catch (error) {
       console.error("Error fetching data:", error);
       setIsError("Error fetching data");
@@ -124,11 +127,29 @@ function TheRecentInvoice() {
   const closeFilterModal = () => {
     setIsFilterModalOpen(false);
   };
-  const applyPriceRangeFilter = (minPrice, maxPrice) => {
-    const filteredProducts = products.filter(
-      (item) => item.price >= minPrice && item.price <= maxPrice
-    );
-    setProducts(filteredProducts);
+  const applyFilter = async (minPrice, maxPrice, discount) => {
+    try {
+      let filteredProducts;
+
+      if (discount) {
+        filteredProducts = originalProducts.filter(
+          (item) =>
+            item.price >= minPrice &&
+            item.price <= maxPrice &&
+            item.discount <= discount
+        );
+      } else {
+        filteredProducts = originalProducts.filter(
+          (item) => item.price >= minPrice && item.price <= maxPrice
+        );
+      }
+
+      setProducts(filteredProducts);
+    } catch (error) {
+      console.error("Error applying filter: ", error);
+      console.error("Server error message: ", error.response?.data?.message);
+      setIsError("Error applying filter");
+    }
   };
 
   return (
@@ -266,7 +287,7 @@ function TheRecentInvoice() {
       {isFilterModalOpen && (
         <TheFilterModal
           closeModal={closeFilterModal}
-          applyFilter={applyPriceRangeFilter}
+          applyFilter={applyFilter}
         />
       )}
     </div>
