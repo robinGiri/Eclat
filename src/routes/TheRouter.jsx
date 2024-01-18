@@ -8,6 +8,7 @@ import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
 import TheSale from "../pages/TheSale";
 import TheCart from "../pages/TheCart";
+import TheProfile from "../pages/TheProfile"
 import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
@@ -25,6 +26,8 @@ const routes = [
   { path: "/login", element: <TheLogin /> },
   { path: "/registration", element: <TheRegistration /> },
   { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
+  { path: "/userprofile", element: <TheProfile/> },
+
 ];
 
 export default function TheRouter() {
