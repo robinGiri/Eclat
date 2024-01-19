@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwtUtil = require("../utils/jwt.util")
+const wishlistService = require("../service/wishlist.service")
 
 async function add(body) {
   const{items, productID, token} = body;
@@ -25,7 +26,7 @@ async function add(body) {
             id: existingCustomization.id,
           },
           data: {
-            customization: items.toString(),
+            customization: data.items,
           },
         });
         return updatedResult;
@@ -37,8 +38,14 @@ async function add(body) {
             customization: data.items,
           },
         });
-        return newResult;
+        await wishlistService.add({productID : data.productID, userID : data.userID}).then(()=>{
+          return newResult;
+        })
+        .catch((e)=>{
+          console.log(e)
+        })
       }
+
     } catch (error) {
       console.error("Error adding/updating customization:", error);
       throw error;
