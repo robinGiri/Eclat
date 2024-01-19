@@ -1,16 +1,20 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const tokenUtil = require("../utils/jwt.util")
+const jwtUtil = require("../utils/jwt.util")
 
-async function add(data) {
-  const{items, productID, token} = data;
-  console.log(tokenUtil.extractUserIDFromToken(token))
+async function add(body) {
+  const{items, productID, token} = body;
+  const data = {
+      items : JSON.stringify(items),
+      productID : parseInt(productID),
+      userID : jwtUtil.extractUserIDFromToken(token)
+  }
     try {
       const existingCustomization = await prisma.customization.findUnique({
         where: {
           userID_productId: {
             userID: data.userID,
-            productId: data.productId,
+            productId: data.productID,
           },
         },
       });
@@ -21,16 +25,16 @@ async function add(data) {
             id: existingCustomization.id,
           },
           data: {
-            customization: data.customization,
+            customization: items.toString(),
           },
         });
         return updatedResult;
       } else {
         const newResult = await prisma.customization.create({
           data: {
-            productId: data.productId,
             userID: data.userID,
-            customization: data.customization,
+            productId: data.productID,
+            customization: data.items,
           },
         });
         return newResult;

@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
+const secretKey = "12345678";
 
-const extractUserIDFromToken = (token, secretKey) => {
+const extractUserIDFromToken = (token) => {
   try {
     const decodedToken = jwt.verify(token, secretKey);
-    const userID = decodedToken.userID;
+    const userID = decodedToken.id;
 
     return userID;
   } catch (error) {

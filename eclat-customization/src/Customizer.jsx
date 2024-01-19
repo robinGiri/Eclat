@@ -122,8 +122,7 @@ function Picker() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const responseData = await response.json();
-      console.log('Response from customization/ endpoint:', responseData);
+      alert("Added to cart");
     } catch (error) {
       console.error('Error posting data to customization/:', error);
     }
