@@ -17,7 +17,7 @@ router.get("/total-income", async (req, res, next) => {
 
 router.get("/total-return", async (req, res, next) => {
   const returnData = await returnService.getReturnedAllOrder();
-  res.json({
+  const OrderByMonth = res.json({
     total_returned: returnData.length,
     meta: null,
   });
