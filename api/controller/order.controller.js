@@ -113,6 +113,19 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/customer/:id", async (req, res, next) => {
+  try {
+    const order = await orderService.getOrderBycustomerId(req.params.id);
+    res.json({
+      order,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   try {
     const orderItems = await orderItemsService.getOrderItems();

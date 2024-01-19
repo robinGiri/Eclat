@@ -42,6 +42,7 @@ model Product {
   stock         Int?
   status        String?
   viewCount     Int?
+  customizable  Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updateAt      DateTime        @updatedAt
   images        Image[]         @relation("ProductImages")
@@ -53,16 +54,14 @@ model Product {
   Wishlist      Wishlist[]
   Season        Season          @relation(fields: [seasonId], references: [id])
   Review        Review[]
+  Customization Customization[]
 }
 
 model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
-  seasonId  Int
-
-  product Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
-  Season  Season  @relation(fields: [seasonId], references: [id])
+  product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Brand {
@@ -72,24 +71,25 @@ model Brand {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  name         String
-  email        String     @unique
-  role         UserRole   @default(CUSTOMER)
-  address      String
-  phone        String?
-  password     String?
-  image        String?
-  token        String?
-  forgetToken  String?
-  validateTill DateTime?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  Cart         Cart[]
-  Product      Product[]
-  Order        Order[]
-  Wishlist     Wishlist[]
-  Reviews      Review[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  role          UserRole        @default(CUSTOMER)
+  address       String
+  phone         String?
+  password      String?
+  image         String
+  token         String?
+  forgetToken   String?
+  validateTill  DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Cart          Cart[]
+  Product       Product[]
+  Order         Order[]
+  Wishlist      Wishlist[]
+  Reviews       Review[]
+  Customization Customization[]
 }
 
 model Cart {
@@ -146,7 +146,6 @@ model OrderItems {
 model Season {
   id      Int       @id @default(autoincrement())
   name    String?
-  images  Image[]
   Product Product[]
 }
 
@@ -188,7 +187,6 @@ model Purchase {
 
 model Shipping {
   id         Int            @id @default(autoincrement())
-  OrderId    Int?
   status     ShippingStatus @default(ordered)
   purchaseId Int?
   createdAt  DateTime       @default(now())
@@ -212,9 +210,21 @@ model Wishlist {
 model Review {
   id        Int      @id @default(autoincrement())
   productID Int
-  Product   Product  @relation(fields: [productID], references: [id])
   userId    Int?
-  User      User?    @relation(fields: [userId], references: [id])
   review    String?
   createdAt DateTime @default(now())
+
+  User    User?   @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productID], references: [id])
+}
+
+model Customization {
+  id            Int     @id @default(autoincrement())
+  productId     Int?
+  userID        Int?
+  customization String
+  Product       Product?    @relation(fields: [productId], references: [id])
+  User          User?        @relation(fields: [userID], references: [id])
+
+  @@unique([userID, productId])
 }
