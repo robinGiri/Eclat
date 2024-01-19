@@ -105,9 +105,30 @@ function Picker() {
     }
   };
 
-  const handleSubmit = () => {
-    alert(extractedID);
-  }
+  const handleSubmit = async () => {
+    try {
+      const proxyObject = state.items;
+  
+      const itemsData = proxyObject.target;
+
+      const response = await fetch('http://localhost:4000/api/v1/customization/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({items : proxyObject, productID : extractedID, token :  extractedToken}),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      console.log('Response from customization/ endpoint:', responseData);
+    } catch (error) {
+      console.error('Error posting data to customization/:', error);
+    }
+  };
+  
 
 
   const shadow = "rgba(197,225,213, 0.25) 0px 54px 55px, rgba(197,225,213, 0.12) 0px -12px 30px, rgba(197,225,213, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px 0px 0px"

@@ -1,7 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const tokenUtil = require("../utils/jwt.util")
 
 async function add(data) {
+  const{items, productID, token} = data;
+  console.log(tokenUtil.extractUserIDFromToken(token))
     try {
       const existingCustomization = await prisma.customization.findUnique({
         where: {
