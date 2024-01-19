@@ -1,16 +1,39 @@
 import React from "react";
+import { PolarArea } from "react-chartjs-2";
+import "chart.js/auto";
 
 function TheCustomerReturn() {
+  const data = {
+    datasets: [
+      {
+        label: "Orders",
+        data: [10, 15, 8, 12, 20, 18, 14],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 205, 86, 0.7)",
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(153, 102, 255, 0.7)",
+          "rgba(255, 159, 64, 0.7)",
+          "rgba(255, 0, 0, 0.7)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    scale: {
+      ticks: {
+        display: false, // Hide the scale ticks
+      },
+    },
+  };
+
   return (
-    <div>
-      <div>
-        <div className="flex flex-col gap-4 w-[240px] h-[130px]">
-          <h1 className="text-[25px] font-bold m-[10px]">Customer Return</h1>
-          <p className="text-[35px] font-extrabold m-[10px]">7956</p>
-        </div>
-      </div>
+    <div className="">
+      <PolarArea data={data} options={options} />
     </div>
   );
 }
-
 export default TheCustomerReturn;
