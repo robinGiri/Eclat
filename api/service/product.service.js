@@ -2,7 +2,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const include = {
-  seller: true,
   brand: true,
   images: true,
   Season: true,

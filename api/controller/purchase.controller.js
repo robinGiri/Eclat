@@ -50,5 +50,16 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+router.get("/all-year-purchase", async (req, res, next) => {
+  try {
+    const purchase = await paymentService.getTotalPurchasePerMonth();
+    if (purchase) {
+      res.json({
+        purchase: purchase,
+        status: "successful",
+      });
+    }
+  } catch (error) {}
+});
 
 module.exports = router;

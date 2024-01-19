@@ -24,29 +24,26 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/signup",
-  validatedRequest(userCreateSchema),
-  async (req, res, next) => {
-    try {
-      const data = req.body;
-      const saltRound = 10;
-      const salt = await bcrypt.genSalt(saltRound);
-      const hashedPassword = await bcrypt.hash(data.password, salt);
-      data.password = hashedPassword;
-      const { id } = await userService.save(data);
-      const cart = await cartService.createCart(id);
-      res.json({
-        result: id,
-        code: 200,
-        meta: null,
-      });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
+router.post("/signup", async (req, res, next) => {
+  try {
+    let data = req.body;
+    const saltRound = 10;
+    const salt = await bcrypt.genSalt(saltRound);
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashedPassword;
+    data = { ...data, image: "" };
+    const { id } = await userService.save(data);
+    const cart = await cartService.createCart(id);
+    res.json({
+      result: id,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
-);
+});
 
 router.get("/login", verifyToken, async (req, res, next) => {
   const user = req.user;
@@ -120,28 +117,26 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
-router.put(
-  "/:email",
-  validatedRequest(userUpdateSchema),
-  async (req, res, next) => {
-    try {
-      const email = req.params.email;
-      const data = req.body;
-      const findUser = await userService.getUserByFilter({ email: email });
-      if (findUser) {
-        const user = await userService.updateUser(email, data);
-        res.json({
-          userdetail: user,
-          code: 200,
-          meta: null,
-        });
-      } else {
-        throw new Error("User Not found");
-      }
-    } catch (error) {
-      next(error);
+router.put("/:email", async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+    delete data.Cart;
+    console.log(data);
+    const findUser = await userService.getUserByFilter({ email: email });
+    if (findUser) {
+      const user = await userService.updateUser(email, data);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    } else {
+      throw new Error("User Not found");
     }
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 module.exports = router;

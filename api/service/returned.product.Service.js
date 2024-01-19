@@ -33,7 +33,22 @@ async function getReturnedOrderById(returnedOrderId) {
   }
 }
 
+async function getReturnedAllOrder() {
+  try {
+    const returnedOrder = await prisma.returnedOrder.findMany({
+      include: {
+        Product: true,
+        Order: true,
+      },
+    });
+    return returnedOrder;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createReturnedOrder,
   getReturnedOrderById,
+  getReturnedAllOrder,
 };

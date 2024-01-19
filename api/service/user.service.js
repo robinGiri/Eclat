@@ -8,7 +8,7 @@ const userSelect = {
   role: true,
   address: true,
   phone: true,
-  password: ture,
+  password: true,
   image: true,
   token: true,
   forgetToken: true,
@@ -30,6 +30,7 @@ async function save(data) {
 async function getUserByFilter(filter = {}) {
   const user = await prisma.user.findUnique({
     where: filter,
+    select: userSelect,
   });
   return user;
 }
