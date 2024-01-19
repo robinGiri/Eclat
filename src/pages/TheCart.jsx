@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TheCartProceedToCheckout from "../components/checkout/TheCartProceedToCheckout";
 import { CiHeart } from "react-icons/ci";
 import { PiTrashLight } from "react-icons/pi";
@@ -6,6 +6,7 @@ import "./TheCart.css";
 import { useCartContext } from "../custom-hooks/context/TheCartContext";
 import { apiConfig } from "../services/api/config";
 import TheCartAmountToogle from "../components/checkout/TheCartAmountToogle";
+import { IoArrowBackSharp } from "react-icons/io5";
 
 function TheCart() {
   const { cart } = useCartContext();
@@ -54,11 +55,11 @@ function TheCart() {
         ...prevQuantities,
         [productId]: prevQuantities[productId] ? 0 : 1,
       };
-  
+
       const allSelected = cart.every(
         (product) => newQuantities[product.id] > 0
       );
-  
+
       setSelectAll(allSelected);
       return newQuantities;
     });
@@ -69,11 +70,16 @@ function TheCart() {
   }, 0);
 
   return (
-    <div className="mt-10">
-      <div className="flex py-5 mx-[10%] gap-2 flex-wrap bg-neutral-100">
+    <div className="flex gap-2 mt-14">
+      <div className="w-[10%] flex justify-end mt-9">
+        <div className="flex justify-center items-center h-[4vh] gap-1">
+        <IoArrowBackSharp className="cursor-pointer"/><button>Back</button>
+        </div>
+      </div>
+      <div className="flex py-5 gap-2 flex-wrap bg-neutral-100 w-[80%]">
         <div className="w-[63%] p-2">
           <div className="flex justify-between items-center bg-white">
-            <div className="flex items-center p-2 gap-2 ">
+            <div className="flex items-center p-2 gap-2 relative">
               <input
                 type="checkbox"
                 className="h-4 w-4"
@@ -154,7 +160,7 @@ function TheCart() {
                               </div>
                             </div>
                             <div>
-                              <TheCartAmountToogle 
+                              <TheCartAmountToogle
                                 amount={quantities[product.id] || 1}
                                 setDecrease={() => setDecrease(product.id)}
                                 setIncrease={() => setIncrease(product.id)}
@@ -171,7 +177,7 @@ function TheCart() {
           </div>
         </div>
         <div className="bg-white w-[35%] h-[46%] mt-2">
-          <TheCartProceedToCheckout total={total}/>
+          <TheCartProceedToCheckout total={total} />
         </div>
       </div>
     </div>

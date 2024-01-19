@@ -8,7 +8,7 @@ const userSelect = {
   role: true,
   address: true,
   phone: true,
-  password: false,
+  password: true,
   image: true,
   token: true,
   forgetToken: true,

@@ -7,7 +7,7 @@ export default function TheAdminNavbar() {
   const location = useLocation();
 
   const adminRoutes = {
-    Home: "/admin",
+    Admin: "/admin",
     Dashboard: "/admin-dashboard",
     Analytics: "/admin-analytics",
     Products: "/admin-products",
@@ -19,8 +19,13 @@ export default function TheAdminNavbar() {
     User: "/admin-user",
     Logout: "/admin-logout",
   };
+  if (
+    location.pathname === "/"
+  ) {
+    return;
+  }
 
-  const initialActiveTab = localStorage.getItem("activeTab") || "Home";
+  const initialActiveTab = localStorage.getItem("activeTab") || "Admin";
   const [activeTab, setActiveTab] = useState(initialActiveTab);
 
   const handleTabClick = (title) => {
@@ -55,7 +60,7 @@ export default function TheAdminNavbar() {
   };
 
   const handleHomePageClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   const renderSidebarItem = (item) => {
@@ -84,7 +89,7 @@ export default function TheAdminNavbar() {
   return (
     <div className="h-[100vh]">
       <div className=" flex flex-col justify-center items-center h-[100px]">
-        <Link to="/" onClick={handleHomePageClick}>
+        <Link to="/home" onClick={handleHomePageClick}>
           <h1 className="font-bold text-3xl cursor-pointer">Eclat</h1>
         </Link>
       </div>
