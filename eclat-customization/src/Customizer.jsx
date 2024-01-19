@@ -105,6 +105,10 @@ function Picker() {
     }
   };
 
+  const handleSubmit = () => {
+    alert(extractedID);
+  }
+
 
   const shadow = "rgba(197,225,213, 0.25) 0px 54px 55px, rgba(197,225,213, 0.12) 0px -12px 30px, rgba(197,225,213, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px 0px 0px"
 
@@ -115,7 +119,7 @@ function Picker() {
           <img id = "left" src={left} alt="" style={{height:"40px", margin:"5px 10px"}}/> <h1>Eclat Pegasus 40 <br />$160</h1>
         </div>
         <div><img src={logo} alt="" /></div>
-        <div><button><h1 style={{fontSize:"14px"}}>{extractedToken && extractedToken? "Add to cart":"Login to save"}</h1></button></div>
+        <div><button onClick={()=>{handleSubmit()}}><h1 style={{fontSize:"14px"}}>{extractedToken && extractedToken? "Add to cart":"Login to save"}</h1></button></div>
       </div>
         <div className="picker" style={{display : snap.current? 'initial' : 'none'}}>
             <div className="picker-title" style={{display:'flex'}}>
