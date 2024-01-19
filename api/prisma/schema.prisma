@@ -207,9 +207,10 @@ model Wishlist {
 model Review {
   id        Int      @id @default(autoincrement())
   productID Int
-  Product   Product  @relation(fields: [productID], references: [id])
   userId    Int?
-  User      User?    @relation(fields: [userId], references: [id])
   review    String?
   createdAt DateTime @default(now())
+
+  User    User?   @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productID], references: [id])
 }

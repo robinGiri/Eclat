@@ -30,6 +30,7 @@ async function save(data) {
 async function getUserByFilter(filter = {}) {
   const user = await prisma.user.findUnique({
     where: filter,
+    select: userSelect,
   });
   return user;
 }
