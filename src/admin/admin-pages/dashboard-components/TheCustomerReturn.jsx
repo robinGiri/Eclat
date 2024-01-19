@@ -31,8 +31,10 @@ function TheCustomerReturn() {
   };
 
   return (
-    <div className="">
-      <PolarArea data={data} options={options} />
+    <div>
+      <div className="border border-black h-[25vh] flex justify-end">
+        <PolarArea data={data} options={options} />
+      </div>
     </div>
   );
 }

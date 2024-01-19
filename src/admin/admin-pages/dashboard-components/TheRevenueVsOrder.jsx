@@ -56,7 +56,7 @@ function TheRevenueVsOrder() {
   };
 
   return (
-    <div className="border border-white min-w-[380px] max-w-full h-[300px] rounded-2xl flex justify-center items-center bg-white shadow-custom-shadow">
+    <div className="w-full lg:w-[65%] max-w-[80%]">
       <h1 className="text-[25px] font-bold m-[10px]">Total Sales and Orders</h1>
       <Line data={data} options={options} />
     </div>
