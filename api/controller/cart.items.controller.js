@@ -2,9 +2,9 @@ const router = require("express").Router();
 const userService = require("../service/user.service");
 const { cartItemService } = require("../service/cart.service");
 
-router.post("/:id", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.body.userId);
 
     // Retrieve cartid from the user id
     const {
@@ -55,7 +55,7 @@ router.put("/:id", async (req, res, next) => {
 
 router.delete("/:id", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const  id  = parseInt(req.params.id);
 
     // Call the deleteCartItem method from the service
     const deletedCart = await cartItemService.deleteCartItem(id);

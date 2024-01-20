@@ -72,6 +72,16 @@ function TheProductDetails() {
       .catch((error) => console.error("Error fetching rates:", error));
   }, []);
 
+  const handleAddToCart = async (productId) => {
+    const data = {
+        "userId":1,   
+        "productId":productId,
+        "quantity":1
+    }
+    const response = await axios.post(`${apiConfig.baseUrl}cartitem/`,data);
+    console.log("God is here", response);
+  }
+
   return (
     <>
       <div className="flex justify-center mx-10">
@@ -179,7 +189,7 @@ function TheProductDetails() {
                       addToCart(product);
                     }}
                   >
-                    <button className="mt-10 h-[10vh] w-[50%] bg-neutral-900 text-white font-bold hover:bg-neutral-200 hover:text-black py-2 px-4 rounded">
+                    <button className="mt-10 h-[10vh] w-[50%] bg-neutral-900 text-white font-bold hover:bg-neutral-200 hover:text-black py-2 px-4 rounded" onClick={handleAddToCart(product.id)}>
                       Add to Cart
                     </button>
                   </NavLink>

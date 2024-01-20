@@ -1,45 +1,64 @@
 const TheCartReducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_TO_CART":
-      const { product, quantity } = action.payload;
-      const { id } = product;
+  if (action.type === "ADD_TO_CART") {
+    const { product } = action.payload;
+    console.log("Product is here", product);
+    const { id, name, color, images, price, discount, afterdiscount } =
+      product;
 
-      const existingProductIndex = state.cart.findIndex((p) => p.id === id);
+    const existingProduct = state.cart.find((item) => item.id === id);
 
-      if (existingProductIndex !== -1) {
-        const updatedCart = [...state.cart];
-        updatedCart[existingProductIndex].quantity += quantity;
-
-        return {
-          ...state,
-          cart: updatedCart,
-        };
-      } else {
-        const cartProduct = {
-          ...product,
-          quantity,
-        };
-
-        return {
-          ...state,
-          cart: [...state.cart, cartProduct],
-        };
-      }
-
-    case "UPDATE_QUANTITY":
-      const { productId, newQuantity } = action.payload;
-      const updatedCart = state.cart.map((product) =>
-        product.id === productId ? { ...product, quantity: newQuantity } : product
+    if (existingProduct) {
+      const updatedCart = state.cart.map((item) =>
+        item.id === id ? { ...item, amount: item.amount + 1 } : item
       );
 
       return {
         ...state,
         cart: updatedCart,
       };
+    } else {
+      const cartProduct = {
+        id,
+        name,
+        color,
+        image: images && images.length > 0 ? images[0].url : "",
+        price,
+        discount,
+        afterdiscount,
+        amount: 1,
+      };
 
-    default:
-      return state;
+      return {
+        ...state,
+        cart: [...state.cart, cartProduct],
+      };
+    }
   }
+  if (action.type === "REMOVE_ITEM") {
+    const updatedCart = state.cart.filter(
+      (curItem) => curItem.id !== action.payload
+    );
+    return {
+      ...state,
+      cart: updatedCart,
+    };
+  }
+  if (action.type === "UPDATE_ITEM_QUANTITY") {
+    const { productId, quantityChange } = action.payload;
+    const updatedCart = state.cart.map((item) =>
+      item.id === productId
+        ? { ...item, amount: item.amount + quantityChange }
+        : item
+    );
+
+    return {
+      ...state,
+      cart: updatedCart,
+    };
+  }
+
+
+  return state;
 };
 
 export default TheCartReducer;

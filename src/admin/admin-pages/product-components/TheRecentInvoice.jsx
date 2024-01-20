@@ -28,7 +28,6 @@ function TheRecentInvoice() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-
   const handleDelete = async (productId) => {
     try {
       const response = await axios.delete(`${API}${productId}`);

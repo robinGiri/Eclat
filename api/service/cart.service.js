@@ -18,17 +18,25 @@ class CartService {
     }
   };
 
-  getCartById = async (cartId) => {
-    try {
-      const cart = await prisma.cart.findUnique({
-        where: { id: cartId },
-        include: { cartItems: true },
-      });
-      return cart;
-    } catch (error) {
-      throw error;
-    }
-  };
+getCartById = async (cartId) => {
+  try {
+    const cart = await prisma.cart.findUnique({
+      where: { id: cartId },
+      include: {
+        cartItems: {
+          include: {
+            product: {include:{images:true}}
+          },
+        },
+      },
+    });
+    return cart;
+  } catch (error) {
+    console.error("Error in getCartById:", error);
+    throw error;
+  }
+};
+
 
   updateCart = async (cartId, updatedData) => {
     try {

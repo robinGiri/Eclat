@@ -73,6 +73,7 @@ router.delete("/:id", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
+    console.log(cartId);
     const cart = await cartService.getCartById(cartId);
     res.json({
       code: 200,
