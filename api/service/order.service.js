@@ -32,7 +32,7 @@ class OrderService {
     try {
       const order = await prisma.order.findUnique({
         where: { customerId: customerId },
-        include: { OrderItems: true }, // Include associated OrderItems if needed
+        include: { OrderItems: true, Voucher: true }, // Include associated OrderItems if needed
       });
       return order;
     } catch (error) {

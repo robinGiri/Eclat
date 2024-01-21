@@ -30,7 +30,7 @@ enum ShippingStatus {
 model Product {
   id            Int             @id @default(autoincrement())
   name          String?
-  description   String?
+  description   String          @db.LongText
   category      String?
   brand         Brand?          @relation(fields: [brandId], references: [id])
   price         Float?
@@ -39,6 +39,7 @@ model Product {
   sellerId      Int?
   User          User?           @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
+  isEcoFriendly Boolean?        @default(true)
   stock         Int?
   status        String?
   viewCount     Int?
@@ -121,11 +122,11 @@ model Order {
   OrderItems    OrderItems[]
   Purchase      Purchase[]
   Shipping      Shipping[]
-  voucherId     Int?
+  voucherId     Int
   ReturnedOrder ReturnedOrder[]
 
-  User    User?    @relation(fields: [customerId], references: [id])
-  Voucher Voucher? @relation(fields: [voucherId], references: [id])
+  User    User?   @relation(fields: [customerId], references: [id])
+  Voucher Voucher @relation(fields: [voucherId], references: [id])
 }
 
 model OrderItems {

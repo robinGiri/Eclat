@@ -7,10 +7,12 @@ router.post("/:id", async (req, res, next) => {
     let OrderItems;
     //extract cart id
     const cartId = parseInt(req.params.id);
+    const { voucherId } = req.body;
     //create order table
     const { userId } = req.body;
     const data = {
       userId: userId,
+      voucherId: voucherId,
     };
     const { id } = await orderService.createOrder(data);
 

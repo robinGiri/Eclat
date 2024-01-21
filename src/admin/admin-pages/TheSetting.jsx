@@ -6,6 +6,7 @@ function TheSetting() {
   const [seasons, setSeasons] = useState([]);
   const [seasonId, setSeasonId] = useState("");
   const [seasonName, setSeasonName] = useState("");
+  const [voucher, setVoucher] = useState("");
   const [currentSeasonId, setCurrentSeasonId] = useState("");
 
   const getSeasons = async () => {
@@ -101,6 +102,18 @@ function TheSetting() {
         <button onClick={handelSeason}>Add season</button>
       </div>
       <div>
+        <div>
+          <input
+            type="text"
+            placeholder="Discount Percentage"
+            name=""
+            onChange={(e) => {
+              setVoucher(e.target.value);
+            }}
+          />
+          <button onClick={handelVoucher}>Add Voucher</button>
+        </div>
+        <div></div>
         <select
           id="season"
           name="season"
