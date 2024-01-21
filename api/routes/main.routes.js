@@ -40,4 +40,7 @@ router.use(`/strip-payment`, require("../controller/strip.payment"));
 //return controller
 router.use(`/return`, require("../controller/return.controller"));
 
+//voucher controller
+router.use(`/voucher`, require("../controller/voucher.controller"));
+
 module.exports = router;

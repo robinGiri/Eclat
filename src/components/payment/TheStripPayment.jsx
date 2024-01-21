@@ -24,7 +24,12 @@ const TheStripPayment = () => {
   };
   return (
     <div>
-      <button onClick={makePayment}>Strip</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2"
+        onClick={makePayment}
+      >
+        Strip
+      </button>
     </div>
   );
 };

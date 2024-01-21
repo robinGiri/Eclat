@@ -30,7 +30,7 @@ enum ShippingStatus {
 model Product {
   id            Int             @id @default(autoincrement())
   name          String?
-  description   String?
+  description   String          @db.LongText
   category      String?
   brand         Brand?          @relation(fields: [brandId], references: [id])
   price         Float?
@@ -39,6 +39,7 @@ model Product {
   sellerId      Int?
   User          User?           @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
+  isEcoFriendly Boolean?        @default(true)
   stock         Int?
   status        String?
   viewCount     Int?
@@ -59,10 +60,7 @@ model Image {
   id        Int     @id @default(autoincrement())
   url       String?
   productId Int
-  seasonId  Int
-
-  product Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
-  Season  Season  @relation(fields: [seasonId], references: [id])
+  product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Brand {
@@ -79,7 +77,7 @@ model User {
   address      String
   phone        String?
   password     String?
-  image        String?
+  image        String
   token        String?
   forgetToken  String?
   validateTill DateTime?
@@ -124,11 +122,11 @@ model Order {
   OrderItems    OrderItems[]
   Purchase      Purchase[]
   Shipping      Shipping[]
-  voucherId     Int?
+  voucherId     Int
   ReturnedOrder ReturnedOrder[]
 
-  User    User?    @relation(fields: [customerId], references: [id])
-  Voucher Voucher? @relation(fields: [voucherId], references: [id])
+  User    User?   @relation(fields: [customerId], references: [id])
+  Voucher Voucher @relation(fields: [voucherId], references: [id])
 }
 
 model OrderItems {
@@ -146,7 +144,6 @@ model OrderItems {
 model Season {
   id      Int       @id @default(autoincrement())
   name    String?
-  images  Image[]
   Product Product[]
 }
 
@@ -188,7 +185,6 @@ model Purchase {
 
 model Shipping {
   id         Int            @id @default(autoincrement())
-  OrderId    Int?
   status     ShippingStatus @default(ordered)
   purchaseId Int?
   createdAt  DateTime       @default(now())
@@ -212,9 +208,10 @@ model Wishlist {
 model Review {
   id        Int      @id @default(autoincrement())
   productID Int
-  Product   Product  @relation(fields: [productID], references: [id])
   userId    Int?
-  User      User?    @relation(fields: [userId], references: [id])
   review    String?
   createdAt DateTime @default(now())
+
+  User    User?   @relation(fields: [userId], references: [id])
+  Product Product @relation(fields: [productID], references: [id])
 }

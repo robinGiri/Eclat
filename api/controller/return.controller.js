@@ -29,18 +29,5 @@ router.get("/{id}", async (req, res, next) => {
     next(error);
   }
 });
-router.get("/", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const returnItem = returnService.getReturnedOrderById;
-    res.status(200).json({
-      code: 200,
-      result: returnItem,
-      meta: null,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
 
 module.exports = router;
