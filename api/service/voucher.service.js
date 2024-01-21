@@ -19,6 +19,17 @@ async function createVoucher(discountPercent) {
 }
 
 // Read Voucher by ID
+async function deleteVoucherById(voucherId) {
+  try {
+    const voucher = await prisma.voucher.delete({
+      where: { id: voucherId },
+    });
+    return voucher;
+  } catch (error) {
+    throw error;
+  }
+}
+// Read Voucher by ID
 async function getVoucherById(voucherId) {
   try {
     const voucher = await prisma.voucher.findUnique({
@@ -46,4 +57,5 @@ module.exports = {
   createVoucher,
   getVoucherById,
   getAllVoucher,
+  deleteVoucherById,
 };

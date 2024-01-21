@@ -2,9 +2,9 @@ const router = require("express").Router();
 const userService = require("../service/user.service");
 const { cartItemService } = require("../service/cart.service");
 
-router.post("/:id", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.body.userId);
 
     // Retrieve cartid from the user id
     const {
