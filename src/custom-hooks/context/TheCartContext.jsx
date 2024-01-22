@@ -1,29 +1,65 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
-import reducer from '../reducer/TheCartReducer'; 
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import TheCartReducer from "../reducer/TheCartReducer";
 
-// TheCartContext.js
 const CartContext = createContext();
+
+const getLocalStorageCartData = () => {
+  let localStorageData = localStorage.getItem("Abhisek Cart");
+
+  try {
+    return localStorageData ? JSON.parse(localStorageData) : [];
+  } catch (error) {
+    console.error("Error parsing local storage data:", error);
+    return [];
+  }
+};
+
 const initialState = {
-  cart: [],
-  // ... other properties
+  cart: getLocalStorageCartData(),
 };
 
 const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false); // Add this line
+  const [state, dispatch] = useReducer(TheCartReducer, initialState);
 
-  const addToCart = (product, quantity) => {
-    dispatch({ type: "ADD_TO_CART", payload: { product, quantity } });
+  const addToCart = (product) => {
+    dispatch({ type: "ADD_TO_CART", payload: { product } });
   };
 
-  const updateQuantity = (productId, newQuantity) => {
-    setIsUpdatingQuantity(true); // Set the flag before updating
-    dispatch({ type: "UPDATE_QUANTITY", payload: { productId, newQuantity } });
-    setIsUpdatingQuantity(false); // Reset the flag after updating
+  const removeItem = (productId) => {
+    dispatch({ type: "REMOVE_ITEM", payload: productId });
+  };
+
+  const updateItemQuantity = (productId, quantityChange) => {
+    dispatch({
+      type: "UPDATE_ITEM_QUANTITY",
+      payload: { productId, quantityChange },
+    });
+  };
+
+  useEffect(() => {
+    localStorage.setItem("Abhisek Cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  const getProductAmount = (productId) => {
+    const cartItem = state.cart.find((item) => item.id === productId);
+    return cartItem ? cartItem.amount : 1;
+  };
+
+  const setProductAmount = (productId, amount) => {
+    dispatch({ type: "SET_PRODUCT_AMOUNT", payload: { productId, amount } });
   };
 
   return (
-    <CartContext.Provider value={{ ...state, isUpdatingQuantity, addToCart, updateQuantity }}>
+    <CartContext.Provider
+      value={{
+        ...state,
+        addToCart,
+        removeItem,
+        updateItemQuantity,
+        getProductAmount,
+        setProductAmount,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -34,4 +70,3 @@ const useCartContext = () => {
 };
 
 export { CartProvider, useCartContext };
-
