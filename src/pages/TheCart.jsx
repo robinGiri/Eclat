@@ -17,43 +17,57 @@ function TheCart() {
   const goBack = () => {
     navigate(-1);
   };
-
   const [cartProducts, setCartProducts] = useState([]);
-
-  useEffect(() => {
-    console.log("UFF paxi", cartProducts);
-  }, [cartProducts]);
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const getCardData = async () => {
     try {
       const response = await axios.get(`${apiConfig.baseUrl}cart/1`);
-      const {
-        data: {
-          message: { cartItems },
-        },
-      } = response;
-      console.log("UFF", cartItems);
-      setCartProducts([...cartItems]);
+      const { data } = response;
+
+      if (data && data.message && Array.isArray(data.message.cartItems)) {
+        setCartProducts(data.message.cartItems);
+      } else {
+        console.error("Invalid response format:", data);
+      }
     } catch (error) {
       console.error("Error fetching card data:", error);
+      setIsError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `${apiConfig.baseUrl}cartitem/${productId}`
+      );
+      console.log("Product deleted:", response.data);
+
+      const updatedCartResponse = await axios.get(`${apiConfig.baseUrl}cart/1`);
+      const updatedCartData = updatedCartResponse.data.message.cartItems;
+
+      setCartProducts(updatedCartData);
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+      console.error("Server error message: ", error.response?.data?.message);
+      setIsError(true);
     }
   };
 
   useEffect(() => {
-    getCardData();
-  }, []);
+    const fetchData = async () => {
+      try {
+        await getCardData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  
-  const handleDelete = async (productId) => {
-    try {
-      const response = await axios.delete(`${apiConfig.baseUrl}cartitem/${productId}`);
-      
-    } catch (error) {
-      console.error("Error deleting product: ", error);
-      console.error("Server error message: ", error.response?.data?.message);
-      setIsError("Error deleting product");
-    }
-  };
+    fetchData();
+  }, []);
 
   return (
     <div className="flex gap-2 mt-14">
@@ -79,9 +93,8 @@ function TheCart() {
           </div>
           <div>
             <div className=" max-h-[34rem] custom-scroll">
-              {cartProducts &&
-                Array.isArray(cartProducts) &&
-                cartProducts.map((product) => (
+            {cartProducts.map((product) => (
+
                   <div key={product.id}>
                     <div className="w-full">
                       <div className="mt-4 bg-white w-full">
@@ -139,7 +152,7 @@ function TheCart() {
                                   <CiHeart className="text-xl cursor-pointer" />
                                   <PiTrashLight
                                     className="text-xl cursor-pointer"
-                                    onClick={handleDelete(product.id)}
+                                    onClick={() => handleDelete(product.id)}
                                   />
                                 </div>
                               </div>
