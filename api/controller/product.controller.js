@@ -13,61 +13,54 @@ const {
 
 const router = require("express").Router();
 
-router.post(
-  "/",
-  validatedRequest(productCreateSchema),
-  uploader.array("image"),
-  async (req, res, next) => {
-    try {
-      const {
-        name,
-        description,
-        category,
-        price,
-        viewCount,
-        slug,
-        discount,
-        status,
-        sellerId,
-        seasonId,
-      } = req.body;
+router.post("/", uploader.array("image"), async (req, res, next) => {
+  try {
+    const {
+      name,
+      description,
+      category,
+      price,
+      viewCount,
+      discount,
+      status,
+      sellerId,
+      seasonId,
+    } = req.body;
 
-      const afterDiscount =
-        parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
+    const afterDiscount =
+      parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
 
-      const finalData = {
-        name,
-        description,
-        category,
-        price: parseFloat(price),
-        viewCount: parseInt(viewCount),
-        slug,
-        discount: parseFloat(discount),
-        afterdiscount: afterDiscount,
-        isFeatured: true,
-        sellerId: parseInt(sellerId),
-        status,
-        seasonId: parseInt(seasonId),
-      };
+    const finalData = {
+      name,
+      description,
+      category,
+      price: parseFloat(price),
+      viewCount: parseInt(viewCount),
+      discount: parseFloat(discount),
+      afterdiscount: afterDiscount,
+      isFeatured: true,
+      sellerId: parseInt(sellerId),
+      status,
+      seasonId: 1,
+    };
 
-      const { id } = await productService.save(finalData);
+    const { id } = await productService.save(finalData);
 
-      if (req.files) {
-        req.files.forEach(({ filename }) => {
-          imageService.save(filename, { productId: id, seasonId: null });
-        });
-      }
-
-      res.json({
-        result: await productService.fetchByID(id),
-        message: "Product created successfully",
-        meta: null,
+    if (req.files) {
+      req.files.forEach(({ filename }) => {
+        imageService.saveImage(filename, id);
       });
-    } catch (e) {
-      next(e);
     }
+
+    res.json({
+      result: await productService.fetchByID(id),
+      message: "Product created successfully",
+      meta: null,
+    });
+  } catch (e) {
+    next(e);
   }
-);
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -132,78 +125,71 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.put(
-  "/:productId",
-  validatedRequest(productUpdateSchema),
-  uploader.array("image"),
-  async (req, res, next) => {
-    try {
-      const productId = req.params.productId;
+router.put("/:productId", uploader.array("image"), async (req, res, next) => {
+  try {
+    const productId = req.params.productId;
 
-      const {
-        name,
-        description,
-        category,
-        price,
-        viewCount,
-        slug,
-        discount,
-        status,
-        //in the delImage it will send the list for the images which user want to relace
-        delImg,
-      } = req.body;
+    const {
+      name,
+      description,
+      category,
+      price,
+      viewCount,
+      discount,
+      status,
+      //in the delImage it will send the list for the images which user want to relace
+      delImg,
+    } = req.body;
 
-      if (delImg) {
-        //list of all images from the list
-        const delete_image_array = delImg.split(",");
+    if (delImg) {
+      //list of all images from the list
+      const delete_image_array = delImg.split(",");
 
-        // will delete the images from the database
-        delete_image_array.forEach(async (img) => {
-          const image = imageService.findImageByUrl(img);
-          if (image) {
-            await imageService.deleteImageByUrl(img);
-            deleteFile("./public/uploads/" + img);
-          }
-          //will update upload the updated images
-          const images = [];
-          req.files.forEach(({ filename }) => {
-            images.push(filename);
-          });
-          imageService.saveMultiple(images, productId);
+      // will delete the images from the database
+      delete_image_array.forEach(async (img) => {
+        const image = imageService.findImageByUrl(img);
+        if (image) {
+          await imageService.deleteImageByUrl(img);
+          deleteFile("./public/uploads/" + img);
+        }
+        //will update upload the updated images
+        const images = [];
+        req.files.forEach(({ filename }) => {
+          images.push(filename);
         });
-      }
-
-      const afterDiscount =
-        parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
-
-      const updatedProductData = {
-        name,
-        description,
-        category,
-        price: parseFloat(price),
-        viewCount: parseInt(viewCount),
-        slug,
-        discount: parseFloat(discount),
-        afterdiscount: afterDiscount,
-        isFeatured: true,
-        tags: "tag1, tag2, tag3",
-        sellerId: 1,
-        status,
-      };
-
-      await productService.update(updatedProductData, productId);
-
-      res.json({
-        result: await productService.fetchByID(productId),
-        message: "Product updated successfully",
-        meta: null,
+        imageService.saveImage(images, productId);
       });
-    } catch (e) {
-      console.error(e);
-      next(e);
     }
+
+    const afterDiscount =
+      parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
+
+    const updatedProductData = {
+      name,
+      description,
+      category,
+      price: parseFloat(price),
+      viewCount: parseInt(viewCount),
+      discount: parseFloat(discount),
+      afterdiscount: afterDiscount,
+      isFeatured: true,
+      sellerId: 1,
+      status,
+      seasonId: 1,
+    };
+
+    await productService.update(updatedProductData, productId);
+
+    res.json({
+      result: await productService.fetchByID(productId),
+      message: "Product updated successfully",
+      meta: null,
+    });
+  } catch (e) {
+    console.error(e);
+    next(e);
   }
-);
+});
 
 router.delete("/:id", async (req, res, next) => {
   try {

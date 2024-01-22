@@ -32,7 +32,7 @@ export default function TheAdminRouter() {
   const adminLocation = useLocation();
   const nodeRef = useRef(null);
   const isUserPage =
-    location.pathname.includes("/customize") ||
+    location.pathname.includes("/home") ||
     location.pathname.includes("/request-products") ||
     location.pathname.includes("/men") ||
     location.pathname.includes("/women") ||
@@ -40,8 +40,13 @@ export default function TheAdminRouter() {
     location.pathname.includes("/sale") ||
     location.pathname.includes("/cart") ||
     location.pathname.includes("/product_details") ||
-    location.pathname.includes("/userprofile");
-    location.pathname.includes("/order-detail");
+    location.pathname.includes("/order-detail") ||
+    location.pathname.includes("/registration") ||
+    location.pathname.includes("/login");
+
+  if (location.pathname === "/") {
+    return;
+  }
 
   return (
     <div className="flex relative">

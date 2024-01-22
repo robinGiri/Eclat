@@ -8,7 +8,7 @@ const userSelect = {
   role: true,
   address: true,
   phone: true,
-  password: false,
+  password: true,
   image: true,
   token: true,
   forgetToken: true,
@@ -30,6 +30,7 @@ async function save(data) {
 async function getUserByFilter(filter = {}) {
   const user = await prisma.user.findUnique({
     where: filter,
+    select: userSelect,
   });
   return user;
 }
@@ -90,6 +91,19 @@ async function logoutUser(email) {
   }
 }
 
+async function updateImage(userId, newImageUrl) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { image: newImageUrl },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   save,
   getUserByFilter,
@@ -97,4 +111,5 @@ module.exports = {
   getAllUsers,
   updateUser,
   logoutUser,
+  updateImage,
 };

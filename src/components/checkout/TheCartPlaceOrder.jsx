@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { HiOutlineTicket } from "react-icons/hi2";
 import { RiArrowRightSLine } from "react-icons/ri";
 import TheCartPlaceOrderCheckout from "./TheCartPlaceOrderCheckout";
@@ -12,7 +12,27 @@ function TheCartPlaceOrder() {
     setIsModalOpen(!isModalOpen);
   };
 
-  const { cart } = useCartContext();
+  const { cart, updateQuantity } = useCartContext();
+  const [quantities, setQuantities] = useState({});
+  const total = cart.reduce((acc, product) => {
+    const productQuantity = quantities[product.id] || 0;
+    return acc + product.afterdiscount * productQuantity;
+  }, 0);
+
+  useEffect(() => {
+    // Assuming you have a function to update quantities
+    const updateQuantities = () => {
+      const updatedQuantities = {};
+      cart.forEach((product) => {
+        // Update quantities based on your logic (using updateQuantity function)
+        updatedQuantities[product.id] = product.quantity; // Replace with your actual logic
+      });
+      setQuantities(updatedQuantities);
+    };
+
+    // Call the function to update quantities
+    updateQuantities();
+  }, [cart]);
 
   return (
     <div className="pt-10 w-full h-[100vh] bg-neutral-100">
@@ -62,7 +82,7 @@ function TheCartPlaceOrder() {
                           <div className="w-[100%] flex  gap-20 h-full items-center">
                             <div className="flex justify-between w-full flex-wrap">
                               <div className="w-[35%] flex justify-end">
-                                <p className="text-sm font-semibold">Qty.1</p>
+                                <p className="text-sm font-semibold">Qty.{quantities[product.id]}</p>
                               </div>
                               <div className="flex flex-wrap gap-3">
                                 <div className="flex items-center gap-5 px-2 rounded-sm bg-gray-10">

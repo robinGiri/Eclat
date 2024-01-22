@@ -1,16 +1,19 @@
 import KhaltiCheckout from "khalti-checkout-web";
 import React from "react";
+import khaltiVerification from "../../services/payment.verification";
 
 function Khaltitest() {
   let config = {
     // replace this key with yours
-    publicKey: "test_public_key_0069efbf9f9244faa8b8ab3ea57b6b06",
+    publicKey: "test_public_key_9cedc1faed9242b19074b04493e9696a",
     productIdentity: "1234567890",
     productName: "Drogon",
     productUrl: "http://gameofthrones.com/buy/Dragons",
     eventHandler: {
       onSuccess(payload) {
         const { token } = payload;
+        console.log(token);
+        // khaltiVerification(token);
       },
       // onError handler is optional
       onError(error) {

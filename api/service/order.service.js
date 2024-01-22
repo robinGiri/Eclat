@@ -26,15 +26,19 @@ class OrderService {
       throw error;
     }
   }
-  // Read All Order
-  // async getOrders() {
-  //   try {
-  //     const order = await prisma.order.findMany();
-  //     return order;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+
+  // Read Order by customerID
+  async getOrderBycustomerId(customerId) {
+    try {
+      const order = await prisma.order.findUnique({
+        where: { customerId: customerId },
+        include: { OrderItems: true, Voucher: true }, // Include associated OrderItems if needed
+      });
+      return order;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // Update Order
   async updateOrder(orderId, updatedData) {
@@ -59,6 +63,21 @@ class OrderService {
     } catch (error) {
       throw error;
     }
+  }
+  async getTotalOrderPerMonth(year, month) {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+    const totalOrder = await prisma.order.count({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+
+    return totalOrder;
   }
 }
 
@@ -117,6 +136,7 @@ class OrderItemsService {
       throw error;
     }
   }
+
   async getAllOrderItems() {
     try {
       const orderItems = await prisma.orderItems.findMany({
@@ -127,7 +147,6 @@ class OrderItemsService {
       throw error;
     }
   }
-
 
   async getOrderItems() {
     try {

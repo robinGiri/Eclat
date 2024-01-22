@@ -7,10 +7,12 @@ router.post("/:id", async (req, res, next) => {
     let OrderItems;
     //extract cart id
     const cartId = parseInt(req.params.id);
+    const { voucherId } = req.body;
     //create order table
     const { userId } = req.body;
     const data = {
       userId: userId,
+      voucherId: voucherId,
     };
     const { id } = await orderService.createOrder(data);
 
@@ -105,6 +107,19 @@ router.get("/", async (req, res, next) => {
 
     res.json({
       orderItems,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/customer/:id", async (req, res, next) => {
+  try {
+    const order = await orderService.getOrderBycustomerId(req.params.id);
+    res.json({
+      order,
       code: 200,
       meta: null,
     });

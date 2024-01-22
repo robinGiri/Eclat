@@ -48,9 +48,29 @@ async function deletePurchase(purchaseId) {
   }
 }
 
+async function getTotalPurchasePerMonth(year, month) {
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+  const totalPurchase = await prisma.purchase.aggregate({
+    where: {
+      createdAt: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  return totalPurchase._sum.amount || 0;
+}
+
 module.exports = {
   createPurchase,
   getAllPurchases,
   getPurchaseById,
   deletePurchase,
+  getTotalPurchasePerMonth,
 };

@@ -4,12 +4,9 @@ const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
 const { cartService } = require("../service/cart.service");
 const verifyToken = require("../middleware/token.verify");
-const validatedRequest = require("../middleware/validation.middleware");
-const {
-  userCreateSchema,
-  userUpdateSchema,
-} = require("../validator/user.validator");
+const uploader = require("../jobs/imageUploaderJob");
 
+//get all users
 router.get("/users", async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();
@@ -24,30 +21,29 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/signup",
-  validatedRequest(userCreateSchema),
-  async (req, res, next) => {
-    try {
-      const data = req.body;
-      const saltRound = 10;
-      const salt = await bcrypt.genSalt(saltRound);
-      const hashedPassword = await bcrypt.hash(data.password, salt);
-      data.password = hashedPassword;
-      const { id } = await userService.save(data);
-      const cart = await cartService.createCart(id);
-      res.json({
-        result: id,
-        code: 200,
-        meta: null,
-      });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
+//register the user
+router.post("/signup", async (req, res, next) => {
+  try {
+    let data = req.body;
+    const saltRound = 10;
+    const salt = await bcrypt.genSalt(saltRound);
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashedPassword;
+    data = { ...data, image: "" };
+    const { id } = await userService.save(data);
+    const cart = await cartService.createCart(id);
+    res.json({
+      result: id,
+      code: 200,
+      meta: null,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
-);
+});
 
+//check login when the user load the login page
 router.get("/login", verifyToken, async (req, res, next) => {
   const user = req.user;
   if (req.user) {
@@ -58,6 +54,8 @@ router.get("/login", verifyToken, async (req, res, next) => {
     });
   }
 });
+
+//Login the user
 router.post("/login", async (req, res, next) => {
   try {
     const data = req.body;
@@ -78,7 +76,6 @@ router.post("/login", async (req, res, next) => {
       var token = jwt.sign(userData, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
-      res.cookie("jwt", token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
     } else {
       res.json({ message: "Incorrect password", code: "401", meta: null });
     }
@@ -93,6 +90,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+//Logout the user on the basis of token
 router.get("/logout", async (req, res, next) => {
   try {
     res.clearCookie("jwt");
@@ -106,6 +104,7 @@ router.get("/logout", async (req, res, next) => {
   }
 });
 
+//get user by id
 router.get("/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
@@ -120,28 +119,48 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
-router.put(
-  "/:email",
-  validatedRequest(userUpdateSchema),
-  async (req, res, next) => {
-    try {
-      const email = req.params.email;
-      const data = req.body;
-      const findUser = await userService.getUserByFilter({ email: email });
-      if (findUser) {
-        const user = await userService.updateUser(email, data);
-        res.json({
-          userdetail: user,
-          code: 200,
-          meta: null,
-        });
-      } else {
-        throw new Error("User Not found");
-      }
-    } catch (error) {
-      next(error);
+
+//get user by Email
+router.put("/:email", async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const data = req.body;
+    delete data.Cart;
+    console.log(data);
+    const findUser = await userService.getUserByFilter({ email: email });
+    if (findUser) {
+      const user = await userService.updateUser(email, data);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    } else {
+      throw new Error("User Not found");
     }
+  } catch (error) {
+    next(error);
   }
-);
+});
+
+//upload user profile picture
+router.patch("/upload", uploader.single("image"), async (req, res, next) => {
+  const id = parseInt(req.body.id);
+  const file = req.file.filename.split(".");
+  try {
+    const userData = await userService.getUserById(id);
+    if (userData) {
+      const user = await userService.updateImage(id, file[0]);
+      res.json({
+        userdetail: user,
+        code: 200,
+        meta: null,
+      });
+    }
+    throw new Error("User Dont Exist");
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
