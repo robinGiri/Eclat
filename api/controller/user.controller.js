@@ -1,13 +1,9 @@
-const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userService = require("../service/user.service");
-const { cartService } = require("../service/cart.service");
-const verifyToken = require("../middleware/token.verify");
-const uploader = require("../jobs/imageUploaderJob");
+const cartService = require("../service/cart.service");
 
-//get all users
-router.get("/users", async (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();
     res.json({
@@ -19,10 +15,9 @@ router.get("/users", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-//register the user
-router.post("/signup", async (req, res, next) => {
+const signup = async (req, res, next) => {
   try {
     let data = req.body;
     const saltRound = 10;
@@ -41,10 +36,9 @@ router.post("/signup", async (req, res, next) => {
     console.log(error);
     next(error);
   }
-});
+};
 
-//check login when the user load the login page
-router.get("/login", verifyToken, async (req, res, next) => {
+const checkLogin = async (req, res, next) => {
   const user = req.user;
   if (req.user) {
     res.json({
@@ -53,15 +47,12 @@ router.get("/login", verifyToken, async (req, res, next) => {
       meta: null,
     });
   }
-});
+};
 
-//Login the user
-router.post("/login", async (req, res, next) => {
+const login = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data);
     const userData = await userService.getUserByFilter({ email: data.email });
-    console.log(userData);
     if (!userData) {
       res
         .status(404)
@@ -88,10 +79,9 @@ router.post("/login", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-//Logout the user on the basis of token
-router.get("/logout", async (req, res, next) => {
+const logout = async (req, res, next) => {
   try {
     res.clearCookie("jwt");
     res.json({
@@ -102,10 +92,9 @@ router.get("/logout", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-//get user by id
-router.get("/:id", async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
     const user = await userService.getUserById(userId);
@@ -118,10 +107,9 @@ router.get("/:id", async (req, res, next) => {
     console.log(error);
     next(error);
   }
-});
+};
 
-//get user by Email
-router.put("/:email", async (req, res, next) => {
+const updateUserByEmail = async (req, res, next) => {
   try {
     const email = req.params.email;
     const data = req.body;
@@ -141,10 +129,9 @@ router.put("/:email", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-//upload user profile picture
-router.patch("/upload", uploader.single("image"), async (req, res, next) => {
+const uploadProfilePicture = async (req, res, next) => {
   const id = parseInt(req.body.id);
   const file = req.file.filename.split(".");
   try {
@@ -161,6 +148,15 @@ router.patch("/upload", uploader.single("image"), async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getAllUsers,
+  signup,
+  checkLogin,
+  login,
+  logout,
+  getUserById,
+  updateUserByEmail,
+  uploadProfilePicture,
+};

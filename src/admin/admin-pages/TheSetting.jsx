@@ -61,6 +61,12 @@ function TheSetting() {
     });
     console.log(response);
   };
+  const handelVoucher = async () => {
+    const response = await axios.post(`${apiConfig.baseUrl}voucher`, {
+      discountPercent: voucher,
+    });
+    console.log(response);
+  };
 
   useEffect(() => {
     getSeasons();
@@ -99,7 +105,12 @@ function TheSetting() {
             setSeasonName(e.target.value);
           }}
         />
-        <button onClick={handelSeason}>Add season</button>
+        <button
+          onClick={handelSeason}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Add season
+        </button>
       </div>
       <div>
         <div>
@@ -111,7 +122,12 @@ function TheSetting() {
               setVoucher(e.target.value);
             }}
           />
-          <button onClick={handelVoucher}>Add Voucher</button>
+          <button
+            onClick={handelVoucher}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Add Voucher
+          </button>
         </div>
         <div></div>
         <select
