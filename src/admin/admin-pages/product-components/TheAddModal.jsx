@@ -3,6 +3,14 @@ import axios from "axios";
 import { IoClose } from "react-icons/io5";
 
 function TheAddModal({ closeModal }) {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleBackgroundColor = isChecked ? "bg-green-600" : "bg-gray-200";
+
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+    console.log(isChecked);
+  };
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -223,6 +231,22 @@ function TheAddModal({ closeModal }) {
                   </button>
                 </div>
               </div>
+              <div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleToggle}
+                    className="sr-only peer"
+                  />
+                  <div
+                    className={`w-11 h-6 ${toggleBackgroundColor} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}
+                  ></div>
+                  <span className="ms-3 text-sm font-medium text-gray-900 ">
+                    Echo
+                  </span>
+                </label>
+              </div>
 
               <div className="flex flex-col">
                 <label htmlFor="discount" className="mb-1 text-sm">
@@ -248,6 +272,7 @@ function TheAddModal({ closeModal }) {
                       Description
                     </label>
                   </div>
+
                   <div>
                     <textarea
                       name="description"
@@ -272,6 +297,7 @@ function TheAddModal({ closeModal }) {
                   </div>
                 </div>
               </div>
+
               <div>
                 <div>
                   <div className="mt-10">

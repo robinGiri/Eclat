@@ -23,17 +23,14 @@ function TheSidebar() {
     };
     if (routes[title]) {
       navigate(routes[title]);
-      setBurgerMenuOpen(false); // Close burger menu after navigating
+      setBurgerMenuOpen(false);
     }
   };
+  
 
   const handleCartClick = () => {
     setActiveTab("Cart");
     navigate("/cart");
-  };
-
-  const handleBurgerMenuClick = () => {
-    setBurgerMenuOpen(!isBurgerMenuOpen);
   };
 
   useEffect(() => {
@@ -47,15 +44,17 @@ function TheSidebar() {
       }
     }
   }, [location.pathname, navigate]);
+
   if (
     location.pathname === "/login" ||
     location.pathname === "/registration" ||
     location.pathname === "/cart" ||
     location.pathname === "/cart/place-order" ||
-    location.pathname === "/order-detail"||
+    location.pathname === "/order-detail" ||
     location.pathname === "/"
   ) {
-    return;
+    // Render nothing when on excluded paths
+    return null;
   }
 
   return (

@@ -13,25 +13,26 @@ import {
 
 const ShareComponent = ({ shareUrl, quote }) => {
   return (
-    <div className="flex justify-between w-56 py-2">
+    <div className="flex gap-5">
       <FacebookShareButton url={shareUrl} quote={quote} hashtag={"#eclate"}>
-        <FacebookIcon size={40} round={true} />
+        <FacebookIcon size={35} className="rounded-[50%] filter grayscale hover:filter-none opacity-80 hover:opacity-100 fill-neutral-600 hover:fill-original-color"
+/>
       </FacebookShareButton>
 
       <WhatsappShareButton url={shareUrl} quote={quote} hashtag={"#eclate"}>
-        <WhatsappIcon size={40} round={true} />
+        <WhatsappIcon size={35}  className="rounded-[50%] filter grayscale hover:filter-none opacity-80 hover:opacity-100 fill-neutral-600 hover:fill-original-color"/>
       </WhatsappShareButton>
 
       <TwitterShareButton url={shareUrl} quote={quote} hashtag={"#eclate"}>
-        <TwitterIcon size={40} round={true} />
+        <TwitterIcon size={35}  className="rounded-[50%] filter grayscale hover:filter-none opacity-80 hover:opacity-100 fill-neutral-600 hover:fill-original-color"/>
       </TwitterShareButton>
 
       <InstapaperShareButton url={shareUrl} quote={quote} hashtag={"#eclate"}>
-        <InstapaperIcon size={40} round={true} />
+        <InstapaperIcon size={35}  className="rounded-[50%] filter grayscale hover:filter-none opacity-80 hover:opacity-100 fill-neutral-600 hover:fill-original-color"/>
       </InstapaperShareButton>
 
       <RedditShareButton url={shareUrl} quote={quote} hashtag={"#eclate"}>
-        <RedditIcon size={40} round={true} />
+        <RedditIcon size={35}  className="rounded-[50%] filter grayscale hover:filter-none opacity-80 hover:opacity-100 fill-neutral-600 hover:fill-original-color"/>
       </RedditShareButton>
     </div>
   );

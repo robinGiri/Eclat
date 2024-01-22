@@ -1,3 +1,5 @@
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 async function createOrder(data) {
   try {
     const createdOrder = await prisma.order.create({
