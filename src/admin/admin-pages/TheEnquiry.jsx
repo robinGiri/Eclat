@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function TheEnquiry() {
-  return (
-    <div>
-      The Enquiry
-    </div>
-  )
-}
+const TheEnquiry = () => {
+  return <div>TheEnquiry</div>;
+};
 
-export default TheEnquiry
+export default TheEnquiry;

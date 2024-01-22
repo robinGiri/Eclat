@@ -16,6 +16,7 @@ const verifyToken = () => {
           }
           return res.status(401).json({ message: "Invalid Token" });
         }
+
         req.body.decoded = decoded;
         next();
       });

@@ -1,9 +1,7 @@
-const express = require("express");
-const { cartService, cartItemService } = require("../service/cart.service");
+const cartService = require("../service/cart.service");
+const cartItemService = require("../service/cart.item.service");
 
-const router = express.Router();
-
-router.post("/", async (req, res, next) => {
+const createCart = async (req, res, next) => {
   try {
     const { user, cartItems } = req.body;
 
@@ -29,9 +27,9 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
+};
 
-router.put("/", async (req, res, next) => {
+const updateCartItem = async (req, res, next) => {
   try {
     const { id, quantity } = req.body;
     let updatedCartItem;
@@ -51,9 +49,9 @@ router.put("/", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
+};
 
-router.delete("/:id", async (req, res, next) => {
+const deleteCart = async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 
@@ -68,9 +66,9 @@ router.delete("/:id", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
+};
 
-router.get("/:id", async (req, res, next) => {
+const getCartById = async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
     console.log(cartId);
@@ -83,6 +81,11 @@ router.get("/:id", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  createCart,
+  updateCartItem,
+  deleteCart,
+  getCartById,
+};
