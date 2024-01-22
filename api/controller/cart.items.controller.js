@@ -1,10 +1,8 @@
-const router = require("express").Router();
-const userService = require("../service/user.service");
-const { cartItemService } = require("../service/cart.service");
+const cartItemService = require("../service/cart.item.service");
 
-router.post("/:id", async (req, res, next) => {
+const addToCart = async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.body.userId);
 
     // Retrieve cartid from the user id
     const {
@@ -24,15 +22,15 @@ router.post("/:id", async (req, res, next) => {
 
     res.json({
       code: 200,
-      message: `Added to cart items:${cartItem} `,
+      message: `Added to cart items: ${cartItem}`,
       meta: null,
     });
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.put("/:id", async (req, res, next) => {
+const updateCartItem = async (req, res, next) => {
   try {
     const cartItemId = parseInt(req.params.id);
 
@@ -51,9 +49,9 @@ router.put("/:id", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
+};
 
-router.delete("/:id", async (req, res, next) => {
+const deleteCartItem = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -68,5 +66,10 @@ router.delete("/:id", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
-module.exports = router;
+};
+
+module.exports = {
+  addToCart,
+  updateCartItem,
+  deleteCartItem,
+};

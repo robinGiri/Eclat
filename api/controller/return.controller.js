@@ -1,8 +1,6 @@
-const router = require("express").Router();
 const returnService = require("../service/returned.product.Service");
-const { orderService, orderItemsService } = require("../service/order.service");
 
-router.post("/", async (req, res, next) => {
+const createReturnedOrder = async (req, res, next) => {
   try {
     const { OrderId, productId } = req.body;
     const returnItem = returnService.createReturnedOrder(productId, OrderId);
@@ -14,9 +12,9 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.get("/{id}", async (req, res, next) => {
+const getReturnedOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const returnItem = returnService.getReturnedOrderById(id);
@@ -28,6 +26,9 @@ router.get("/{id}", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  createReturnedOrder,
+  getReturnedOrderById,
+};

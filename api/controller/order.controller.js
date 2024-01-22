@@ -1,52 +1,52 @@
-const router = require("express").Router();
-const { orderItemsService, orderService } = require("../service/order.service");
-const { cartService, cartItemService } = require("../service/cart.service");
+const orderItemsService = require("../service/order.item.service");
+const orderService = require("../service/order.service");
+const cartService = require("../service/cart.service");
+const cartItemService = require("../service/cart.item.service");
 
-router.post("/:id", async (req, res, next) => {
+const createOrder = async (req, res, next) => {
   try {
-    let OrderItems;
-    //extract cart id
     const cartId = parseInt(req.params.id);
-    //create order table
-    const { userId } = req.body;
-    const data = {
+    const { voucherId, userId } = req.body;
+
+    // Create order table
+    const orderData = {
       userId: userId,
+      voucherId: voucherId,
     };
-    const { id } = await orderService.createOrder(data);
+    const { id: orderId } = await orderService.createOrder(orderData);
 
-    const orderId = id;
-
-    //extract cart items from cart id
+    // Extract cart items from cart id
     const { cartItems } = await cartService.getCartById(cartId);
 
-    cartItems.map((item) => {
-      const { id, cartId, productId, quantity } = item;
-      orderItemsService.createOrderItem(orderId, productId, quantity);
-      cartItemService.deleteCartItem(id);
+    // Create order items and delete cart items
+    cartItems.forEach(async (item) => {
+      const { id: cartItemId, productId, quantity } = item;
+      await orderItemsService.createOrderItem(orderId, productId, quantity);
+      await cartItemService.deleteCartItem(cartItemId);
     });
 
     res.json({
       code: 200,
-      message: OrderItems,
+      message: "Order and OrderItems created successfully",
       meta: null,
     });
   } catch (error) {
     console.error(error);
     next(error);
   }
-});
+};
 
-router.put("/", async (req, res, next) => {
+const updateCartItem = async (req, res, next) => {
   try {
     const { id, quantity } = req.body;
+    let updatedCartItem;
+
     if (id) {
       // Update only the quantity
-      const updatedCartItem = await cartItemService.updateCartItem(
-        id,
-        quantity
-      );
+      updatedCartItem = await cartItemService.updateCartItem(id, quantity);
     } else {
-      const updateCartItem = cartItemService.createCartItem(quantity);
+      // If no id provided, create a new cart item
+      updatedCartItem = await cartItemService.createCartItem(quantity);
     }
 
     res.json({
@@ -58,16 +58,14 @@ router.put("/", async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+};
 
-router.delete("/:id", async (req, res, next) => {
+const deleteCart = async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
 
-    // const cart = await cartService.
-
     // Call the deleteCart method from the service
-    const deletedCart = await cartService.deleteCart(cartId);
+    await cartService.deleteCart(cartId);
 
     res.json({
       code: 200,
@@ -78,9 +76,9 @@ router.delete("/:id", async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+};
 
-router.get("/:id", async (req, res, next) => {
+const getCartById = async (req, res, next) => {
   try {
     const cartId = parseInt(req.params.id);
     const cart = await cartService.getCartById(cartId);
@@ -97,9 +95,9 @@ router.get("/:id", async (req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
-});
+};
 
-router.get("/", async (req, res, next) => {
+const getAllOrderItems = async (req, res, next) => {
   try {
     const orderItems = await orderItemsService.getAllOrderItems();
 
@@ -111,9 +109,9 @@ router.get("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.get("/customer/:id", async (req, res, next) => {
+const getOrderByCustomerId = async (req, res, next) => {
   try {
     const order = await orderService.getOrderBycustomerId(req.params.id);
     res.json({
@@ -124,19 +122,13 @@ router.get("/customer/:id", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.get("/", async (req, res, next) => {
-  try {
-    const orderItems = await orderItemsService.getOrderItems();
-    res.json({
-      orderItems,
-      code: 200,
-      meta: null,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-module.exports = router;
+module.exports = {
+  createOrder,
+  updateCartItem,
+  deleteCart,
+  getCartById,
+  getAllOrderItems,
+  getOrderByCustomerId,
+};

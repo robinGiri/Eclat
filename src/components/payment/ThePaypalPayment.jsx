@@ -40,7 +40,6 @@ const ThePaypalPayment = () => {
 
   return (
     <div>
-      <h1>PayPal Integration</h1>
       <PayPalButton
         amount="10.00"
         onSuccess={(details, data) => {
