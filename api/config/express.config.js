@@ -3,8 +3,6 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("../middleware/error.handler");
-const cookieParser = require("cookie-parser");
-const errorHandler = require("../middleware/error.handler");
 
 const app = express();
 const BASE_URL = "/api/v1";
