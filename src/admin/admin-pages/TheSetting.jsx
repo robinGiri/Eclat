@@ -65,7 +65,6 @@ function TheSetting() {
     const response = await axios.post(`${apiConfig.baseUrl}voucher`, {
       discountPercent: voucher,
     });
-    console.log(response);
   };
 
   useEffect(() => {

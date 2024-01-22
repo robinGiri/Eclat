@@ -53,7 +53,7 @@ const updateCartItem = async (req, res, next) => {
 
 const deleteCartItem = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id);
 
     // Call the deleteCartItem method from the service
     const deletedCart = await cartItemService.deleteCartItem(id);
