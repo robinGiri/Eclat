@@ -21,7 +21,7 @@ function TheTopNavbarOne() {
 
   return (
     <div>
-      <div className="flex justify-center items-center bg-gradient-to-t from-white to-neutral-100 text-neutral-600">
+      <div className="flex justify-center items-center bg-white pt-2 text-neutral-600">
         <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
           <Link to="/home" onClick={handleLogoClick} className="relative">
            <img src="src/assets/logo.png" alt="Logo" />
@@ -29,10 +29,7 @@ function TheTopNavbarOne() {
         </div>
         <div className="flex translate-x-[350%] items-center  gap-2">
           <div className="flex items-center gap-2">
-            <FaUser
-              onClick={handleLoginPage}
-              className="text-red-500 text-md cursor-pointer transition duration-300 hover:text-black "
-            />
+          
             <button className="text-xs" onClick={handleLoginPage}>
               Login
             </button>
