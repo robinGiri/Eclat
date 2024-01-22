@@ -3,17 +3,8 @@ const imageService = require("../service/image.service");
 const settingService = require("../service/setting.service");
 const uploader = require("../jobs/imageUploaderJob");
 const { deleteFile } = require("../helper/helper");
-const verifyToken = require("../middleware/token.verify");
-const validationChecker = require("../middleware/validation.checker");
-const validatedRequest = require("../middleware/validation.middleware");
-const {
-  productCreateSchema,
-  productUpdateSchema,
-} = require("../validator/product.validator");
 
-const router = require("express").Router();
-
-router.post("/", uploader.array("image"), async (req, res, next) => {
+const createProduct = async (req, res, next) => {
   try {
     const {
       name,
@@ -58,57 +49,61 @@ router.post("/", uploader.array("image"), async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.get("/", async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
-    const product = await productService.fetchAll();
+    const products = await productService.fetchAll();
     res.json({
-      result: product,
-      message: "product fetched successfully",
+      result: products,
+      message: "Products fetched successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.get("/season", async (req, res) => {
+const getProductsBySeason = async (req, res, next) => {
   try {
     const { currentSeason } = await settingService.getSetting();
-    const product = await productService.getProductsBySeason(
+    const products = await productService.getProductsBySeason(
       parseInt(currentSeason)
     );
     res.json({
-      result: product,
-      message: "product fetched successfully",
+      result: products,
+      message: "Products fetched successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.get("/search", async (req, res) => {
+const searchProducts = async (req, res, next) => {
   try {
     const searchQuery = req.query.q;
     if (!searchQuery) {
-      return res.status(404).send("no search data");
+      return res.status(404).send("No search data");
     }
     const products = await productService.query(searchQuery);
     res.json({
       result: products,
-      message: "product fetched successfully",
+      message: "Products fetched successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.get("/:id", async (req, res, next) => {
+const getProductById = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await productService.fetchByID(productId);
@@ -117,15 +112,16 @@ router.get("/:id", async (req, res, next) => {
     }
     res.json({
       result: product,
-      message: "product fetched successfully",
+      message: "Product fetched successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.put("/:productId", uploader.array("image"), async (req, res, next) => {
+const updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.productId;
 
@@ -137,27 +133,17 @@ router.put("/:productId", uploader.array("image"), async (req, res, next) => {
       viewCount,
       discount,
       status,
-      //in the delImage it will send the list for the images which user want to relace
       delImg,
     } = req.body;
 
     if (delImg) {
-      //list of all images from the list
       const delete_image_array = delImg.split(",");
-
-      // will delete the images from the database
       delete_image_array.forEach(async (img) => {
-        const image = imageService.findImageByUrl(img);
+        const image = await imageService.findImageByUrl(img);
         if (image) {
           await imageService.deleteImageByUrl(img);
           deleteFile("./public/uploads/" + img);
         }
-        //will update upload the updated images
-        const images = [];
-        req.files.forEach(({ filename }) => {
-          images.push(filename);
-        });
-        imageService.saveImage(images, productId);
       });
     }
 
@@ -189,27 +175,42 @@ router.put("/:productId", uploader.array("image"), async (req, res, next) => {
     console.error(e);
     next(e);
   }
-});
+};
 
-router.delete("/:id", async (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const data = await productService.deleteByID(productId);
     res.json({
       result: data,
-      message: "product deleted successfully",
+      message: "Product deleted successfully",
       meta: null,
     });
   } catch (e) {
+    console.error(e);
     next(e);
   }
-});
+};
 
-router.post("/upload", uploader.single("image"), async (req, res, next) => {
-  imageService.save(req.file.filename, 8);
-  res.json({
-    file: req.file.filename,
-  });
-});
+const uploadImage = async (req, res, next) => {
+  try {
+    imageService.save(req.file.filename, 8);
+    res.json({
+      file: req.file.filename,
+    });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+};
 
-module.exports = router;
+module.exports = {
+  createProduct,
+  getAllProducts,
+  getProductsBySeason,
+  searchProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+  uploadImage,
+};

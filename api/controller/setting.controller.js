@@ -1,6 +1,6 @@
-const router = require("express").Router();
 const settingService = require("../service/setting.service");
-router.post("/currentSeason/", async (req, res, next) => {
+
+const setCurrentSeason = async (req, res, next) => {
   try {
     const { seasonId } = req.body;
     const currentSeason = await settingService.createOrUpdateSetting(seasonId);
@@ -12,8 +12,9 @@ router.post("/currentSeason/", async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
-router.get("/currentSeason", async (req, res, next) => {
+};
+
+const getCurrentSeason = async (req, res, next) => {
   try {
     const currentSeason = await settingService.getSetting();
     res.json({
@@ -24,6 +25,9 @@ router.get("/currentSeason", async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  setCurrentSeason,
+  getCurrentSeason,
+};
