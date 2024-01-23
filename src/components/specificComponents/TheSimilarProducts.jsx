@@ -39,6 +39,7 @@ function TheSimilarProducts() {
         Array.isArray(products) &&
         products.map((item) => (
           <div
+          key={item.id}
             className="gap-5 mb-3 cursor-pointer transition-transform transform hover:scale-105 duration-500 ease-out"
             onClick={() => handleProductClick(item)}
           >
