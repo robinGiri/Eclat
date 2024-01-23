@@ -5,6 +5,8 @@ import { apiConfig } from "../../services/api/config";
 function TheSetting() {
   const [seasons, setSeasons] = useState([]);
   const [seasonId, setSeasonId] = useState("");
+  const [seasonName, setSeasonName] = useState("");
+  const [voucher, setVoucher] = useState("");
   const [currentSeasonId, setCurrentSeasonId] = useState("");
 
   const getSeasons = async () => {
@@ -53,6 +55,17 @@ function TheSetting() {
       console.error("Error setting current season", error);
     }
   };
+  const handelSeason = async () => {
+    const response = await axios.post(`${apiConfig.baseUrl}season`, {
+      name: seasonName,
+    });
+    console.log(response);
+  };
+  const handelVoucher = async () => {
+    const response = await axios.post(`${apiConfig.baseUrl}voucher`, {
+      discountPercent: voucher,
+    });
+  };
 
   useEffect(() => {
     getSeasons();
@@ -61,11 +74,14 @@ function TheSetting() {
 
   const sendEmailToAll = async () => {
     try {
-      const response = await axios.post(`${apiConfig.emailSendAllUrl}send-email-to-all`, {
-        recipient: "abhisekmagarvivo@gmail.com",
-        subject: "Confirm",
-        text: "Email",
-      });
+      const response = await axios.post(
+        `${apiConfig.emailSendAllUrl}send-email-to-all`,
+        {
+          recipient: "abhisekmagarvivo@gmail.com",
+          subject: "Confirm",
+          text: "Email",
+        }
+      );
 
       if (response.status === 200) {
         console.log("Email sent successfully!");
@@ -80,22 +96,57 @@ function TheSetting() {
   return (
     <div className="flex m-24 flex-col gap-5">
       <div>
-      <select
-        id="season"
-        name="season"
-        className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
-        onChange={(e) => handelChange(e)}
-        value={seasonId}
-      >
-        {seasons.map((season) => (
-          <option key={season.id} value={season.id}>
-            {season.name}
-          </option>
-        ))}
-      </select>
+        <input
+          type="text"
+          placeholder="season Name"
+          name="seasonName"
+          onChange={(e) => {
+            setSeasonName(e.target.value);
+          }}
+        />
+        <button
+          onClick={handelSeason}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Add season
+        </button>
       </div>
       <div>
-        <button className="border p-2 rounded-md" onClick={sendEmailToAll}>Bulk Newsletter</button>
+        <div>
+          <input
+            type="text"
+            placeholder="Discount Percentage"
+            name=""
+            onChange={(e) => {
+              setVoucher(e.target.value);
+            }}
+          />
+          <button
+            onClick={handelVoucher}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Add Voucher
+          </button>
+        </div>
+        <div></div>
+        <select
+          id="season"
+          name="season"
+          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+          onChange={(e) => handelChange(e)}
+          value={seasonId}
+        >
+          {seasons.map((season) => (
+            <option key={season.id} value={season.id}>
+              {season.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <button className="border p-2 rounded-md" onClick={sendEmailToAll}>
+          Bulk Newsletter
+        </button>
       </div>
     </div>
   );

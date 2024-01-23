@@ -91,6 +91,19 @@ async function logoutUser(email) {
   }
 }
 
+async function updateImage(userId, newImageUrl) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { image: newImageUrl },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   save,
   getUserByFilter,
@@ -98,4 +111,5 @@ module.exports = {
   getAllUsers,
   updateUser,
   logoutUser,
+  updateImage,
 };

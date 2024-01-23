@@ -20,17 +20,14 @@ function TheCartPlaceOrder() {
   }, 0);
 
   useEffect(() => {
-    // Assuming you have a function to update quantities
     const updateQuantities = () => {
       const updatedQuantities = {};
       cart.forEach((product) => {
-        // Update quantities based on your logic (using updateQuantity function)
-        updatedQuantities[product.id] = product.quantity; // Replace with your actual logic
+        updatedQuantities[product.id] = product.quantity; 
       });
       setQuantities(updatedQuantities);
     };
 
-    // Call the function to update quantities
     updateQuantities();
   }, [cart]);
 
