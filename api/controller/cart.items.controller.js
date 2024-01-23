@@ -1,5 +1,8 @@
 const cartItemService = require("../service/cart.item.service");
+
 const userService = require("../service/user.service");
+
+
 const addToCart = async (req, res, next) => {
   try {
     const userId = parseInt(req.body.userId);
@@ -60,8 +63,6 @@ const updateCartItem = async (req, res, next) => {
     next(error); // Pass the error to the error handling middleware
   }
 };
-
-
 
 const deleteCartItem = async (req, res, next) => {
   try {

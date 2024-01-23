@@ -112,6 +112,9 @@ function TheCart() {
 
     setCartProducts(updatedProducts);
   };
+  const [cartProducts, setCartProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const handleIncrease = async (productId) => {
     const updatedProducts = cartProducts.map((product) => {
@@ -302,7 +305,7 @@ function TheCart() {
                               >
                                 <img
                                   src={
-                                    `${apiConfig.baseUrl}uploads/` + image.url
+                                    `${apiConfig.baseUrl}uploads/` + image.url`
                                   }
                                   alt={`Image ${image.id}`}
                                 />
@@ -348,11 +351,11 @@ function TheCart() {
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
+
         <div className="bg-white w-[35%] h-[40vh] mt-2">
           <TheCartProceedToCheckout total={calculateOverallTotal()} />
         </div>

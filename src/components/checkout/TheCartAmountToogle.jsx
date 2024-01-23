@@ -1,6 +1,7 @@
 import React from "react";
 import { HiOutlinePlusSmall,HiOutlineMinusSmall } from "react-icons/hi2";
 
+
 function TheCartAmountToggle({ productId, setDecrease, setIncrease, amount }) {
   return (
     <div className="flex justify-between w-[5rem]">

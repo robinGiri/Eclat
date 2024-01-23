@@ -13,12 +13,13 @@ const shareUrl = "https://eclatbags.netlify.app/";
 
 function TheProductDetails() {
   const [isExpanded, setExpanded] = useState(false);
-  const [selectedRate, setSelectedRate] = useState(null);
   const { productId } = useParams();
   const navigate = useNavigate();
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
-
+  const image = `${apiConfig.baseUrl}uploads/${
+    product.images && product.images[0]?.url
+  }`;
   const handleToggle = () => {
     setExpanded(!isExpanded);
   };

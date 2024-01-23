@@ -39,6 +39,7 @@ async function getCartItemById(cartItemId) {
 // Update CartItem
 async function updateCartItem(cartItemId, updatedData) {
   try {
+
     if (isNaN(cartItemId)) {
       throw new Error("Invalid cartItemId. It should be a valid number.");
     }
