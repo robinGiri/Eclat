@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import TheTopNavbarOne from "./TheTopNavbarOne";
 import SearchComponent from "../sharedComponents/SearchComponent";
 import { navbarList } from "../../data/TheNavbarConfig";
@@ -8,7 +8,6 @@ import { navbarList } from "../../data/TheNavbarConfig";
 function TheSidebar() {
   const [activeTab, setActiveTab] = useState("");
   const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false);
-  const [isSmallScreen, setSmallScreen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -16,8 +15,7 @@ function TheSidebar() {
     setActiveTab(title);
     const routes = {
       Profile: "/username",
-      Home: "/",
-      Customize: "/customize",
+      Home: "/home",
       Men: "/men",
       Women: "/women",
       Kids: "/kids",
@@ -25,28 +23,39 @@ function TheSidebar() {
     };
     if (routes[title]) {
       navigate(routes[title]);
-      setBurgerMenuOpen(false); // Close burger menu after navigating
+      setBurgerMenuOpen(false);
     }
   };
+  
 
   const handleCartClick = () => {
     setActiveTab("Cart");
     navigate("/cart");
   };
 
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/home");
+      setActiveTab("Home");
+    } else {
+      const tab = navbarList.find((item) => location.pathname.includes(item.title.toLowerCase()));
+      if (tab) {
+        setActiveTab(tab.title);
+      }
+    }
+  }, [location.pathname, navigate]);
+
   if (
     location.pathname === "/login" ||
     location.pathname === "/registration" ||
     location.pathname === "/cart" ||
     location.pathname === "/cart/place-order" ||
-    location.pathname === "/order-detail"
+    location.pathname === "/order-detail" ||
+    location.pathname === "/"
   ) {
-    return;
+    // Render nothing when on excluded paths
+    return null;
   }
-
-  const handleBurgerMenuClick = () => {
-    setBurgerMenuOpen(!isBurgerMenuOpen);
-  };
 
   return (
     <>

@@ -1,107 +1,87 @@
-import { useState, useEffect, useReducer } from "react";
-import products from "../data/products";
-import TheCartProceedToCheckout from "../components/checkout/TheCartProceedToCheckout";
-import { FaMinus, FaPlus } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
+import TheCartAmountToogle from "../components/checkout/TheCartAmountToogle";
+import { IoArrowBackSharp } from "react-icons/io5";
 import { PiTrashLight } from "react-icons/pi";
+import { CiHeart } from "react-icons/ci";
+import axios from "axios";
+import { apiConfig } from "../services/api/config";
+import { useNavigate } from "react-router-dom";
 import "./TheCart.css";
+import TheCartProceedToCheckout from "../components/checkout/TheCartProceedToCheckout";
 
-const UPDATE_QUANTITY = "UPDATE_QUANTITY";
-const UPDATE_TOTAL = "UPDATE_TOTAL";
-const UPDATE_QUANTITIES = "UPDATE_QUANTITIES";
-
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case UPDATE_QUANTITY:
-      const { index, value } = action.payload;
-      const newQuantities = [...state.quantities];
-      newQuantities[index] = Math.max(1, newQuantities[index] + value);
-      return { ...state, quantities: newQuantities };
-    case UPDATE_TOTAL:
-      return { ...state, total: action.payload };
-    case UPDATE_QUANTITIES:
-      return { ...state, quantities: action.payload };
-    default:
-      return state;
-  }
-};
-
-const initialProductSlice = products.slice(0, 8);
-const initialQuantities = initialProductSlice.map(() => 1);
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
 
 function TheCart() {
-  const [selectAll, setSelectAll] = useState(false);
+  const navigate = useNavigate();
 
-  const [productCheckboxes, setProductCheckboxes] = useState(
-    Array(initialProductSlice.length).fill(false)
-  );
-  const [cartState, dispatch] = useReducer(cartReducer, {
-    quantities: initialQuantities,
-    total: 0,
-  });
+  const goBack = () => {
+    navigate(-1);
+  };
+  const [cartProducts, setCartProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const { quantities, total } = cartState;
+  const getCardData = async () => {
+    try {
+      const response = await axios.get(`${apiConfig.baseUrl}cart/1`);
+      const { data } = response;
+
+      if (data && data.message && Array.isArray(data.message.cartItems)) {
+        setCartProducts(data.message.cartItems);
+      } else {
+        console.error("Invalid response format:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching card data:", error);
+      setIsError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `${apiConfig.baseUrl}cartitem/${productId}`
+      );
+      console.log("Product deleted:", response.data);
+
+      const updatedCartResponse = await axios.get(`${apiConfig.baseUrl}cart/1`);
+      const updatedCartData = updatedCartResponse.data.message.cartItems;
+
+      setCartProducts(updatedCartData);
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+      console.error("Server error message: ", error.response?.data?.message);
+      setIsError(true);
+    }
+  };
 
   useEffect(() => {
-    let totalPrice = 0;
-    for (let i = 0; i < initialProductSlice.length; i++) {
-      totalPrice += initialProductSlice[i].afterdiscount * quantities[i];
-    }
-    dispatch({ type: UPDATE_TOTAL, payload: totalPrice });
-  }, [quantities]);
+    const fetchData = async () => {
+      try {
+        await getCardData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const handleSelectAllToggle = () => {
-    const updatedSelectAll = !selectAll;
-    setSelectAll(updatedSelectAll);
-
-    const updatedCheckboxes = new Array(initialProductSlice.length).fill(
-      updatedSelectAll
-    );
-    setProductCheckboxes(updatedCheckboxes);
-
-    const updatedQuantities = updatedCheckboxes.map((isChecked) =>
-      isChecked ? 1 : 0
-    );
-    dispatch({ type: UPDATE_QUANTITIES, payload: updatedQuantities });
-  };
-  const handleProductCheckboxToggle = (index) => {
-    const updatedCheckboxes = [...productCheckboxes];
-    updatedCheckboxes[index] = !updatedCheckboxes[index];
-    setProductCheckboxes(updatedCheckboxes);
-
-    const allSelected = updatedCheckboxes.every((isChecked) => isChecked);
-    setSelectAll(allSelected);
-
-    const updatedQuantities = updatedCheckboxes.map((isChecked) =>
-      isChecked ? 1 : 0
-    );
-    dispatch({ type: UPDATE_QUANTITIES, payload: updatedQuantities });
-  };
-
-  const updateQuantity = (index, value) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] = Math.max(1, newQuantities[index] + value);
-
-    if (newQuantities[index] !== quantities[index]) {
-      dispatch({
-        type: UPDATE_QUANTITY,
-        payload: { index, value: newQuantities[index] - quantities[index] },
-      });
-    }
-  };
+    fetchData();
+  }, []);
 
   return (
-    <div className="mt-10">
-      <div className="flex py-5 mx-[10%] gap-2 flex-wrap bg-neutral-100">
+    <div className="flex gap-2 mt-14">
+      <div className="w-[10%] flex justify-end mt-9">
+        <div className="flex justify-center items-center h-[4vh] gap-1">
+          <IoArrowBackSharp className="cursor-pointer" />
+          <button onClick={goBack}>Back</button>
+        </div>
+      </div>
+      <div className="flex py-5 gap-2 flex-wrap bg-neutral-100 w-[80%]">
         <div className="w-[63%] p-2">
           <div className="flex justify-between items-center bg-white">
-            <div className="flex items-center p-2 gap-2 ">
-              <input
-                type="checkbox"
-                className="h-4 w-4"
-                checked={selectAll}
-                onChange={handleSelectAllToggle}
-              />
+            <div className="flex items-center p-2 gap-2 relative">
+              <input type="checkbox" className="h-4 w-4" />
               <p>SELECT ALL</p>
             </div>
             <div className="flex gap-1 cursor-pointer hover:text-orange-600">
@@ -113,90 +93,72 @@ function TheCart() {
           </div>
           <div>
             <div className=" max-h-[34rem] custom-scroll">
-              {initialProductSlice.map((product, index) => (
-                <div key={product.id}>
-                  <div className="w-full">
-                    <div className="mt-4 bg-white w-full">
-                      <div>
-                        <div className="border-b-2 mb-2 p-2">
-                          <div className="flex items-center gap-2 pt-2 pb-2">
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4"
-                              checked={productCheckboxes[index]}
-                              onChange={() =>
-                                handleProductCheckboxToggle(index)
-                              }
-                            />
-                            <p>boAt {">"}</p>
-                          </div>
-                          <div className="flex justify-between">
-                            <div className="w-[40%] flex justify-end">
-                              <p className="text-xs text-gray-700">
-                                Yay! Enjoy free shipping with specific proucts
+            {cartProducts.map((product) => (
+
+                  <div key={product.id}>
+                    <div className="w-full">
+                      <div className="mt-4 bg-white w-full">
+                        <div>
+                          <div className="border-b-2 mb-2 p-2">
+                            <div className="flex items-center gap-2 pt-2 pb-2">
+                              <input type="checkbox" className="h-4 w-4" />
+                              <p>boAt {">"}</p>
+                            </div>
+                            <div className="flex justify-between">
+                              <div className="w-[40%] flex justify-end">
+                                <p className="text-xs text-gray-700">
+                                  Yay! Enjoy free shipping with specific
+                                  products
+                                </p>
+                              </div>
+                              <p className="text-sm text-gray-700">
+                                Earliest Delivery: 19 Dec
                               </p>
                             </div>
-                            <p className="text-sm text-gray-700">
-                              Earliest Delivery: 19 Dec
-                            </p>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex bg-white justify-between gap-3 flex-wrap p-2">
-                        <div className="flex flex-wrap">
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4"
-                              checked={productCheckboxes[index]}
-                              onChange={() =>
-                                handleProductCheckboxToggle(index)
-                              }
-                            />
-                            <img
-                              src={product.images}
-                              className="w-[150px] h-[150px] p-2"
-                            />
-                          </div>
-                          <div className="flex flex-col pt-4">
-                            <p>{product.name}</p>
-                            <p className="text-sm font-light">
-                              Boat, Color Family: Beige
-                            </p>
-                          </div>
-                        </div>
-                        <div className="w-[50%] px-[5%]">
-                          <div className="flex pt-4 flex-wrap gap-20">
-                            <div className="flex flex-col gap-2">
-                              <p>${product.afterdiscount}</p>
-                              <p className="line-through text-slate-500">
-                                ${product.price}
-                              </p>
-                              <p>{product.discount}%</p>
-                              <div className="flex gap-2">
-                                <CiHeart className="text-xl cursor-pointer" />
-                                <PiTrashLight className="text-xl cursor-pointer" />
-                              </div>
+                        <div className="flex bg-white justify-between gap-3 flex-wrap p-2">
+                          <div className="flex flex-wrap">
+                            <div className="flex items-center gap-2">
+                              <input type="checkbox" className="h-4 w-4" />
+                              {product?.product?.images.map((image) => (
+                                <div
+                                  key={image.id}
+                                  className="w-[150px] h-[150px] p-2"
+                                >
+                                  <img
+                                    src={staticAPI + image?.url}
+                                    alt={`Image ${image.id}`}
+                                  />
+                                </div>
+                              ))}
                             </div>
-                            <div className="flex justify-between gap-4">
-                              <div>
-                                <button
-                                  onClick={() => updateQuantity(index, -1)}
-                                  className="p-2 bg-slate-100 hover:bg-gray-300 text-gray-400 hover:text-white"
-                                >
-                                  <FaMinus />
-                                </button>
+                            <div className="flex flex-col pt-4">
+                              <p>{product?.product?.name}</p>
+                              <p className="text-sm font-light">
+                                Boat, Color Family: Beige
+                              </p>
+                            </div>
+                          </div>
+                          <div className="w-[50%] px-[5%]">
+                            <div className="flex pt-4 flex-wrap gap-20">
+                              <div className="flex flex-col gap-2">
+                                <p>${product?.product?.afterdiscount}</p>
+                                <p className="line-through text-slate-500">
+                                  ${product?.product?.price}
+                                </p>
+                                <p>{product?.product?.discount}%</p>
+                                <div className="flex gap-2">
+                                  <CiHeart className="text-xl cursor-pointer" />
+                                  <PiTrashLight
+                                    className="text-xl cursor-pointer"
+                                    onClick={() => handleDelete(product.id)}
+                                  />
+                                </div>
                               </div>
-                              <div className="flex justify-center">
-                                <p className=" text-lg">{quantities[index]}</p>
-                              </div>
                               <div>
-                                <button
-                                  onClick={() => updateQuantity(index, 1)}
-                                  className="p-2 bg-slate-100 hover:bg-gray-300 text-gray-400 hover:text-white"
-                                >
-                                  <FaPlus />
-                                </button>
+                                <TheCartAmountToogle
+                                />
                               </div>
                             </div>
                           </div>
@@ -204,13 +166,12 @@ function TheCart() {
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
         <div className="bg-white w-[35%] h-[46%] mt-2">
-          <TheCartProceedToCheckout total={total} />
+          <TheCartProceedToCheckout />
         </div>
       </div>
     </div>

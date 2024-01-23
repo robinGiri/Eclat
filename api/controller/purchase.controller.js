@@ -1,9 +1,8 @@
-const router = require("express").Router();
 const purchaseService = require("../service/purchase.service");
-const paymentService = require("../service/purchase.service");
 const shippingService = require("../service/shipping.service");
 
-router.post("/", async (req, res, next) => {
+// Create Purchase
+const createPurchase = async (req, res, next) => {
   try {
     const purchaseDetails = req.body;
     const { paymentmethod, OrderId, token } = purchaseDetails;
@@ -12,21 +11,25 @@ router.post("/", async (req, res, next) => {
       OrderId,
       token
     );
+
     if (id) {
       const shipping = await shippingService.createShipping(OrderId, id);
       res.status(201).json({
-        shipping: shipping,
+        shipping,
         status: "successful",
       });
     }
   } catch (e) {
     next(e);
   }
-});
-router.get("/:id", async (req, res, next) => {
+};
+
+// Get Purchase by ID
+const getPurchaseById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const payment = await paymentService.getPurchaseById(parseInt(id));
+    const payment = await purchaseService.getPurchaseById(parseInt(id));
+
     if (payment) {
       res.status(200).json({
         purchase: payment,
@@ -36,10 +39,13 @@ router.get("/:id", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-router.get("/", async (req, res, next) => {
+};
+
+// Get All Purchases
+const getAllPurchases = async (req, res, next) => {
   try {
-    const payment = await paymentService.getAllPurchases();
+    const payment = await purchaseService.getAllPurchases();
+
     if (payment) {
       res.json({
         purchase: payment,
@@ -49,6 +55,27 @@ router.get("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+// Get Total Purchases Per Month
+const getTotalPurchasePerMonth = async (req, res, next) => {
+  try {
+    const purchase = await purchaseService.getTotalPurchasePerMonth();
+
+    if (purchase) {
+      res.json({
+        purchase,
+        status: "successful",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createPurchase,
+  getPurchaseById,
+  getAllPurchases,
+  getTotalPurchasePerMonth,
+};

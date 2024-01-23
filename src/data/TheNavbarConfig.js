@@ -1,7 +1,7 @@
 export const navbarList = [
     {
-        title: "Customize",
-        id: "customize",
+        title: "Home",
+        id: "home",
     },
     {
         title: "Men",

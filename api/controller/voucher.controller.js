@@ -1,11 +1,12 @@
-const router = require("express").Router();
 const voucherService = require("../service/voucher.service");
 
-router.post("/", async (res, req, next) => {
+const createVoucher = async (req, res, next) => {
   try {
-    const { discountPercent } = res.body;
-    const voucher = await voucherService.createVoucher(discountPercent);
-    res.status(201).json({
+    const { discountPercent } = req.body;
+    const voucher = await voucherService.createVoucher(
+      parseInt(discountPercent)
+    );
+    res.json({
       code: 201,
       result: voucher,
       meta: null,
@@ -13,9 +14,9 @@ router.post("/", async (res, req, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.get("/", async (req, res, next) => {
+const getAllVouchers = async (req, res, next) => {
   try {
     const allVouchers = await voucherService.getAllVoucher();
     res.status(200).json({
@@ -26,19 +27,41 @@ router.get("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
 
-  router.get("/{id}", async (req, res, next) => {
-    try {
-      const voucher = await voucherService.getVoucherById(req.params.id);
-      res.status(200).json({
-        code: 200,
-        result: voucher,
-        meta: null,
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
-});
+const getVoucherById = async (req, res, next) => {
+  try {
+    const voucher = await voucherService.getVoucherById(
+      parseInt(req.params.id)
+    );
+    res.status(200).json({
+      code: 200,
+      result: voucher,
+      meta: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = router;
+const deleteVoucherById = async (req, res, next) => {
+  try {
+    const voucher = await voucherService.deleteVoucherById(
+      parseInt(req.params.id)
+    );
+    res.status(200).json({
+      code: 200,
+      result: voucher,
+      meta: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createVoucher,
+  getAllVouchers,
+  getVoucherById,
+  deleteVoucherById,
+};
