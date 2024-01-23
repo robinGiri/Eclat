@@ -54,9 +54,6 @@ model Product {
   seasonId   Int?
   Wishlist   Wishlist[]
   ReturnedOrder ReturnedOrder[]
-  Wishlist      Wishlist[]
-  Season        Season          @relation(fields: [seasonId], references: [id])
-  Review        Review[]
 }
 
 model Image {
@@ -217,6 +214,4 @@ model Review {
   review    String? 
   createdAt DateTime @default(now())
 
-  User    User?   @relation(fields: [userId], references: [id])
-  Product Product @relation(fields: [productID], references: [id])
 }
