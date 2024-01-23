@@ -8,7 +8,7 @@ async function add(body) {
   const data = {
       items : JSON.stringify(items),
       productID : parseInt(productID),
-      userID : body.decoded.id
+      userID : jwtUtil.extractUserIDFromToken(token)
   }
     try {
       const existingCustomization = await prisma.customization.findUnique({
