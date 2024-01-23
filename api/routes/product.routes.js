@@ -1,10 +1,15 @@
 const express = require("express");
 const productController = require("../controller/product.controller");
 const uploader = require("../jobs/imageUploaderJob");
-
+const verifyToken = require("../middleware/token.verify");
 const router = express.Router();
 
-router.post("/", uploader.array("image"), productController.createProduct);
+router.post(
+  "/",
+  verifyToken(),
+  uploader.array("image"),
+  productController.createProduct
+);
 router.get("/", productController.getAllProducts);
 router.get("/season", productController.getProductsBySeason);
 router.get("/search", productController.searchProducts);

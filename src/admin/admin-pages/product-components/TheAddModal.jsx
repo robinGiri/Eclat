@@ -79,11 +79,9 @@ function TheAddModal({ closeModal }) {
       formDataToSend.append("category", formData.category);
       formDataToSend.append("price", parseFloat(formData.price));
       formDataToSend.append("isFeatured", true);
-      formDataToSend.append("tags", "tag1, tag2, tag3");
       formDataToSend.append("sellerId", 1);
       formDataToSend.append("status", formData.status);
       formDataToSend.append("viewCount", parseInt(formData.viewCount));
-      formDataToSend.append("slug", "hhhhhhhh");
       formDataToSend.append("discount", formData.discount);
 
       if (formData.image) {
