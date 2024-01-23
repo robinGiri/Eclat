@@ -5,16 +5,15 @@ const wishlistSelect = {
   id: true,
   userId: true,
   productId: true,
-  quantity: true,
   Product: { select: { id: true, name: true, price: true } },
 };
 
 async function add(data) {
   try {
-    const { userId, productId } = data;
+    const { userID, productID } = data;
     const existingWishlistItem = await getByUserIDAndProductID(
-      userId,
-      productId
+      userID,
+      productID
     );
 
     if (existingWishlistItem.length > 0) {
@@ -24,7 +23,10 @@ async function add(data) {
     }
 
     const wish = await prisma.wishlist.create({
-      data: data,
+      data: {
+        productId: productID,
+        userId: userID,
+      },
       select: wishlistSelect,
     });
 

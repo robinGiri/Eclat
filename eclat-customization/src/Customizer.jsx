@@ -8,6 +8,7 @@ import logo from './resources/image.png'
 import left from './resources/chevron-left-solid.svg'
 import right from './resources/chevron-right-solid.svg'
 import { useParams } from "react-router-dom"
+import { data } from "autoprefixer"
 
 const state = proxy({
   current: null,
@@ -22,6 +23,7 @@ const state = proxy({
     pouchZipper: "#ffffff",
   },
 })
+
 const rotationState = proxy({
   current : null
 })
@@ -80,6 +82,9 @@ function Bag() {
 function Picker() {
   const snap = useProxy(state)
   const [activeColor, setActiveColor] = useState('')
+  const currentUrl = window.location.href;
+  const dataPart = currentUrl.split('/')[3];
+  const [extractedID, extractedToken] = dataPart.split('-')  
 
   const handleColorChange = (color) => {
     state.items[snap.current] = color;
@@ -100,6 +105,31 @@ function Picker() {
     }
   };
 
+  const handleSubmit = async () => {
+    try {
+      const proxyObject = state.items;
+  
+      const itemsData = proxyObject.target;
+
+      const response = await fetch('http://localhost:4000/api/v1/customization/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({items : proxyObject, productID : extractedID, token :  extractedToken}),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      alert("Added to cart");
+    } catch (error) {
+      console.error('Error posting data to customization/:', error);
+    }
+  };
+  
+
+
   const shadow = "rgba(197,225,213, 0.25) 0px 54px 55px, rgba(197,225,213, 0.12) 0px -12px 30px, rgba(197,225,213, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px 0px 0px"
 
   return (
@@ -109,7 +139,7 @@ function Picker() {
           <img id = "left" src={left} alt="" style={{height:"40px", margin:"5px 10px"}}/> <h1>Eclat Pegasus 40 <br />$160</h1>
         </div>
         <div><img src={logo} alt="" /></div>
-        <div><button><h1 style={{fontSize:"14px"}}>Login to save</h1></button></div>
+        <div><button onClick={()=>{handleSubmit()}}><h1 style={{fontSize:"14px"}}>{extractedToken && extractedToken? "Add to cart":"Login to save"}</h1></button></div>
       </div>
         <div className="picker" style={{display : snap.current? 'initial' : 'none'}}>
             <div className="picker-title" style={{display:'flex'}}>
@@ -143,7 +173,7 @@ function Picker() {
 }
 
 export default function Customizer() {
-  
+
   return (
     <>
       <Canvas concurrent pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 2.75] }}>
