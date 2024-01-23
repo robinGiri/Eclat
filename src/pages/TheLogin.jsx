@@ -22,6 +22,7 @@ function TheLogin() {
   };
   const handleLogin = async () => {
     const login = { email: email, password: password };
+    console.log(password);
     const { data } = await axios.post(loginUrl, login);
     setAccessToken(data.token);
 

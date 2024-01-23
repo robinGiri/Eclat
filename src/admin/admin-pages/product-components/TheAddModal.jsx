@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { IoClose } from "react-icons/io5";
+import { getAccessToken } from "../../../services/localStorage";
 
 function TheAddModal({ closeModal }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -93,6 +94,7 @@ function TheAddModal({ closeModal }) {
         formDataToSend,
         {
           headers: {
+            authorization: `Bearer ${getAccessToken()}`,
             "Content-Type": "multipart/form-data",
           },
         }

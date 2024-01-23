@@ -34,20 +34,20 @@ const createProduct = async (req, res, next) => {
       status,
       seasonId: 1,
     };
+    console.log(finalData);
+    // const { id } = await productService.save(finalData);
 
-    const { id } = await productService.save(finalData);
+    // if (req.files) {
+    //   req.files.forEach(({ filename }) => {
+    //     imageService.saveImage(filename, id);
+    //   });
+    // }
 
-    if (req.files) {
-      req.files.forEach(({ filename }) => {
-        imageService.saveImage(filename, id);
-      });
-    }
-
-    res.json({
-      result: await productService.fetchByID(id),
-      message: "Product created successfully",
-      meta: null,
-    });
+    // res.json({
+    //   result: await productService.fetchByID(id),
+    //   message: "Product created successfully",
+    //   meta: null,
+    // });
   } catch (e) {
     console.error(e);
     next(e);

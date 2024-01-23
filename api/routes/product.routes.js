@@ -2,11 +2,13 @@ const express = require("express");
 const productController = require("../controller/product.controller");
 const uploader = require("../jobs/imageUploaderJob");
 const verifyToken = require("../middleware/token.verify");
+const validationChecker = require("../middleware/validation.checker");
 const router = express.Router();
 
 router.post(
   "/",
   verifyToken(),
+  validationChecker("admin"),
   uploader.array("image"),
   productController.createProduct
 );
