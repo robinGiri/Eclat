@@ -44,6 +44,6 @@ router.use(`/return`, require("./return.routes"));
 router.use(`/voucher`, require("./voucher.routes"));
 
 //customization controller
-router.use('/customization', require("../controller/customization.controller"))
+router.use('/customization', require("./customization.routes.js"))
 
 module.exports = router;
