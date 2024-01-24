@@ -1,7 +1,5 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service");
-const settingService = require("../service/setting.service");
-const uploader = require("../jobs/imageUploaderJob");
 const { deleteFile } = require("../helper/helper");
 
 const createProduct = async (req, res, next) => {
@@ -14,7 +12,6 @@ const createProduct = async (req, res, next) => {
       viewCount,
       discount,
       status,
-      sellerId,
       seasonId,
     } = req.body;
 
@@ -31,23 +28,22 @@ const createProduct = async (req, res, next) => {
       afterdiscount: afterDiscount,
       isFeatured: true,
       sellerId: parseInt(sellerId),
-      status,
-      seasonId: 1,
+      status: status,
+      seasonId: parseInt(seasonId),
     };
-    console.log(finalData);
-    // const { id } = await productService.save(finalData);
+    const { id } = await productService.save(finalData);
 
-    // if (req.files) {
-    //   req.files.forEach(({ filename }) => {
-    //     imageService.saveImage(filename, id);
-    //   });
-    // }
+    if (req.files) {
+      req.files.forEach(({ filename }) => {
+        imageService.saveImage(filename, id);
+      });
+    }
 
-    // res.json({
-    //   result: await productService.fetchByID(id),
-    //   message: "Product created successfully",
-    //   meta: null,
-    // });
+    res.json({
+      result: await productService.fetchByID(id),
+      message: "Product created successfully",
+      meta: null,
+    });
   } catch (e) {
     console.error(e);
     next(e);

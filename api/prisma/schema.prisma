@@ -32,12 +32,9 @@ model Product {
   name          String?
   description   String          @db.LongText
   category      String?
-  brand         Brand?          @relation(fields: [brandId], references: [id])
   price         Float?
   discount      Float?
   afterdiscount Float?
-  sellerId      Int?
-  User          User?           @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   isEcoFriendly Boolean?        @default(true)
   stock         Int?
@@ -46,7 +43,6 @@ model Product {
   createdAt     DateTime        @default(now())
   updateAt      DateTime        @updatedAt
   images        Image[]         @relation("ProductImages")
-  brandId       Int?
   CartItem      CartItem[]
   OrderItems    OrderItems[]
   seasonId      Int
@@ -61,12 +57,6 @@ model Image {
   url       String?
   productId Int
   product   Product @relation("ProductImages", fields: [productId], references: [id], onDelete: Cascade)
-}
-
-model Brand {
-  id       Int       @id @default(autoincrement())
-  name     String?
-  products Product[]
 }
 
 model User {
@@ -84,7 +74,6 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   Cart         Cart[]
-  Product      Product[]
   Order        Order[]
   Wishlist     Wishlist[]
   Reviews      Review[]
