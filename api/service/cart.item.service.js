@@ -8,17 +8,39 @@ const include = {
 // Create CartItem
 async function createCartItem(cartId, productId, quantity) {
   try {
-    const createdCartItem = await prisma.cartItem.create({
-      data: {
-        cartId,
-        productId,
-        quantity,
+    const existingCartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: cartId,
+        productId: productId,
       },
-      include: include,
     });
-    return createdCartItem;
+
+    if (existingCartItem) {
+      const updatedCartItem = await prisma.cartItem.update({
+        where: {
+          id: existingCartItem.id,
+        },
+        data: {
+          quantity: existingCartItem.quantity + quantity,
+        },
+        include: include,
+      });
+
+      return updatedCartItem;
+    } else {
+      const createdCartItem = await prisma.cartItem.create({
+        data: {
+          cartId,
+          productId,
+          quantity,
+        },
+        include: include,
+      });
+
+      return createdCartItem;
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }
@@ -39,12 +61,9 @@ async function getCartItemById(cartItemId) {
 // Update CartItem
 async function updateCartItem(cartItemId, updatedData) {
   try {
-
     if (isNaN(cartItemId)) {
       throw new Error("Invalid cartItemId. It should be a valid number.");
     }
-
-    // Additional validation for updatedData if needed
 
     const updatedCartItem = await prisma.cartItem.update({
       where: { id: parseInt(cartItemId) },

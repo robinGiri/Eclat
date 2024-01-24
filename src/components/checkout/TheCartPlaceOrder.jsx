@@ -151,7 +151,7 @@ function TheCartPlaceOrder() {
                                   </div>
                                 </div>
                                 <div className="flex items-center">
-                                  <p className="font-semibold text-gray-800 text-sm">${product.result[0].afterdiscount * product.quantity}</p>
+                                  <p className="font-semibold text-gray-800 text-sm">${product.result[0].afterdiscount}</p>
                                 </div>
                               </div>
                             </div>
@@ -188,11 +188,11 @@ function TheCartPlaceOrder() {
                       <p className="text-sm font-semibold">
                         Subtotal:{" "}
                         <span>
-                        ${product.result[0].afterdiscount}
+                        ${product.result[0].afterdiscount * product.quantity}
                         </span>
                       </p>
                       <p className="text-sm font-semibold text-gray-400">
-                        Saved $20
+                        Saved ${(product.result[0].price - product.result[0].afterdiscount) * product.quantity}
                       </p>
                     </div>
                   </div>

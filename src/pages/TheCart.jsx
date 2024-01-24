@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import TheCartAmountToogle from "../components/checkout/TheCartAmountToogle";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { PiTrashLight } from "react-icons/pi";
-import { CiHeart } from "react-icons/ci";
 import axios from "axios";
 import { apiConfig } from "../services/api/config";
 import { useNavigate } from "react-router-dom";
 import "./TheCart.css";
 import TheCartProceedToCheckout from "../components/checkout/TheCartProceedToCheckout";
-import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 
 function TheCart() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -16,11 +14,6 @@ function TheCart() {
   const [isError, setIsError] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
-
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
 
   const getCardData = async () => {
     try {
@@ -112,9 +105,6 @@ function TheCart() {
 
     setCartProducts(updatedProducts);
   };
-  const [cartProducts, setCartProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
 
   const handleIncrease = async (productId) => {
     const updatedProducts = cartProducts.map((product) => {
@@ -228,13 +218,18 @@ function TheCart() {
     setSelectAll(false);
   };
 
+  const navigate = useNavigate();
+  const handleBack = () => {
+    navigate("/home");
+  };
+
   return (
     <div className="flex gap-2 mt-14 bg-zinc-50">
       <div className="w-[10%] flex justify-end mt-9">
         <div className="flex justify-center items-center h-[4vh] gap-1">
           <IoChevronBackOutline
             className="cursor-pointer text-gray-700 hover:text-green-500 text-lg"
-            onClick={goBack}
+            onClick={handleBack}
           />
         </div>
       </div>
@@ -271,8 +266,12 @@ function TheCart() {
                             <input
                               type="checkbox"
                               className="h-4 w-4"
-                              checked={selectedProducts.includes(product.result[0].id)}
-                              onChange={() => handleSelectProduct(product.result[0].id)}
+                              checked={selectedProducts.includes(
+                                product?.result?.[0]?.id
+                              )}
+                              onChange={() =>
+                                handleSelectProduct(product?.result?.[0]?.id)
+                              }
                             />
                             <p>boAt {">"}</p>
                           </div>
@@ -295,8 +294,12 @@ function TheCart() {
                             <input
                               type="checkbox"
                               className="h-4 w-4"
-                              checked={selectedProducts.includes(product.result[0].id)}
-                              onChange={() => handleSelectProduct(product.result[0].id)}
+                              checked={selectedProducts.includes(
+                                product.result[0].id
+                              )}
+                              onChange={() =>
+                                handleSelectProduct(product.result[0].id)
+                              }
                             />
                             {product.result[0].images.map((image) => (
                               <div
@@ -305,9 +308,10 @@ function TheCart() {
                               >
                                 <img
                                   src={
-                                    `${apiConfig.baseUrl}uploads/` + image.url`
+                                    `${apiConfig.baseUrl}uploads/` + image.url
                                   }
                                   alt={`Image ${image.id}`}
+                                  className="w-[150px] h-[150px] object-contain"
                                 />
                               </div>
                             ))}
@@ -351,11 +355,11 @@ function TheCart() {
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
         <div className="bg-white w-[35%] h-[40vh] mt-2">
           <TheCartProceedToCheckout total={calculateOverallTotal()} />
         </div>

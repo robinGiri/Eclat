@@ -43,8 +43,8 @@ function Khaltitest() {
         }}
       >
         <svg
-          width="148px"
-          height="56px"
+          width="130px"
+          height="50px"
           viewBox="0 0 296 113"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
