@@ -24,7 +24,6 @@ const TheUserUpdateModal = ({ product, closeModal, handleUserEdit }) => {
     console.log("After Update:", updatedProduct);
   };
 
-
   const handleClickOutside = (event) => {
     if (event.target.classList.contains("click-close")) {
       closeModal();
@@ -127,7 +126,7 @@ const TheUserUpdateModal = ({ product, closeModal, handleUserEdit }) => {
                             <option value="">Change role</option>
                             <option value="CUSTOMER">Customer</option>
                             <option value="DRIVER">Driver</option>
-                            <option value="SELLER">Seller</option>
+                            <option value="ADMIN">Admin</option>
                           </select>
                         </div>
                       </div>

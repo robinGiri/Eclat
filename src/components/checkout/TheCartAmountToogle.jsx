@@ -1,14 +1,18 @@
 import React from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { HiOutlinePlusSmall,HiOutlineMinusSmall } from "react-icons/hi2";
 
-function TheCartAmountToogle({amount, setDecrease, setIncrease}) {
+function TheCartAmountToggle({ productId, setDecrease, setIncrease, amount }) {
   return (
-      <div className="flex gap-5">
-        <button onClick={() => setDecrease()}><FaMinus /></button>
-        <div>{amount}</div>
-        <button onClick={() => setIncrease()}><FaPlus /></button>
-      </div>
+    <div className="flex justify-between w-[5rem]">
+      <button onClick={() => setDecrease(productId)}>
+        <HiOutlineMinusSmall className="hover:text-green-700"/>
+      </button>
+      <div>{amount}</div>
+      <button onClick={() => setIncrease(productId)}>
+        <HiOutlinePlusSmall className="hover:text-green-700"/>
+      </button>
+    </div>
   );
 }
 
-export default TheCartAmountToogle;
+export default TheCartAmountToggle;

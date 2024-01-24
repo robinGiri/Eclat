@@ -1,17 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-
-class OrderService {
-  // Create Order
-  async createOrder(data) {
-    try {
-      const createdOrder = await prisma.order.create({
-        data,
-      });
-      return createdOrder;
-    } catch (error) {
-      throw error;
-    }
+async function createOrder(data) {
+  try {
+    const createdOrder = await prisma.order.create({
+      data,
+    });
+    return createdOrder;
+  } catch (error) {
+    throw error;
   }
 }
 

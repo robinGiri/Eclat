@@ -3,6 +3,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import TheTopNavbarOne from "../components/specificComponents/TheTopNavbarOne";
 import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
+import { setAccessToken } from "../services/localStorage";
 import axios from "axios";
 const loginUrl = "http://localhost:4000/api/v1/user/login";
 
@@ -22,11 +23,14 @@ function TheLogin() {
   const handleLogin = async () => {
     const login = { email: email, password: password };
     const { data } = await axios.post(loginUrl, login);
-    const { userdetail:{role} } = data;
-    if (role== "SELLER") {
+    setAccessToken(data.token);
+
+    const {
+      userdetail: { role },
+    } = data;
+    if (role == "SELLER") {
       handleAdminDashboardClick();
-    }
-    else{
+    } else {
       handleHomeClick();
     }
   };
@@ -52,18 +56,23 @@ function TheLogin() {
             <p className="text-xs text-gray-500">
               New member?{" "}
               <span className="text-sky-500 cursor-pointer">
-                <Link to="/registration" onClick={handleRegisterClick} className="font-semibold text-yellow-600 hover:text-yellow-500">
+                <Link
+                  to="/registration"
+                  onClick={handleRegisterClick}
+                  className="font-semibold text-yellow-600 hover:text-yellow-500"
+                >
                   Register
                 </Link>
               </span>{" "}
               here.
             </p>
-
           </div>
           <div className="bg-neutral-50 flex flex-col items-center rounded-md justify-center gap-8 p-10">
             <div className="w-[50%]">
               <div>
-                <p className="text-xs mb-2 font-medium">Phone Number or Email*</p>
+                <p className="text-xs mb-2 font-medium">
+                  Phone Number or Email*
+                </p>
                 <input
                   type="text"
                   className="border-b-2 w-full p-2 mb-6 text-sm focus:outline-none"
@@ -107,7 +116,6 @@ function TheLogin() {
                     Login
                   </button>
                 </div>
-                
               </div>
             </div>
           </div>
