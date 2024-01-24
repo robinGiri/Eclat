@@ -1,5 +1,5 @@
 const cartItemService = require("../service/cart.item.service");
-
+const userService = require("../service/user.service");
 const addToCart = async (req, res, next) => {
   try {
     const userId = parseInt(req.body.userId);
@@ -16,7 +16,7 @@ const addToCart = async (req, res, next) => {
     // Create cartItems now
     const cartItem = await cartItemService.createCartItem(
       cartId,
-      productId,
+      parseInt(productId),
       quantity
     );
 
@@ -34,15 +34,25 @@ const updateCartItem = async (req, res, next) => {
   try {
     const cartItemId = parseInt(req.params.id);
 
+    if (isNaN(cartItemId)) {
+      return res.status(400).json({
+        code: 400,
+        message: "Invalid cartItemId. It should be a valid number.",
+        meta: null,
+      });
+    }
+
     // From the body, it will receive the quantity and product
     const { quantity } = req.body;
 
+    // Additional validation for quantity if needed
+
     // Update cartItems now
-    const cartItem = await cartItemService.updateCartItem(cartItemId, quantity);
+    const updatedCartItem = await cartItemService.updateCartItem(cartItemId, { quantity });
 
     res.json({
       code: 200,
-      cartItem: cartItem,
+      cartItem: updatedCartItem,
       message: "Updated to cart items",
       meta: null,
     });
@@ -51,22 +61,27 @@ const updateCartItem = async (req, res, next) => {
   }
 };
 
+
+
 const deleteCartItem = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
 
     // Call the deleteCartItem method from the service
-    const deletedCart = await cartItemService.deleteCartItem(id);
+    const deletedCartItem = await cartItemService.deleteCartItem(id);
 
     res.json({
       code: 200,
-      message: "Cart deleted successfully",
-      meta: deletedCart,
+      message: "CartItem deleted successfully",
+      meta: {
+        deletedCartItem,
+      },
     });
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
 };
+
 
 module.exports = {
   addToCart,
