@@ -46,7 +46,6 @@ model Product {
   images        Image[]         @relation("ProductImages")
   CartItem      CartItem[]
   OrderItems    OrderItems[]
-  Reviews       Review[]
   Season        Season?         @relation(fields: [seasonId], references: [id])
   seasonId      Int?
   Wishlist      Wishlist[]
@@ -63,7 +62,6 @@ model Image {
 }
 
 model User {
-  <<<<<<< HEAD
   id            Int             @id @default(autoincrement())
   name          String
   email         String          @unique
@@ -78,30 +76,10 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   Cart          Cart[]
-  Order         Order[]
-  Wishlist      Wishlist[]
-  Reviews       Review[]
-  =======
-  id            Int             @id @default(autoincrement())
-  name          String
-  email         String          @unique
-  role          UserRole        @default(CUSTOMER)
-  address       String
-  phone         String?
-  password      String?
-  image         String
-  token         String?
-  forgetToken   String?
-  validateTill  DateTime?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  Cart          Cart[]
-  Product       Product[]
   Order         Order[]
   Wishlist      Wishlist[]
   Reviews       Review[]
   Customization Customization[]
-  >>>>>>> 6b8cc6a3c46b4873705f3e59c0467714c89d87b8
 }
 
 model Cart {
