@@ -3,37 +3,90 @@ import { HiOutlineTicket } from "react-icons/hi2";
 import { RiArrowRightSLine } from "react-icons/ri";
 import TheCartPlaceOrderCheckout from "./TheCartPlaceOrderCheckout";
 import TheAddressForm from "./TheAddressForm";
-import { useCartContext } from "../../custom-hooks/context/TheCartContext";
+import axios from "axios";
 import { apiConfig } from "../../services/api/config";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function TheCartPlaceOrder() {
+  const [cartProducts, setCartProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const { cart, updateQuantity } = useCartContext();
-  const [quantities, setQuantities] = useState({});
-  const total = cart.reduce((acc, product) => {
-    const productQuantity = quantities[product.id] || 0;
-    return acc + product.afterdiscount * productQuantity;
-  }, 0);
+  const getCardData = async () => {
+    try {
+      const response = await axios.get(`${apiConfig.baseUrl}cart/1`);
+      const { data } = response;
+
+      if (data && data.message && Array.isArray(data.message.cartItems)) {
+        const productIds = data.message.cartItems.map((item) => item.productId);
+        const productDetailsPromises = productIds.map(async (productId) => {
+          try {
+            const productResponse = await axios.get(
+              `${apiConfig.baseUrl}product/${productId}`
+            );
+            const productData = productResponse.data;
+            const cartItem = data.message.cartItems.find(
+              (item) => item.productId === productId
+            );
+            return {
+              ...productData,
+              quantity: cartItem ? cartItem.quantity : 0,
+            };
+          } catch (productError) {
+            console.error(
+              "Error fetching product details",
+              productId,
+              ":",
+              productError
+            );
+            return null;
+          }
+        });
+
+        const productDetailsArray = await Promise.all(productDetailsPromises);
+        setCartProducts(productDetailsArray);
+      } else {
+        console.error("Invalid response format:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching card data:", error);
+      setIsError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const updateQuantities = () => {
-      const updatedQuantities = {};
-      cart.forEach((product) => {
-        updatedQuantities[product.id] = product.quantity; 
-      });
-      setQuantities(updatedQuantities);
+    const fetchData = async () => {
+      try {
+        await getCardData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
+    fetchData();
+  }, []);
 
-    updateQuantities();
-  }, [cart]);
+  const calculateProductTotal = (product) => {
+    return product.result[0].afterdiscount * product.quantity;
+  };
 
+  const calculateOverallTotal = () => {
+    return cartProducts.reduce((total, product) => {
+      return total + calculateProductTotal(product);
+    }, 0);
+  }; 
+  
   return (
-    <div className="pt-10 w-full h-[100vh] bg-neutral-100">
-      <div className="flex py-5 mx-[9%] gap-2 flex-wrap bg-neutral-100">
+    <div className="pt-10 w-full h-[100vh] bg-zinc-50 flex gap-2 justify-center">
+      <div className="w-[3rem] -ml-[5rem] flex justify-end items-center h-[5vh]"><Link to='/cart'><IoChevronBackOutline className="text-lg hover:text-green-500 cursor-pointer"/></Link>
+</div>
+      <div className="flex py-5 w-[82%] h-[80vh] gap-2 flex-wrap bg-zinc-100">
         <div className="w-[63%] p-2">
           <div className="flex justify-center items-center bg-white border border-white h-[15%] rounded-lg shadow-custom-shadow">
             <p className="text-sky-800 font-semibold cursor-pointer">
@@ -42,9 +95,8 @@ function TheCartPlaceOrder() {
           </div>
           <div>
             <div className="max-h-[30rem] mt-3 custom-scroll">
-            {cart.map((product) => (
-
-                <div key={product.id}>
+            {cartProducts.map((product) => (
+                <div key={product.result[0].id}>
                   <div className="w-full bg-white mb-5 rounded-lg border border-white shadow-custom-shadow">
                     <div className="mt-4 bg-white w-full">
                       <div>
@@ -57,14 +109,22 @@ function TheCartPlaceOrder() {
                       <div className="flex bg-white justify-between gap-3 flex-wrap pl-6">
                         <div className="flex flex-wrap">
                           <div className="flex items-center gap-2">
-                             <img
-                              src={`${apiConfig.baseUrl}uploads/${product.image}`}
-                              className="w-[120px] h-[120px] p-2"
-                              alt={`Product ${product.id} Image`}
-                            />
+                            {product.result[0].images.map((image) => (
+                              <div
+                                key={image.id}
+                                className="w-[120px] h-[120px] p-2"
+                              >
+                                <img
+                                  src={
+                                    `${apiConfig.baseUrl}uploads/` + image.url
+                                  }
+                                  alt={`Image ${image.id}`}
+                                />
+                              </div>
+                            ))}
                           </div>
                           <div className="flex flex-col gap-3 pt-4 pl-2">
-                            <p className="font-semibold">{product.name}</p>
+                            <p className="font-semibold">{product.result[0].name}</p>
                             <p className="text-xs text-gray-500 font-semibold">
                               Boat, Color Family: Beige
                             </p>
@@ -79,19 +139,19 @@ function TheCartPlaceOrder() {
                           <div className="w-[100%] flex  gap-20 h-full items-center">
                             <div className="flex justify-between w-full flex-wrap">
                               <div className="w-[35%] flex justify-end">
-                                <p className="text-sm font-semibold">Qty.{quantities[product.id]}</p>
+                                <p className="text-sm font-semibold">Qty.{product.quantity}</p>
                               </div>
                               <div className="flex flex-wrap gap-3">
                                 <div className="flex items-center gap-5 px-2 rounded-sm bg-gray-10">
                                   <div className="line-through text-gray-400 text-xs font-semibold">
-                                    ${product.price}
+                                  ${product.result[0].price}
                                   </div>
                                   <div className="text-gray-400 text-xs font-semibold">
-                                    {product.discount}%
+                                  {product.result[0].discount}%
                                   </div>
                                 </div>
                                 <div className="flex items-center">
-                                  <p className="font-semibold text-gray-800">${product.afterdiscount}</p>
+                                  <p className="font-semibold text-gray-800 text-sm">${product.result[0].afterdiscount * product.quantity}</p>
                                 </div>
                               </div>
                             </div>
@@ -116,7 +176,7 @@ function TheCartPlaceOrder() {
                   <div className="pl-8 pt-1 mt-4 flex justify-between mr-9 pb-7 bg-white">
                     <div className="border w-[75%] flex p-6 justify-between rounded-md bg-white flex-wrap">
                       <p className="font-semibold text-sm text-gray-800 flex items-center gap-1">
-                        <HiOutlineTicket className="text-xl text-orange-600 mt-[0.1rem]" />
+                        <HiOutlineTicket className="text-xl text-green-500 mt-[0.1rem]" />
                         Store Voucher
                       </p>
                       <p className="font-semibold text-sm text-gray-800 flex items-center gap-1 cursor-pointer">
@@ -127,8 +187,8 @@ function TheCartPlaceOrder() {
                     <div className="w-[20%] flex flex-col items-end justify-center flex-wrap">
                       <p className="text-sm font-semibold">
                         Subtotal:{" "}
-                        <span className="text-orange-600">
-                          ${product.afterdiscount}
+                        <span>
+                        ${product.result[0].afterdiscount}
                         </span>
                       </p>
                       <p className="text-sm font-semibold text-gray-400">
@@ -144,7 +204,7 @@ function TheCartPlaceOrder() {
           </div>
         </div>
         <div className="bg-white w-[35%] h-[46%] mt-2">
-          <TheCartPlaceOrderCheckout/>
+          <TheCartPlaceOrderCheckout total={calculateOverallTotal()}/>
         </div>
       </div>
       {isModalOpen && (<TheAddressForm onClose={handleModalToggle} />)}

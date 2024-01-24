@@ -39,10 +39,18 @@ async function getCartItemById(cartItemId) {
 // Update CartItem
 async function updateCartItem(cartItemId, updatedData) {
   try {
+
+    if (isNaN(cartItemId)) {
+      throw new Error("Invalid cartItemId. It should be a valid number.");
+    }
+
+    // Additional validation for updatedData if needed
+
     const updatedCartItem = await prisma.cartItem.update({
-      where: { id: cartItemId },
+      where: { id: parseInt(cartItemId) },
       data: updatedData,
     });
+
     return updatedCartItem;
   } catch (error) {
     throw error;

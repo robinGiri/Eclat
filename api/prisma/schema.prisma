@@ -40,16 +40,19 @@ model Product {
   stock         Int?
   status        String?
   viewCount     Int?
+  customizable  Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updateAt      DateTime        @updatedAt
   images        Image[]         @relation("ProductImages")
   CartItem      CartItem[]
   OrderItems    OrderItems[]
-  seasonId      Int
-  ReturnedOrder ReturnedOrder[]
+  Reviews       Review[]
+  Season        Season?         @relation(fields: [seasonId], references: [id])
+  seasonId      Int?
   Wishlist      Wishlist[]
-  Season        Season          @relation(fields: [seasonId], references: [id])
+  ReturnedOrder ReturnedOrder[]
   Review        Review[]
+  Customization Customization[]
 }
 
 model Image {
@@ -60,23 +63,45 @@ model Image {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  name         String
-  email        String     @unique
-  role         UserRole   @default(CUSTOMER)
-  address      String
-  phone        String?
-  password     String?
-  image        String
-  token        String?
-  forgetToken  String?
-  validateTill DateTime?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  Cart         Cart[]
-  Order        Order[]
-  Wishlist     Wishlist[]
-  Reviews      Review[]
+  <<<<<<< HEAD
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  role          UserRole        @default(CUSTOMER)
+  address       String
+  phone         String?
+  password      String?
+  image         String
+  token         String?
+  forgetToken   String?
+  validateTill  DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Cart          Cart[]
+  Order         Order[]
+  Wishlist      Wishlist[]
+  Reviews       Review[]
+  =======
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  role          UserRole        @default(CUSTOMER)
+  address       String
+  phone         String?
+  password      String?
+  image         String
+  token         String?
+  forgetToken   String?
+  validateTill  DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Cart          Cart[]
+  Product       Product[]
+  Order         Order[]
+  Wishlist      Wishlist[]
+  Reviews       Review[]
+  Customization Customization[]
+  >>>>>>> 6b8cc6a3c46b4873705f3e59c0467714c89d87b8
 }
 
 model Cart {
@@ -203,4 +228,15 @@ model Review {
 
   User    User?   @relation(fields: [userId], references: [id])
   Product Product @relation(fields: [productID], references: [id])
+}
+
+model Customization {
+  id            Int      @id @default(autoincrement())
+  productId     Int?
+  userID        Int?
+  customization String
+  Product       Product? @relation(fields: [productId], references: [id])
+  User          User?    @relation(fields: [userID], references: [id])
+
+  @@unique([userID, productId])
 }
