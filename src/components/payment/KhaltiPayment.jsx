@@ -1,8 +1,10 @@
 import KhaltiCheckout from "khalti-checkout-web";
 import React from "react";
-import khaltiVerification from "../../services/payment.verification";
+import axios from "axios";
 
-function Khaltitest() {
+function Khaltitest({ orderId }) {
+  const thePaymentUrl = "http://localhost:4000/api/v1/purchase";
+
   let config = {
     // replace this key with yours
     publicKey: "test_public_key_9cedc1faed9242b19074b04493e9696a",
@@ -11,9 +13,8 @@ function Khaltitest() {
     productUrl: "http://gameofthrones.com/buy/Dragons",
     eventHandler: {
       onSuccess(payload) {
+        // { paymentmethod, OrderId, token }
         const { token } = payload;
-        console.log(token);
-        // khaltiVerification(token);
       },
       // onError handler is optional
       onError(error) {

@@ -1,10 +1,18 @@
 const express = require("express");
 const productController = require("../controller/product.controller");
 const uploader = require("../jobs/imageUploaderJob");
+const validationChecker = require("../middleware/validation.checker");
+const verifyToken = require("../middleware/token.verify");
 
 const router = express.Router();
 
-router.post("/", uploader.array("image"), productController.createProduct);
+router.post(
+  "/",
+  verifyToken(),
+  validationChecker("admin"),
+  uploader.array("image"),
+  productController.createProduct
+);
 router.get("/", productController.getAllProducts);
 router.get("/season", productController.getProductsBySeason);
 router.get("/search", productController.searchProducts);

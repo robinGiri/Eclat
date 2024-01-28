@@ -1,14 +1,15 @@
 const validationChecker = (checkRole) => {
-  (req, res, next) => {
+  return (req, res, next) => {
     try {
-      const { role } = req.body;
-      if (role === checkRole) {
+      const role = req.decoded.role.toLowerCase();
+      checkRole = checkRole.toLowerCase();
+      if (checkRole === role) {
         next();
       } else {
-        res.status(403).json({ message: "Access Denied" });
+        throw new Error("Authorization Invalid");
       }
     } catch (error) {
-      res.status(500).json({ code: 500, error: error });
+      next(error);
     }
   };
 };

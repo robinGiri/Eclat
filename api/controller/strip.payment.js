@@ -12,8 +12,7 @@ router.post("/", async (req, res, next) => {
     });
 
     const price = await stripe.prices.create({
-      product: product.id,
-      unit_amount: 1000, // Replace with the actual amount in cents (e.g., $10.00)
+      unit_amount: req.body.total, // Replace with the actual amount in cents (e.g., $10.00)
       currency: "usd",
     });
 
@@ -26,8 +25,8 @@ router.post("/", async (req, res, next) => {
         },
       ],
       mode: "payment",
-      success_url: "https://www.google.com/",
-      cancel_url: "https://www.facebook.com/",
+      success_url: "http://localhost:5173/home",
+      cancel_url: "http://localhost:5173/cart/",
     });
 
     res.json({ id: session.id });

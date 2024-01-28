@@ -1,8 +1,9 @@
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { data } from "autoprefixer";
 
-const TheStripPayment = () => {
+const TheStripPayment = ({ total }) => {
   const stripPayURL = "http://localhost:4000/api/v1/strip-payment";
 
   const makePayment = async () => {
@@ -12,12 +13,11 @@ const TheStripPayment = () => {
     );
     const {
       data: { id },
-    } = await axios.post(stripPayURL);
-    // const session = await JSON.parse(response);
+    } = await axios.post(stripPayURL, { total: total });
+    const session = await data;
     const result = await strip.redirectToCheckout({
       sessionId: id,
     });
-
     if (result.error) {
       console.log(result.error);
     }

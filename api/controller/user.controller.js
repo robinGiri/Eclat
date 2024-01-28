@@ -33,7 +33,6 @@ const signup = async (req, res, next) => {
       meta: null,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -49,10 +48,15 @@ const checkLogin = async (req, res, next) => {
   }
 };
 
+const userBySuscription = async (req, res, next) => {
+  const emails = await userService.getUserBySubscription();
+  console.log(emails);
+};
 const login = async (req, res, next) => {
   try {
     const data = req.body;
     const userData = await userService.getUserByFilter({ email: data.email });
+
     if (!userData) {
       res
         .status(404)
@@ -70,6 +74,8 @@ const login = async (req, res, next) => {
     } else {
       res.json({ message: "Incorrect password", code: "401", meta: null });
     }
+    delete userData.password;
+    console.log(userData);
     res.json({
       userdetail: userData,
       token: token,
@@ -159,4 +165,5 @@ module.exports = {
   getUserById,
   updateUserByEmail,
   uploadProfilePicture,
+  userBySuscription,
 };

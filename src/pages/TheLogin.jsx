@@ -22,8 +22,12 @@ function TheLogin() {
   };
   const handleLogin = async () => {
     const login = { email: email, password: password };
-    const { data } = await axios.post(loginUrl, login);
-    setAccessToken(data.token);
+    const response = await axios.post(loginUrl, login);
+    const { data } = response;
+    const { userdetail } = data;
+    console.log("frontend", response);
+    setAccessToken("user", JSON.stringify(userdetail));
+    setAccessToken("access-token", data.token);
 
     const {
       userdetail: { role },

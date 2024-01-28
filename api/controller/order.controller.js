@@ -5,14 +5,13 @@ const cartItemService = require("../service/cart.item.service");
 
 const createOrder = async (req, res, next) => {
   try {
-    const cartId = parseInt(req.params.id);
-    const { voucherId, userId } = req.body;
-
+    const { cartId, voucherId, userId } = req.body;
     // Create order table
     const orderData = {
-      userId: userId,
+      customerId: userId,
       voucherId: voucherId,
     };
+
     const { id: orderId } = await orderService.createOrder(orderData);
 
     // Extract cart items from cart id
@@ -27,7 +26,7 @@ const createOrder = async (req, res, next) => {
 
     res.json({
       code: 200,
-      message: "Order and OrderItems created successfully",
+      message: orderId,
       meta: null,
     });
   } catch (error) {

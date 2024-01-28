@@ -73,6 +73,7 @@ model User {
   validateTill DateTime?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  isSuscribed  Boolean    @default(true)
   Cart         Cart[]
   Order        Order[]
   Wishlist     Wishlist[]
@@ -111,11 +112,11 @@ model Order {
   OrderItems    OrderItems[]
   Purchase      Purchase[]
   Shipping      Shipping[]
-  voucherId     Int
+  voucherId     Int?
   ReturnedOrder ReturnedOrder[]
 
-  User    User?   @relation(fields: [customerId], references: [id])
-  Voucher Voucher @relation(fields: [voucherId], references: [id])
+  User    User?    @relation(fields: [customerId], references: [id])
+  Voucher Voucher? @relation(fields: [voucherId], references: [id])
 }
 
 model OrderItems {

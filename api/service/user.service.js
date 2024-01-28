@@ -35,6 +35,13 @@ async function getUserByFilter(filter = {}) {
   return user;
 }
 
+async function getUserBySubscription() {
+  const user = await prisma.user.findMany({
+    where: { isSuscribed: true },
+    select: { email: true },
+  });
+  return user;
+}
 async function getUserById(userId) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -112,4 +119,5 @@ module.exports = {
   updateUser,
   logoutUser,
   updateImage,
+  getUserBySubscription,
 };

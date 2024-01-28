@@ -20,11 +20,11 @@ router.post("/login", userController.login);
 // Logout user
 router.get("/logout", userController.logout);
 
+// Get user by suscription
+router.get("/subs", userController.userBySuscription);
+
 // Get user by ID
 router.get("/:id", userController.getUserById);
-
-// Update user by Email
-router.put("/:email", userController.updateUserByEmail);
 
 // Upload user profile picture
 router.patch(

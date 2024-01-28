@@ -3,21 +3,26 @@ const jwt = require("jsonwebtoken");
 const verifyToken = () => {
   return (req, res, next) => {
     try {
-      const token = req.cookies.jwt;
+      const authorizationHeader = req.headers.authorization;
+
+      if (!authorizationHeader) {
+        throw new Error("Not authorized");
+      }
+
+      const token = authorizationHeader.split(" ")[1];
 
       if (!token) {
-        return res.status(403).json({ message: "Token not found" });
+        throw new Error("Not authorized");
       }
 
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
           if (err.name === "TokenExpiredError") {
-            console.log("Token has expired");
+            throw new Error("token expired");
           }
-          return res.status(401).json({ message: "Invalid Token" });
+          throw new Error("invalid token");
         }
-
-        req.body.decoded = decoded;
+        req.decoded = decoded;
         next();
       });
     } catch (error) {
@@ -25,4 +30,5 @@ const verifyToken = () => {
     }
   };
 };
+
 module.exports = verifyToken;
