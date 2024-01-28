@@ -1,4 +1,3 @@
-// EditProfilePopup.js
 import React from "react";
 
 function EditProfilePopup({
@@ -18,8 +17,6 @@ function EditProfilePopup({
   city,
   setProvince,
   province,
-  profilePicture,
-  setProfilePicture,
   oldPassword,
   setOldPassword,
   newPassword,
@@ -27,21 +24,7 @@ function EditProfilePopup({
   confirmNewPassword,
   setConfirmNewPassword,
 }) {
-  const handleProfilePictureChange = (e) => {
-    setProfilePicture(e.target.value);
-  };
-
-    const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if(file){
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicture(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+ 
 
   return (
     <div className="overlay fixed top-0 left-0 w-full h-full flex items-center justify-end bg-black bg-opacity-50 z-20">
@@ -50,20 +33,7 @@ function EditProfilePopup({
         <div className="flex">
           <div className="flex flex-col">
             <h1 className="font-bold mb-5">Contact</h1>
-            <div className="flex flex-col">
-              <label htmlFor="profilePicture" className="font-semibold pb-2">
-                Profile Picture:
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                // className="border-b-2 z-50 focus:outline-none"
-                id="profilePicture"
-                name="profilePicture"
-                onChange={handleImageChange}
-              />
-              <br />
-            </div>
+            
 
             <div className="flex flex-col m-2">
               <label htmlFor="username" className="font-semibold pb-2">
@@ -228,13 +198,13 @@ function EditProfilePopup({
         <div className="flex flex-col justify-center gap-4 text-sm font-semibold">
           <button
             onClick={onSaveChanges}
-            className="bg-green-600 p-4 hover:bg-green-500 rounded-lg text-white shadow"
+            className="border-2 border-lime-500 p-4 hover:bg-lime-500 hover:text-white rounded-lg text-lime-600 transition duration-200 ease-in-out"
           >
             Save Changes
           </button>
           <button
             onClick={onClose}
-            className="bg-red-700 p-4 hover:bg-red-600 rounded-lg text-white shadow"
+            className="border-2 border-red-500 p-4 hover:bg-red-500 hover:text-white rounded-lg text-red-600 transition duration-200 ease-in-out"
           >
             Cancel
           </button>
