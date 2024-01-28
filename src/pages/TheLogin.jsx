@@ -5,7 +5,6 @@ import TheFooter from "../components/specificComponents/TheFooter";
 import { useNavigate, Link } from "react-router-dom";
 import { setAccessToken } from "../services/localStorage";
 import axios from "axios";
-import { setAccessToken } from "../services/localStorage";
 const loginUrl = "http://localhost:4000/api/v1/user/login";
 
 function TheLogin() {

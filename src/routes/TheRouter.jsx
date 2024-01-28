@@ -13,12 +13,14 @@ import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
 import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 import TheOrderDetail from "../pages/TheOrderDetail";
+import TheCustomize from "../pages/TheCustomize";
 
 const routes = [
   { path: "/home", element: <TheHome /> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },
+  { path: "/customize/:productID", element: <TheCustomize/> },
   { path: "/sale", element: <TheSale /> },
   { path: "/cart", element: <TheCart /> },
   { path: "/product_details/:productId", element: <TheProductDetails /> },

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const customizationService = require('../service/customizatiton.service')
 
-export const add = async(req,res,next)=>{
+const add = async(req,res,next)=>{
   await customizationService.add(req.body).then(() => {
     res.json({
       result: null,
@@ -16,4 +16,4 @@ export const add = async(req,res,next)=>{
     });
   })  
 }
-
+module.exports = {add}

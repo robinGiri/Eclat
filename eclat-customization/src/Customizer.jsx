@@ -139,7 +139,7 @@ function Picker() {
           <img id = "left" src={left} alt="" style={{height:"40px", margin:"5px 10px"}}/> <h1>Eclat Pegasus 40 <br />$160</h1>
         </div>
         <div><img src={logo} alt="" /></div>
-        <div><button onClick={()=>{handleSubmit()}}><h1 style={{fontSize:"14px"}}>{extractedToken && extractedToken? "Add to cart":"Login to save"}</h1></button></div>
+        <div><button onClick={()=>{extractedToken && handleSubmit()}}><h1 style={{fontSize:"14px"}}>{extractedToken && extractedToken? "Add to cart":"Login to save"}</h1></button></div>
       </div>
         <div className="picker" style={{display : snap.current? 'initial' : 'none'}}>
             <div className="picker-title" style={{display:'flex'}}>
