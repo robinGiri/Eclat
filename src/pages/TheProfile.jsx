@@ -5,11 +5,13 @@ import ActivityTab from "../components/specificComponents/ActivityTab";
 import DetailsTab from "../components/specificComponents/DetailsTab";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import EditProfilePopup from "../components/specificComponents/EditProfilePopUp";
+import EditProfilePicture from "../components/specificComponents/EditProfilePicture";
 
 function TheProfile() {
   const [currentTab, setCurrentTab] = useState(1);
   const [isEditPopupOpen, setEditPopupOpen] = useState(false);
-  const [username, setUsername] = useState("Po Ming DumpLing");
+  const [isEditImageOpen, setEditImageOpen] = useState(false);
+  const [username, setUsername] = useState("");
   const [mobile, setMobile] = useState("9882138912");
   const [email, setEmail] = useState("eclat@mail.com");
   const [street, setStreet] = useState("Balaju Chowk");
@@ -22,6 +24,10 @@ function TheProfile() {
     setCurrentTab(id);
   };
 
+  const handleImageClick = () => {
+    setEditImageOpen(true);
+  }
+
   const handleEditClick = () => {
     setEditPopupOpen(true);
   };
@@ -31,9 +37,11 @@ function TheProfile() {
   };
 
   const handleSaveChanges = () => {
-    // Handle saving changes to the backend if needed
-    setEditPopupOpen(false); // Close the edit popup
+    // handle saving changes to the backend 
+    setEditPopupOpen(false); // close edit popup
   };
+
+
 
   const tabs = [
     {
@@ -55,12 +63,14 @@ function TheProfile() {
         <div className="flex flex-col rounded-xl h-[100vh] w-[30%] relative overflow-hidden">
           {/* Circle div with image */}
           <div className="flex p-6 justify-center">
-            <div className="rounded-full shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden shadow-amber-200 relative z-50">
+            <div className="rounded-full shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden hover:opacity-50 cursor-pointer relative z-50" onClick={handleImageClick}>
               <img
                 src={profilePicture}
                 className="w-full h-full"
                 alt="Profile"
               />
+              
+              
             </div>
           </div>
 
@@ -129,11 +139,7 @@ function TheProfile() {
                   </div>
                 </div>
               
-                <div className="flex justify-center mt-12 mr-7">
-                  <h1 className="text-sm text-red-700 hover:text-red-600 opacity-70 hover:opacity-100 hover:font-semibold cursor-pointer">
-                    Delete My Account
-                  </h1>
-                </div>
+                
               </div>
             </div>
 
@@ -145,6 +151,7 @@ function TheProfile() {
                   onClose={handleCloseEditPopup}
                   onSaveChanges={handleSaveChanges}
                   username={username}
+                  setUsername={setUsername}
                   setMobile={setMobile}
                   mobile={mobile}
                   setEmail={setEmail}
@@ -157,8 +164,16 @@ function TheProfile() {
                   city={city}
                   setProvince={setProvince}
                   province={province}
-                  setProfilePicture={setProfilePicture}
+                />
+              )}
+            </div>
+            <div className="flex flex-col gap-2 mt-5 items-center">
+              {isEditImageOpen && (
+                <EditProfilePicture
                   profilePicture={profilePicture}
+                  setProfilePicture={setProfilePicture}
+                  onClose={handleCloseEditPopup}
+                  onSaveChanges={handleSaveChanges}
                 />
               )}
             </div>
