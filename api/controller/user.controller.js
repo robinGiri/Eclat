@@ -138,19 +138,23 @@ const updateUserByEmail = async (req, res, next) => {
 };
 
 const uploadProfilePicture = async (req, res, next) => {
-  const id = parseInt(req.body.id);
-  const file = req.file.filename.split(".");
+
+  // user id 
+  const id = parseInt(req.body.userId);
+  const file = req.file.filename
   try {
     const userData = await userService.getUserById(id);
-    if (userData) {
-      const user = await userService.updateImage(id, file[0]);
+
+    if (userData.length <=0) {
+      throw new Error("user not found")
+      
+    }
+    const user = await userService.updateImage(id, file);
       res.json({
         userdetail: user,
         code: 200,
         meta: null,
       });
-    }
-    throw new Error("User Dont Exist");
   } catch (error) {
     next(error);
   }

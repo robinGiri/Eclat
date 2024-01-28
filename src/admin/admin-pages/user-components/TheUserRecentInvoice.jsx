@@ -20,7 +20,7 @@ function TheUserRecentInvoice() {
   const handleUserEdit = async (updatedProduct) => {
     try {
       const response = await axios.put(
-        `${API}/${updatedProduct.email}`,
+        `${API}1`,
         updatedProduct
       );
 

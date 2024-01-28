@@ -1,16 +1,22 @@
 import React from "react";
 import { MdEdit } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ActivityTab from "../components/specificComponents/ActivityTab";
 import DetailsTab from "../components/specificComponents/DetailsTab";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import EditProfilePopup from "../components/specificComponents/EditProfilePopUp";
 import EditProfilePicture from "../components/specificComponents/EditProfilePicture";
+import {getAccessToken} from "../services/localStorage";
+
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
+
 
 function TheProfile() {
   const [currentTab, setCurrentTab] = useState(1);
   const [isEditPopupOpen, setEditPopupOpen] = useState(false);
   const [isEditImageOpen, setEditImageOpen] = useState(false);
+
+  const [userId, setUserId] = useState(0);
   const [username, setUsername] = useState("");
   const [mobile, setMobile] = useState("9882138912");
   const [email, setEmail] = useState("eclat@mail.com");
@@ -19,13 +25,29 @@ function TheProfile() {
   const [city, setCity] = useState("Kathmandu");
   const [province, setProvince] = useState("Bagmati");
   const [profilePicture, setProfilePicture] = useState("src/assets/panda.jpg");
+  
+  const getUser = async () => {
+    const user = JSON.parse(getAccessToken("user"))
+    setUsername(user.name)
+    setMobile(user.phone)
+    setEmail(user.email)
+    setArea(user.address)
+    setUserId(user.id)
+    setProfilePicture(user.image)
 
+  };
+
+  useEffect(()=> {
+    getUser();
+  },[])
+  
+  
   const handleTabClick = (id) => {
     setCurrentTab(id);
   };
 
   const handleImageClick = () => {
-    setEditImageOpen(true);
+    setEditImageOpen(!isEditImageOpen);
   }
 
   const handleEditClick = () => {
@@ -33,7 +55,7 @@ function TheProfile() {
   };
 
   const handleCloseEditPopup = () => {
-    setEditPopupOpen(false);
+    setEditPopupOpen(true);
   };
 
   const handleSaveChanges = () => {
@@ -65,12 +87,10 @@ function TheProfile() {
           <div className="flex p-6 justify-center">
             <div className="rounded-full shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden hover:opacity-50 cursor-pointer relative z-50" onClick={handleImageClick}>
               <img
-                src={profilePicture}
+                src={staticAPI+profilePicture}
                 className="w-full h-full"
                 alt="Profile"
               />
-              
-              
             </div>
           </div>
 
@@ -164,6 +184,7 @@ function TheProfile() {
                   city={city}
                   setProvince={setProvince}
                   province={province}
+                  
                 />
               )}
             </div>
@@ -174,6 +195,8 @@ function TheProfile() {
                   setProfilePicture={setProfilePicture}
                   onClose={handleCloseEditPopup}
                   onSaveChanges={handleSaveChanges}
+                  userId = {userId}
+                  setUserId = {setUserId}
                 />
               )}
             </div>
