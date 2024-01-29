@@ -33,7 +33,7 @@ function TheAverageRevenue() {
   return (
     <div>
       <div></div>
-      <div className="border border-black h-[25vh] flex justify-end">
+      <div className="h-[25vh]">
         <PolarArea data={data} options={options} />
       </div>
     </div>
