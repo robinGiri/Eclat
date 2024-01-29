@@ -15,6 +15,26 @@ async function saveImage(fileName, productId) {
   }
 }
 
+async function updateImage(fileName, productId) {
+  try {
+    const imageData = await prisma.image.findFirst({
+      where: {
+        productId: productId,
+      },
+    });
+    const image = await prisma.image.update({
+      data: {
+        url: fileName,
+        productId: productId,
+      },
+      where: { id: imageData.id },
+    });
+    return image;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function deleteImageByUrl(imageUrl) {
   try {
     const deletedImage = await prisma.image.delete({
@@ -41,4 +61,5 @@ module.exports = {
   saveImage,
   deleteImageByUrl,
   findImageByUrl,
+  updateImage,
 };

@@ -165,7 +165,10 @@ function TheRecentInvoice() {
             Add
             <FaPlus />
           </button>
-          <button className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1" onClick={() => openFilterModal()}>
+          <button
+            className="bg-black text-white p-1 px-2 rounded-md cursor-pointer flex items-center gap-1"
+            onClick={() => openFilterModal()}
+          >
             Filter
             <IoFilterSharp />
           </button>
