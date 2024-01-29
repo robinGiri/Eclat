@@ -49,7 +49,6 @@ const createProduct = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -63,7 +62,6 @@ const getAllProducts = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -80,7 +78,6 @@ const getProductsBySeason = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -98,7 +95,6 @@ const searchProducts = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -116,7 +112,6 @@ const getProductById = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -172,7 +167,6 @@ const updateProduct = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -187,7 +181,6 @@ const deleteProduct = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -199,7 +192,6 @@ const uploadImage = async (req, res, next) => {
       file: req.file.filename,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };

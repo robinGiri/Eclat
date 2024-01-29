@@ -1,13 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const wishlistSelect = {
-  id: true,
-  userId: true,
-  productId: true,
-  quantity: true,
-  Product: { select: { id: true, name: true, price: true } },
-};
+// const wishlistSelect = {
+//   id: true,
+//   userId: true,
+//   productId: true,
+//   quantity: true,
+//   Product: { select: { id: true, name: true, price: true } },
+// };
 
 async function add(data) {
   try {
@@ -25,12 +25,10 @@ async function add(data) {
 
     const wish = await prisma.wishlist.create({
       data: data,
-      select: wishlistSelect,
     });
 
     return wish;
   } catch (e) {
-    console.error(e);
     throw e;
   }
 }
@@ -47,7 +45,6 @@ async function getByUserID(userId) {
     });
     return wishlist;
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }
@@ -65,7 +62,6 @@ async function getByUserIDAndProductID(userId, productId) {
     });
     return wishlist;
   } catch (e) {
-    console.error(e);
     throw e;
   }
 }
@@ -78,7 +74,6 @@ async function deleteById(id) {
       },
     });
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }
@@ -87,7 +82,6 @@ async function deleteAll() {
   try {
     await prisma.wishlist.deleteMany({});
   } catch (e) {
-    console.error(e);
     throw e;
   }
 }
@@ -100,7 +94,6 @@ async function deleteAllByUserID(userId) {
       },
     });
   } catch (e) {
-    console.error(e);
     throw e;
   }
 }

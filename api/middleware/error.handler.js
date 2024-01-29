@@ -48,8 +48,8 @@ const errorHandler = (err, req, res, next) => {
   // Handle Not Found
   if (code === 404) {
     return res.status(404).json({
-      code,
-      message,
+      code: code,
+      message: message,
       meta: null,
     });
   }

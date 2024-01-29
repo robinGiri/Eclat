@@ -3,6 +3,9 @@ const wishlistController = require("../controller/wishlist.controller");
 
 const router = express.Router();
 
+//check the product
+router.get("/check", wishlistController.checkItemOfWishlist);
+
 // Read Wishlist by User ID
 router.get("/:userId", wishlistController.getWishlistByUserID);
 

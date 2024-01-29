@@ -17,7 +17,10 @@ const getWishlistByUserID = async (req, res, next) => {
 const addToWishlist = async (req, res, next) => {
   try {
     const { productId, userId } = req.body;
-    const wish = await wishlistService.add(productId, userId);
+    const wish = await wishlistService.add({
+      productId: productId,
+      userId: userId,
+    });
 
     res.json({
       code: 200,
@@ -69,10 +72,32 @@ const deleteWishlistById = async (req, res, next) => {
   }
 };
 
+const checkItemOfWishlist = async (req, res, next) => {
+  try {
+    const { productId, userId } = req.body;
+
+    const data = await wishlistService.getByUserIDAndProductID(
+      userId,
+      productId
+    );
+    if (data.length <= 0) {
+      throw new Error("Not in wishlist");
+    }
+    res.json({
+      code: 200,
+      message: "Product in wishlist",
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getWishlistByUserID,
   addToWishlist,
   deleteAllWishlists,
   deleteWishlistsByUserID,
   deleteWishlistById,
+  checkItemOfWishlist,
 };
