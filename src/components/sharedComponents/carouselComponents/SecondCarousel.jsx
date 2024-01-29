@@ -18,7 +18,7 @@ export default function SecondCarousel({
         pagination={{
           clickable: true,
         }}
-        className="w-full h-500"
+        className="w-[80%] border border-white shadow-custom-shadow "
         modules={[Pagination, Navigation]}
       >
         {products.map((item) => (
@@ -28,7 +28,7 @@ export default function SecondCarousel({
                 <img
                   key={image.id}
                   src={`${apiConfig.baseUrl}uploads/${image.url}`}
-                  className="w-[500px] h-[500px] object-cover bg-white cursor-pointer"
+                  className="w-[400px] h-[400px] object-cover bg-white cursor-pointer"
                   alt={`Slide ${item.id}`}
                   onClick={() =>
                     handleProductClick(
