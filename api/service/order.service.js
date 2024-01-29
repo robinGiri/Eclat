@@ -25,7 +25,7 @@ async function getOrderById(orderId) {
 
 async function getOrderBycustomerId(customerId) {
   try {
-    const order = await prisma.order.findUnique({
+    const order = await prisma.order.findMany({
       where: { customerId: customerId },
       include: { OrderItems: true, Voucher: true },
     });
