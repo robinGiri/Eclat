@@ -224,7 +224,10 @@ function TheCart() {
   };
 
   return (
-    <div className="flex gap-2 mt-14 bg-zinc-50">
+    <div>
+    <div>
+    </div>
+    <div className="flex gap-2 mt-1">
       <div className="w-[10%] flex justify-end mt-9">
         <div className="flex justify-center items-center h-[4vh] gap-1">
           <IoChevronBackOutline
@@ -233,9 +236,9 @@ function TheCart() {
           />
         </div>
       </div>
-      <div className="flex py-5 gap-2 flex-wrap bg-zinc-100 w-[80%] text-sm">
-        <div className="w-[63%] p-2">
-          <div className="flex justify-between items-center bg-white">
+      <div className="flex py-5 gap-2 flex-wrap w-[80%] text-sm">
+        <div className="w-[63%] p-2 shadow-custom-shadow">
+          <div className="flex justify-between items-center shadow-custom-shadow">
             <div className="flex items-center p-2 gap-2 relative">
               <input
                 type="checkbox"
@@ -360,11 +363,11 @@ function TheCart() {
             </div>
           </div>
         </div>
-        <div className="bg-white w-[35%] h-[40vh] mt-2">
+        <div className="shadow-custom-shadow w-[35%] h-[43vh] mt-2">
           <TheCartProceedToCheckout total={calculateOverallTotal()} />
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }
 

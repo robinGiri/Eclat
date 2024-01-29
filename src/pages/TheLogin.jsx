@@ -32,7 +32,7 @@ function TheLogin() {
     const {
       userdetail: { role },
     } = data;
-    if (role == "SELLER") {
+    if (role == "ADMIN") {
       handleAdminDashboardClick();
     } else {
       handleHomeClick();
@@ -43,7 +43,7 @@ function TheLogin() {
     navigate("/admin-dashboard");
   };
   const handleHomeClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (

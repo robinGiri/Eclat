@@ -209,7 +209,7 @@ function TheRecentInvoice() {
                         {item.images.map((image) => (
                           <div
                             key={image.id}
-                            className="w-[80px] h-[105px] -ml-2"
+                            className="w-[85px] h-[105px] -ml-2"
                           >
                             <TheImageMagnifier
                               imageUrl={staticAPI + image.url}

@@ -9,6 +9,7 @@ import { apiConfig } from "../services/api/config";
 import TheSimilarProducts from "../components/specificComponents/TheSimilarProducts";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import TheRatingAndReview from "./TheRatingAndReview";
+import TheFooter from "../components/specificComponents/TheFooter";
 
 const shareUrl = "https://eclatbags.netlify.app/";
 
@@ -19,6 +20,9 @@ function TheProductDetails() {
   const navigate = useNavigate();
   const [isError, setIsError] = useState("");
   const [product, setProduct] = useState({});
+  const image = `${apiConfig.baseUrl}uploads/${
+    product.images && product.images[0]?.url
+  }`;
 
   const handleToggle = () => {
     setExpanded(!isExpanded);
@@ -71,51 +75,64 @@ function TheProductDetails() {
   };
 
   return (
-    <div>
-      <div className={`h-[100vh] flex justify-between items-center ${
+    <div className="h-[88vh] custom-scroll">
+      <div
+        className={`h-[100vh] flex justify-between items-center ${
           isExpanded ? "mb-[35vh]" : ""
-        }`}>
+        }`}
+      >
         <div
-          className={`flex justify-between gap-7 h-[85vh] w-full ${
+          className={`flex justify-between gap-7 bg-white h-[85vh] w-full ${
             isExpanded ? "flex-grow" : ""
           }`}
         >
           <div
-            className={`${
+            className={`border border-white shadow-custom-shadow ${
               isExpanded
                 ? "ml-[5%] border h-[120vh]"
-                : "w-[85rem] flex border ml-[5%]"
+                : "w-[85rem] flex ml-[5%]"
             }`}
           >
             <div className="w-full flex flex-wrap justify-end gap-3">
               <div
                 className={`min-h-[41vh] ${
-                  isExpanded ? "w-[41rem] border-b" : "w-[33rem] border-r"
+                  isExpanded ? "w-[41rem] h-[300px]" : "w-[33rem] border-r"
                 }`}
               >
-                {/* <ReactImageMagnify
-                        {...{
-                          smallImage: {
-                            alt: "Wristwatch by Ted Baker London",
-                            src: image,
-                            width: 300,
-                            height: 400,
-                          },
-                          largeImage: {
-                            src: image,
-                            width: 300,
-                            height: 800,
-                          },
-                          lensStyle: { width: 5 },
-                          className:
-                            "m-2 w-[300px] h-[400px] border-2 border-black rounded-md",
-                        }}
-                      /> */}
+                <div className="flex justify-center items-center h-full">
+                  <div
+                    className={`${
+                      isExpanded ? "w-[400px] m-[2%]" : "-ml-[0.4rem] mx-[2%]"
+                    }`}
+                  >
+                    <ReactImageMagnify
+                      {...{
+                        smallImage: {
+                          alt: "Wristwatch by Ted Baker London",
+                          isFluidWidth: true,
+                          src: image,
+                          width: 300,
+                          height: 400,
+                        },
+                        largeImage: {
+                          src: image,
+                          width: 784,
+                          height: 900,
+                        },
+                        enlargedImageContainerDimensions: {
+                          width: "150%",
+                          height: "120%",
+                        },
+                      }}
+                      className="sticky top-0 z-[9999999999]"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div
                 className={`min-h-[60vh] ${
-                  isExpanded ? "w-[41rem] border-t" : "w-[32rem] border-l"
+                  isExpanded ? "w-[41rem]" : "w-[32rem] border-l"
                 }`}
               >
                 <div className="m-1 mt-[5%] mx-[3%]">
@@ -168,12 +185,12 @@ function TheProductDetails() {
                     </div>
                   </div>
                   <div className="mt-[5%] flex gap-5 mb-3">
-                    <button className="border hover:text-green-600 hover:border-green-500 hover:brightness-110 p-2 px-3 rounded-lg text-sm">
+                    <button className="border hover:bg-lime-500 hover:text-white border-lime-500 text-lime-700 p-2 px-3 rounded-lg text-sm">
                       Buy Now
                     </button>
                     <NavLink to="/cart">
                       <button
-                        className="border hover:text-green-600 hover:border-green-500 hover:brightness-110 p-2 px-3 rounded-lg text-sm"
+                        className="border hover:bg-lime-500 hover:text-white border-lime-500 text-lime-700 p-2 px-3 rounded-lg text-sm"
                         onClick={handleClick}
                       >
                         Add to Cart
@@ -185,7 +202,7 @@ function TheProductDetails() {
             </div>
           </div>
           <div
-            className={`border mr-[3%] ${
+            className={`border border-white shadow-custom-shadow mr-[3%] ${
               isExpanded
                 ? "w-full h-[120vh] custom-scroll"
                 : "w-[25%] h-[163vh] custom-scroll"
@@ -205,13 +222,10 @@ function TheProductDetails() {
           </div>
         </div>
       </div>
-      <div  className={`${
-              isExpanded
-                ? "mx-[5%]"
-                : "ml-[5%] w-[71%] pr-2"
-            }`}>
+      <div className={`${isExpanded ? "mx-[5%]" : "ml-[5%] w-[71%] pr-2"}`}>
         <TheRatingAndReview />
       </div>
+      {/* <TheFooter /> */}
     </div>
   );
 }

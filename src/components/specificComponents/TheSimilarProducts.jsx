@@ -34,7 +34,7 @@ function TheSimilarProducts() {
   };
 
   return (
-    <div className="flex justify-evenly flex-wrap">
+    <div className="flex justify-start gap-4 pl-5 flex-wrap">
       {products &&
         Array.isArray(products) &&
         products.map((item) => (
@@ -43,16 +43,16 @@ function TheSimilarProducts() {
             className="gap-5 mb-3 cursor-pointer transition-transform transform hover:scale-105 duration-500 ease-out"
             onClick={() => handleProductClick(item)}
           >
-            <div key={item.id} className="border px-2 rounded">
+            <div key={item.id} className="border shadow-custom-nav-shadow px-2 rounded">
               {item.images.map((image) => (
                 <div key={image.id}>
                   <img
                     src={`${apiConfig.baseUrl}uploads/${image.url}`}
-                    className="w-[200px] h-[200px] my-2 cursor-pointer"
+                    className="w-[200px] h-[200px] my-2 cursor-pointer object-cover"
                   />
                 </div>
               ))}
-              <div className=" mx-[10%] text-sm">
+              <div className=" mx-[5%] text-sm">
                 <div className="flex items-center justify-between">
                   <p>{item.name}</p>
                   <p>

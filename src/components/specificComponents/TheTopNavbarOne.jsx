@@ -21,14 +21,14 @@ function TheTopNavbarOne() {
 
   return (
     <div>
-      <div className="flex justify-center items-center bg-white pt-2 text-neutral-600">
+      <div className="flex justify-center items-center bg-white pt-2 text-neutral-600 mt-2 ">
         <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
-          <Link to="/home" onClick={handleLogoClick} className="relative">
-           <img src="src/assets/logo.png" alt="Logo" />
-          </Link>
+          {/* <Link to="/home" onClick={handleLogoClick} className="relative">
+           <img src="src/assets/logo.png" alt="Logo"  className="border border-black w-[200px]"/>
+          </Link> */}
         </div>
         <div className="flex translate-x-[350%] items-center  gap-2">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
           
             <button className="text-xs" onClick={handleLoginPage}>
               Login
@@ -37,7 +37,7 @@ function TheTopNavbarOne() {
             <button className="text-xs" onClick={handleRegistrationPage}>
               Sign Up
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

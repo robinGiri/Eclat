@@ -1,55 +1,72 @@
-import React, { useState } from 'react';
-import getSearchData from "../../services/search_api"
-import axios from 'axios';
-import { FaSearch } from 'react-icons/fa';
-import { data } from 'autoprefixer';
-
+import React, { useState } from "react";
+import axios from "axios";
+import { CiSearch } from "react-icons/ci";
 
 const SearchComponent = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
-
-  const searchHandler = async () =>{
+  const searchHandler = async () => {
     const data = await fetchData(searchTerm);
     console.log(data);
-  }
+  };
 
   const handleInputChange = async (e) => {
     setSearchTerm(e.target.value);
-    await fetchData(searchTerm)
+    await fetchData(e.target.value);
   };
 
   const handleKeyUp = (e) => {
-    if (e.key === 'Enter') {
-      alert("Enter pressed!")
-      // Trigger search on Enter key
-      handleSearch();
+    if (e.key === "Enter") {
+      searchHandler();
     }
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
   };
 
   const fetchData = async (value) => {
     console.log(value);
-    const {data} = await axios.get(`http://localhost:5000/api/v1/product/search?q=${value}`);
-    console.log(data);
-
-  }
-  
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/product/search?q=${value}`
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
-    <div className=' focus: outline-none'>
+    <div className="relative">
       <input
-      className='p-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-[#DCAC30] placeholder-gray-500::placeholder text-neutral-700  text-sm relative'
+        className={`p-1 border-b text-sm font-light focus:outline-none ${
+          searchTerm ? "border-[#DCAC30]" : isFocused ? "border-[#DCAC30]" : ""
+        }`}
         type="text"
         placeholder="Search..."
         value={searchTerm}
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
-      <button>
-        <FaSearch className='absolute text-neutral-400 -translate-y-4 -translate-x-4' onKeyUp={searchHandler}/>
+      <button className="absolute top-1 right-1">
+        <CiSearch
+          className={`text-xl hover:text-[#DCAC30] ${
+            searchTerm ? "text-[#DCAC30]" : isFocused ? "text-[#DCAC30]" : ""
+          }`}
+          onClick={searchHandler}
+        />
       </button>
     </div>
   );
 };
 
 export default SearchComponent;
+

@@ -6,10 +6,12 @@ import { apiConfig } from "../../services/api/config";
 import { PaypalButton } from "../payment/ThePaymentButtons";
 import Khaltitest from "../payment/KhaltiPayment";
 import TheStripPayment from "../payment/TheStripPayment";
+import ThePaymentModal from "../payment/ThePaymentModal";
 
 function TheCartPlaceOrderCheckout({ total }) {
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [buttonText, setButtonText] = useState("Place Order");
+  const [isPaypalModalOpen, setIsPaypalModalOpen] = useState(false);
 
   const sendEmail = async () => {
     try {
@@ -39,6 +41,14 @@ function TheCartPlaceOrderCheckout({ total }) {
     );
   };
 
+  const handlePaypalModalOpen = () => {
+    setIsPaypalModalOpen(true);
+  };
+
+  const handlePaypalModalClose = () => {
+    setIsPaypalModalOpen(false);
+  };
+
   return (
     <div className="p-7 pb-0 border border-white bg-white shadow-custom-shadow rounded-lg text-sm">
       <div className="flex flex-col gap-3">
@@ -48,14 +58,14 @@ function TheCartPlaceOrderCheckout({ total }) {
           </div>
           <div className="flex justify-between">
             <p className="flex items-center gap-1">
-              <HiOutlineTicket className="text-xl text-green-500" />
+              <HiOutlineTicket className="text-xl text-yellow-600" />
               Eclat Voucher
             </p>
             <p>No Applicable Voucher</p>
           </div>
           <div className="flex justify-between border-b pb-5">
             <p className="flex items-center gap-1">
-              <CiDiscount1 className="text-xl text-green-500" />
+              <CiDiscount1 className="text-xl text-yellow-600" />
               Promo Code
             </p>
             <p className="flex items-center text-gray-500">
@@ -89,10 +99,10 @@ function TheCartPlaceOrderCheckout({ total }) {
         </div>
         <div className="mx-[3%] pb-7">
           <button
-            className={`border w-full p-3 mt-4 rounded-md hover:text-green-500 hover:border-green-500 ${
+            className={`border w-full p-3 mt-4 rounded-md ${
               buttonText === "Cancel Order"
-                ? "hover:text-red-500 hover:border-red-500"
-                : ""
+                ? " hover:bg-red-500 hover:text-white text-red-800 border-red-500"
+                : " hover:bg-lime-500 hover:text-white border-lime-500 text-lime-700"
             }`}
             onClick={handlePlaceOrder}
           >
@@ -109,10 +119,13 @@ function TheCartPlaceOrderCheckout({ total }) {
       >
         <div className="flex justify-evenly items-center h-full">
           <Khaltitest />
-          <PaypalButton />
+          <button onClick={handlePaypalModalOpen}>
+            <PaypalButton />
+          </button>
           <TheStripPayment />
         </div>
       </div>
+      {isPaypalModalOpen && <ThePaymentModal close={handlePaypalModalClose} />}
     </div>
   );
 }

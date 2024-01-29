@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
 import TheMen from "../pages/TheMen";
@@ -7,12 +7,14 @@ import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
 import TheSale from "../pages/TheSale";
 import TheCart from "../pages/TheCart";
-import TheProfile from "../pages/TheProfile"
+import TheProfile from "../pages/TheProfile";
 import TheProductDetails from "../pages/TheProductDetails";
 import TheLogin from "../pages/TheLogin";
 import TheRegistration from "../pages/TheRegistration";
 import TheCartPlaceOrder from "../components/checkout/TheCartPlaceOrder";
 import TheOrderDetail from "../pages/TheOrderDetail";
+import "../admin/admin-pages/product-components/TheRecentInvoice.css";
+import TheError from "../pages/TheError";
 
 const routes = [
   { path: "/home", element: <TheHome /> },
@@ -24,39 +26,25 @@ const routes = [
   { path: "/product_details/:productId", element: <TheProductDetails /> },
   { path: "/login", element: <TheLogin /> },
   { path: "/registration", element: <TheRegistration /> },
-  { path: "/cart/place-order", element: <TheCartPlaceOrder/> },
-  { path: "/userprofile", element: <TheProfile/> },
+  { path: "/cart/place-order", element: <TheCartPlaceOrder /> },
+  { path: "/userprofile", element: <TheProfile /> },
   { path: "/cart/place-order", element: <TheCartPlaceOrder /> },
   { path: "/order-detail", element: <TheOrderDetail /> },
 ];
 
 export default function TheRouter() {
-  const location = useLocation();
-  const isAdminPage =
-    location.pathname.includes("/admin") ||
-    location.pathname.includes("/admin-dashboard") ||
-    location.pathname.includes("/admin-analytics") ||
-    location.pathname.includes("/admin-products") ||
-    location.pathname.includes("/admin-payment") ||
-    location.pathname.includes("/admin-orders") ||
-    location.pathname.includes("/admin-enquiry") ||
-    location.pathname.includes("/admin-marketing") ||
-    location.pathname.includes("/admin-setting") ||
-    location.pathname.includes("/admin-user") ||
-    location.pathname.includes("/admin-logout");
 
   return (
     <div className="flex flex-col">
-      {!isAdminPage && (
-        <div>
+        <div className="sticky top-0 bg-white z-[99999999]">
           <TheNavbar />
         </div>
-      )}
       <div>
         <Routes>
           {routes.map(({ path, element }) => (
             <Route key={path} path={path} element={element} />
           ))}
+         <Route path="*" element={<TheError />} />
         </Routes>
       </div>
     </div>

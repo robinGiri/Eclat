@@ -92,15 +92,15 @@ function TheCartPlaceOrder() {
   };
 
   return (
-    <div className="pt-10 w-full h-[100vh] bg-zinc-50 flex gap-2 justify-center">
+    <div className="pt-10 w-full flex gap-2 justify-center">
       <div className="w-[3rem] -ml-[5rem] flex justify-end items-center h-[5vh]">
         <Link to="/cart">
           <IoChevronBackOutline className="text-lg hover:text-green-500 cursor-pointer" />
         </Link>
       </div>
-      <div className="flex py-5 w-[82%] h-[80vh] gap-2 flex-wrap bg-zinc-100">
-        <div className="w-[63%] p-2">
-          <div className="flex justify-center items-center bg-white border border-white h-[15%] rounded-lg shadow-custom-shadow">
+      <div className="flex py-5 w-[82%] h-[80vh] gap-2 flex-wrap">
+        <div className="w-[63%] p-2 border border-white shadow-custom-shadow">
+          <div className="flex justify-center items-center border border-white h-[15%] rounded-lg shadow-custom-shadow">
             <p className="text-sky-800 font-semibold cursor-pointer">
               + Add New Delivery Address
             </p>
@@ -200,7 +200,7 @@ function TheCartPlaceOrder() {
                     <div className="pl-8 pt-1 mt-4 flex justify-between mr-9 pb-7 bg-white">
                       <div className="border w-[75%] flex p-6 justify-between rounded-md bg-white flex-wrap">
                         <p className="font-semibold text-sm text-gray-800 flex items-center gap-1">
-                          <HiOutlineTicket className="text-xl text-green-500 mt-[0.1rem]" />
+                          <HiOutlineTicket className="text-xl text-yellow-600 mt-[0.1rem]" />
                           Store Voucher
                         </p>
                         <p className="font-semibold text-sm text-gray-800 flex items-center gap-1 cursor-pointer">
@@ -212,6 +212,7 @@ function TheCartPlaceOrder() {
                         <p className="text-sm font-semibold">
                           Subtotal:{" "}
                           <span>
+                            $
                             {product.result[0].afterdiscount * product.quantity}
                           </span>
                         </p>
