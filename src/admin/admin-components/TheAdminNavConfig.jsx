@@ -11,9 +11,9 @@ export const AdminSidebarList = [
     {
         title: "Dashboard", icon: <AiOutlineHome className='text-xl -mt-1'></AiOutlineHome>
       },
-    {
-        title: "Analytics", icon: <MdOutlineAnalytics className='text-xl -mt-1'></MdOutlineAnalytics>
-    },
+    // {
+    //     title: "Analytics", icon: <MdOutlineAnalytics className='text-xl -mt-1'></MdOutlineAnalytics>
+    // },
     {
         title: "Products", icon: <HiOutlineCube className='text-xl -mt-1'></HiOutlineCube>
     },
@@ -23,12 +23,12 @@ export const AdminSidebarList = [
     {
         title: "Orders", icon: <LuBus className='text-xl -mt-1'></LuBus>
     },
-    {
-        title: "Enquiry", icon: <LuContact className='text-xl -mt-1'></LuContact>
-    },
-    {
-        title: "Marketing", icon: <PiChartLineUpBold className='text-xl -mt-1'></PiChartLineUpBold>
-    },
+    // {
+    //     title: "Enquiry", icon: <LuContact className='text-xl -mt-1'></LuContact>
+    // },
+    // {
+    //     title: "Marketing", icon: <PiChartLineUpBold className='text-xl -mt-1'></PiChartLineUpBold>
+    // },
     {
         title: "Setting", icon: <IoSettingsOutline className='text-xl -mt-1'></IoSettingsOutline>
     }

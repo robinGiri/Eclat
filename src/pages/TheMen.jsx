@@ -38,43 +38,46 @@ function TheMen() {
   }, []);
 
   return (
-    <div>
-      <div className="bg-neutral-100 px-16">
-        <h1 className="mx-[5%] text-5xl py-6 font-bold"></h1>
-        <div className="mx-[5%] my-5">
+    <div className="h-[88vh] custom-scroll">
+      <div className="">
+        <h1 className=""></h1>
+        <div className="mt-10">
           <SecondCarousel
             products={products?.filter((item) => item.category === "mens")}
             isError={isError}
             handleProductClick={handleProductClick}
           />
         </div>
-        <div className="p-5">
+        <div className="py-5 mt-10 px-[7%]">
           <div className="content">
             {!isLoading && (
-              <div className="w-[100%] flex flex-wrap gap-[1.4rem]">
+                <div className="border border-white shadow-custom-shadow p-3">
+              <div className="flex justify-start flex-wrap gap-3 pl-1">
                 {products
                   ?.filter((item) => item.category === "mens")
                   ?.map((item) => (
                     <div
-                      key={item.id}
-                      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                      onClick={() => handleProductClick(item)}
-                    >
-                      <Thecard {...item} />
-                    </div>
+                        key={item.id}
+                        onClick={() => handleProductClick(item)}
+                      >
+                        <div className="border border-gray-10 shadow-custom-nav-shadow rounded-md flex transition-transform transform hover:scale-105 duration-500 ease-out cursor-pointer">
+                          <Thecard {...item} />
+                        </div>
+                      </div>
                   ))}
                 <div className="flex justify-center items-center">
                   {isError && <h1>{isError}</h1>}
+                </div>
                 </div>
               </div>
             )}
           </div>
         </div>
+        <div className="px-[7%]">
+          <TailInfoSection />
+        </div>
+        <TheFooter />
       </div>
-      <div className="p-16 bg-neutral-100">
-        <TailInfoSection />
-      </div>
-      <TheFooter />
     </div>
   );
 }

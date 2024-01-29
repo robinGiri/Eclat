@@ -52,8 +52,7 @@ function TheAddModal({ closeModal }) {
   };
   const [formError, setFormError] = useState("");
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault();    
     const requiredFields = [
       "name",
       "category",
@@ -114,6 +113,8 @@ function TheAddModal({ closeModal }) {
         image: null,
         imageUrl: "",
       });
+    window.location.reload();
+
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -127,9 +128,9 @@ function TheAddModal({ closeModal }) {
           </button>
         </div>
         <div className="flex justify-between flex-col">
-          <p className="w-full">
+          <p className="">
             {formError && (
-              <p className="text-red-600 text-sm mb-4">{formError}</p>
+              <p className="text-red-600 text-sm mb-4 fixed -mt-6"><span>{formError}</span></p>
             )}
           </p>
           <h2 className="text-xl font-bold mb-4">Add New Product</h2>

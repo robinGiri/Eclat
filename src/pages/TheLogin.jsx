@@ -23,12 +23,12 @@ function TheLogin() {
   const handleLogin = async () => {
     const login = { email: email, password: password };
     const { data } = await axios.post(loginUrl, login);
-    setAccessToken(data.token);
+    // setAccessToken(data.token);
 
     const {
       userdetail: { role },
     } = data;
-    if (role == "SELLER") {
+    if (role == "ADMIN") {
       handleAdminDashboardClick();
     } else {
       handleHomeClick();
@@ -39,7 +39,7 @@ function TheLogin() {
     navigate("/admin-dashboard");
   };
   const handleHomeClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (

@@ -41,7 +41,7 @@ function TheCartProceedToCheckout({ total }) {
         </div>
         <div>
           <Link to="/cart/place-order" onClick={handleCartOrderPlace}>
-          <button className="border w-full p-2 mt-4 rounded-md hover:text-green-500 hover:border-green-500 text-[13px]">
+          <button className="border w-full p-2 mt-4 rounded-md hover:bg-lime-500 hover:text-white border-lime-500 text-lime-700 text-[13px]">
             PROCEED TO CHECKOUT
           </button>
           </Link>
