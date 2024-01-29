@@ -6,9 +6,12 @@ import DetailsTab from "../components/specificComponents/DetailsTab";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import EditProfilePopup from "../components/specificComponents/EditProfilePopUp";
 import EditProfilePicture from "../components/specificComponents/EditProfilePicture";
-import { getAccessToken } from "../services/localStorage";
+import { getAccessToken, setAccessToken } from "../services/localStorage";
+import axios from "axios";
+import { json } from "react-router-dom";
 
 const staticAPI = "http://localhost:4000/api/v1/uploads/";
+const API = "http://localhost:4000/api/v1/user/";
 
 function TheProfile() {
   const [currentTab, setCurrentTab] = useState(1);
@@ -38,15 +41,14 @@ function TheProfile() {
 
   useEffect(() => {
     getUser();
-    console.log("username incoming",username);
+    console.log("username incoming", username);
   }, []);
 
-  const handleTabClick = (id) => {  
+  const handleTabClick = (id) => {
     setCurrentTab(id);
   };
 
-  const handleImageClick = () => {
-    // setEditImageOpen(!isEditImageOpen);
+  const handleImageClick = async () => {
     setEditImageOpen(true);
   };
 
@@ -59,8 +61,18 @@ function TheProfile() {
     setEditImageOpen(false);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     // handle saving changes to the backend
+    const data = {
+      name: username,
+      email: email,
+      phone: mobile,
+      address: street,
+    };
+    const response = await axios.put(`${API}/${email}`, data);
+
+    setAccessToken("user", JSON.stringify(response.data.userdetail));
+
     setEditPopupOpen(false); // close edit popup
   };
 
