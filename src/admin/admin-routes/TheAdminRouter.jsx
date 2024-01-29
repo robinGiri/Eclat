@@ -31,52 +31,32 @@ const adminRoutes = [
 export default function TheAdminRouter() {
   const adminLocation = useLocation();
   const nodeRef = useRef(null);
-  const isUserPage =
-    location.pathname.includes("/home") ||
-    location.pathname.includes("/request-products") ||
-    location.pathname.includes("/men") ||
-    location.pathname.includes("/women") ||
-    location.pathname.includes("/kids") ||
-    location.pathname.includes("/sale") ||
-    location.pathname.includes("/cart") ||
-    location.pathname.includes("/product_details") ||
-    location.pathname.includes("/order-detail") ||
-    location.pathname.includes("/registration") ||
-    location.pathname.includes("/login");
-
-  if (location.pathname === "/") {
-    return;
-  }
 
   return (
     <div className="flex relative">
-      {!isUserPage && (
-        <div className="sticky top-0 min-w-[240px] h-[100vh] bg-white">
-          <TheAdminNavbar />
-        </div>
-      )}
-
+      <div className="sticky top-0 min-w-[240px] h-[100vh] bg-white z-[999999999]">
+        <TheAdminNavbar />
+      </div>
       <div className="border-l w-[100%]">
-        {!isUserPage && (
-          <div className=" bg-white border-b h-[5rem] flex items-center">
-            <TheTopAdminNav />
-          </div>
-        )}
-
-        <TransitionGroup>
-          <CSSTransition
-            key={adminLocation.key}
-            classNames="fade"
-            timeout={300}
-            nodeRef={nodeRef}
-          >
-            <Routes adminLocation={adminLocation}>
-              {adminRoutes.map(({ path, element }) => (
-                <Route key={path} path={path} element={element} />
-              ))}
-            </Routes>
-          </CSSTransition>
-        </TransitionGroup>
+        <div className=" bg-white border-b h-[5rem] flex items-center">
+          <TheTopAdminNav />
+        </div>
+        <div>
+          <TransitionGroup>
+            <CSSTransition
+              key={adminLocation.key}
+              classNames="fade"
+              timeout={300}
+              nodeRef={nodeRef}
+            >
+              <Routes adminLocation={adminLocation}>
+                {adminRoutes.map(({ path, element }) => (
+                  <Route key={path} path={path} element={element} />
+                ))}
+              </Routes>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
       </div>
     </div>
   );

@@ -38,13 +38,13 @@ function Khaltitest({ orderId }) {
   return (
     <div>
       <button
-        className="transition-transform transform hover:scale-110 duration-500 ease-out"
+        className="transition-transform transform hover:scale-125 duration-500 ease-out"
         onClick={(e) => {
           checkout.show({ amount: 1000 });
         }}
       >
         <svg
-          width="130px"
+          width="100px"
           height="50px"
           viewBox="0 0 296 113"
           version="1.1"

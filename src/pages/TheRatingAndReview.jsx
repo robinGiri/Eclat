@@ -5,7 +5,7 @@ import '../admin/admin-pages/product-components/TheRecentInvoice.css'
 
 function TheRatingAndReview() {
   return (
-    <div className="border mb-[10vh] h-[71vh] custom-scroll">
+    <div className="border border-white shadow-custom-shadow mb-[5vh] h-[71vh] custom-scroll">
       <div className="border-b sticky top-0 bg-white">
         <div className="flex w-[60%] justify-between p-3">
           <div className="p-[3%] flex flex-col gap-3">

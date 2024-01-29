@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import url("https://rsms.me/inter/inter.css"); */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+* {
+  font-family: "Inter var", sans-serif;
+  font-weight: 400;
+}
+
 @font-face {
-    font-family: sans-serif;
-    src: url("../public/font/peignot/Peignot.ttf");
+  font-family: sans-serif;
+  src: url("../public/font/peignot/Peignot.ttf");
+}
+
+::selection {
+  color: #ffffff; 
+  background-color: #B88E72;
 }

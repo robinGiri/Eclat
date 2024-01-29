@@ -21,7 +21,7 @@ function TheSalesByCategory() {
   return (
     <div>
       <div>
-        <h1 className="text-[25px] font-bold m-[10px]">Sales by Category</h1>
+        <h1 className="text-[25px] font-bold">Sales by Category</h1>
         <Doughnut data={data} />
       </div>
     </div>
