@@ -1,25 +1,55 @@
 import React from "react";
 import { MdEdit } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ActivityTab from "../components/specificComponents/ActivityTab";
 import DetailsTab from "../components/specificComponents/DetailsTab";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import EditProfilePopup from "../components/specificComponents/EditProfilePopUp";
+import EditProfilePicture from "../components/specificComponents/EditProfilePicture";
+import { getAccessToken, setAccessToken } from "../services/localStorage";
+import axios from "axios";
+import { json } from "react-router-dom";
+
+const staticAPI = "http://localhost:4000/api/v1/uploads/";
+const API = "http://localhost:4000/api/v1/user/";
 
 function TheProfile() {
   const [currentTab, setCurrentTab] = useState(1);
   const [isEditPopupOpen, setEditPopupOpen] = useState(false);
-  const [username, setUsername] = useState("Po Ming DumpLing");
-  const [mobile, setMobile] = useState("9882138912");
-  const [email, setEmail] = useState("eclat@mail.com");
-  const [street, setStreet] = useState("Balaju Chowk");
-  const [area, setArea] = useState("Balaju");
-  const [city, setCity] = useState("Kathmandu");
-  const [province, setProvince] = useState("Bagmati");
-  const [profilePicture, setProfilePicture] = useState("src/assets/panda.jpg");
+  const [isEditImageOpen, setEditImageOpen] = useState(false);
+
+  const [userId, setUserId] = useState(0);
+  const [username, setUsername] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [area, setArea] = useState("");
+  const [city, setCity] = useState("");
+  const [province, setProvince] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+
+  const getUser = async () => {
+    const user = JSON.parse(getAccessToken("user"));
+    setUsername(user.name);
+    setMobile(user.phone);
+    setEmail(user.email);
+    setArea(user.address);
+    setUserId(user.id);
+    setProfilePicture(user.image);
+  };
+
+  useEffect(() => {
+    getUser();
+    console.log("username incoming", username);
+  }, []);
 
   const handleTabClick = (id) => {
     setCurrentTab(id);
+  };
+
+  const handleImageClick = async () => {
+    setEditImageOpen(true);
   };
 
   const handleEditClick = () => {
@@ -28,11 +58,22 @@ function TheProfile() {
 
   const handleCloseEditPopup = () => {
     setEditPopupOpen(false);
+    setEditImageOpen(false);
   };
 
-  const handleSaveChanges = () => {
-    // Handle saving changes to the backend if needed
-    setEditPopupOpen(false); // Close the edit popup
+  const handleSaveChanges = async () => {
+    // handle saving changes to the backend
+    const data = {
+      name: username,
+      email: email,
+      phone: mobile,
+      address: street,
+    };
+    const response = await axios.put(`${API}/${email}`, data);
+
+    setAccessToken("user", JSON.stringify(response.data.userdetail));
+
+    setEditPopupOpen(false); // close edit popup
   };
 
   const tabs = [
@@ -45,7 +86,7 @@ function TheProfile() {
       id: 2,
       tabTitle: "Details",
       content: <DetailsTab />,
-    }
+    },
   ];
 
   return (
@@ -55,12 +96,20 @@ function TheProfile() {
         <div className="flex flex-col rounded-xl h-[100vh] w-[30%] relative overflow-hidden">
           {/* Circle div with image */}
           <div className="flex p-6 justify-center">
-            <div className="rounded-full shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden shadow-amber-200 relative z-50">
+            <div
+              className="rounded-lg shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden relative z-50"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onClick={handleImageClick}
+            >
               <img
-                src={profilePicture}
-                className="w-full h-full"
-                alt="Profile"
+                src={staticAPI + profilePicture}
+                className="w-[150px] h-[150px] object-cover hover:opacity-40 cursor-pointer"
+                alt="Profile picture"
               />
+              {isHovered && (
+                <MdEdit className="shadow rounded-full text-black text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer" />
+              )}
             </div>
           </div>
 
@@ -128,12 +177,6 @@ function TheProfile() {
                     <h2 className="font-medium text-sm">{province}</h2>
                   </div>
                 </div>
-              
-                <div className="flex justify-center mt-12 mr-7">
-                  <h1 className="text-sm text-red-700 hover:text-red-600 opacity-70 hover:opacity-100 hover:font-semibold cursor-pointer">
-                    Delete My Account
-                  </h1>
-                </div>
               </div>
             </div>
 
@@ -145,6 +188,7 @@ function TheProfile() {
                   onClose={handleCloseEditPopup}
                   onSaveChanges={handleSaveChanges}
                   username={username}
+                  setUsername={setUsername}
                   setMobile={setMobile}
                   mobile={mobile}
                   setEmail={setEmail}
@@ -157,8 +201,18 @@ function TheProfile() {
                   city={city}
                   setProvince={setProvince}
                   province={province}
-                  setProfilePicture={setProfilePicture}
+                />
+              )}
+            </div>
+            <div className="flex flex-col gap-2 mt-5 items-center">
+              {isEditImageOpen && (
+                <EditProfilePicture
                   profilePicture={profilePicture}
+                  setProfilePicture={setProfilePicture}
+                  onClose={handleCloseEditPopup}
+                  onSaveChanges={handleSaveChanges}
+                  userId={userId}
+                  setUserId={setUserId}
                 />
               )}
             </div>
