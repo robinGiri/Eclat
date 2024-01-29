@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { IoClose } from "react-icons/io5";
+import { getAccessToken } from "../../../services/localStorage";
+import { apiConfig } from "../../../services/api/config";
 
 function TheAddModal({ closeModal }) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
+  const [seasons, setSeasons] = useState([]);
+  const [selectedSeason, setSelectedSeason] = useState("");
 
   const toggleBackgroundColor = isChecked ? "bg-green-600" : "bg-gray-200";
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
-    console.log(isChecked);
+  };
+  const handleSeasonChange = (event) => {
+    const selectedSeasonId = event.target.value;
+    console.log("selectedSeason", selectedSeasonId);
+    setSelectedSeason(selectedSeasonId);
   };
   const [formData, setFormData] = useState({
     name: "",
@@ -20,6 +28,8 @@ function TheAddModal({ closeModal }) {
     discount: "",
     image: null,
     imageUrl: "",
+    isEcoFriendly: "",
+    season: "",
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -30,6 +40,17 @@ function TheAddModal({ closeModal }) {
     status: "",
     discount: "",
   });
+
+  const getSeasons = async () => {
+    try {
+      const {
+        data: { seasons },
+      } = await axios.get(`${apiConfig.baseUrl}season`);
+      setSeasons(seasons);
+    } catch (error) {
+      setError("Error fetching seasons");
+    }
+  };
 
   const handleImageChange = (e) => {
     setFormData({
@@ -52,7 +73,7 @@ function TheAddModal({ closeModal }) {
   };
   const [formError, setFormError] = useState("");
   const handleSubmit = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
     const requiredFields = [
       "name",
       "category",
@@ -78,28 +99,26 @@ function TheAddModal({ closeModal }) {
       formDataToSend.append("category", formData.category);
       formDataToSend.append("price", parseFloat(formData.price));
       formDataToSend.append("isFeatured", true);
-      formDataToSend.append("tags", "tag1, tag2, tag3");
-      formDataToSend.append("sellerId", 1);
       formDataToSend.append("status", formData.status);
       formDataToSend.append("viewCount", parseInt(formData.viewCount));
-      formDataToSend.append("slug", "hhhhhhhh");
       formDataToSend.append("discount", formData.discount);
+      formDataToSend.append("isEcoFriendly", isChecked);
+      formDataToSend.append("seasonId", selectedSeason);
 
       if (formData.image) {
         formDataToSend.append("image", formData.image);
       }
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:4000/api/v1/product/",
         formDataToSend,
         {
           headers: {
+            authorization: `Bearer ${getAccessToken()}`,
             "Content-Type": "multipart/form-data",
           },
         }
       );
-
-      console.log("Data posted:", response.data);
       closeModal();
       setFormError("");
       setFormData({
@@ -113,12 +132,15 @@ function TheAddModal({ closeModal }) {
         image: null,
         imageUrl: "",
       });
-    window.location.reload();
-
+      window.location.reload();
     } catch (error) {
       console.error("Error posting data:", error);
     }
   };
+
+  useEffect(() => {
+    getSeasons();
+  });
   return (
     <div className="fixed inset-0  z-50 w-[100%] flex items-center justify-end">
       <div className="bg-white rounded-lg p-8 pt-4 w-[81%] h-[80vh] mr-9 mt-14 shadow-custom-shadow">
@@ -130,7 +152,9 @@ function TheAddModal({ closeModal }) {
         <div className="flex justify-between flex-col">
           <p className="">
             {formError && (
-              <p className="text-red-600 text-sm mb-4 fixed -mt-6"><span>{formError}</span></p>
+              <p className="text-red-600 text-sm mb-4 fixed -mt-6">
+                <span>{formError}</span>
+              </p>
             )}
           </p>
           <h2 className="text-xl font-bold mb-4">Add New Product</h2>
@@ -168,6 +192,19 @@ function TheAddModal({ closeModal }) {
                   <option value="kids">Kids</option>
                 </select>
               </div>
+              <select
+                id="season"
+                name="season"
+                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+                onChange={handleSeasonChange}
+                value={selectedSeason} // Ensure that the selected value reflects the state
+              >
+                {seasons.map((season) => (
+                  <option key={season.id} value={season.id}>
+                    {season.name}
+                  </option>
+                ))}
+              </select>
 
               <div className="flex flex-col">
                 <label htmlFor="viewCount" className="mb-1 text-sm">

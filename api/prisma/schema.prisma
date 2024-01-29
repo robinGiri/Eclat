@@ -36,8 +36,6 @@ model Product {
   price         Float?
   discount      Float?
   afterdiscount Float?
-  sellerId      Int?
-  User          User?           @relation(fields: [sellerId], references: [id])
   isFeatured    Boolean
   isEcoFriendly Boolean?        @default(true)
   stock         Int?
@@ -54,6 +52,8 @@ model Product {
   Wishlist      Wishlist[]
   Season        Season          @relation(fields: [seasonId], references: [id])
   Review        Review[]
+  User          User?           @relation(fields: [userId], references: [id])
+  userId        Int?
 }
 
 model Image {
@@ -116,7 +116,7 @@ model CartItem {
 model Order {
   id            Int             @id @default(autoincrement())
   total         Float?          @default(0)
-  customerId    Int?
+  customerId    Int
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @default(now()) @updatedAt
   OrderItems    OrderItems[]
