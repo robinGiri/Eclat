@@ -6,10 +6,9 @@ import DetailsTab from "../components/specificComponents/DetailsTab";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import EditProfilePopup from "../components/specificComponents/EditProfilePopUp";
 import EditProfilePicture from "../components/specificComponents/EditProfilePicture";
-import {getAccessToken} from "../services/localStorage";
+import { getAccessToken } from "../services/localStorage";
 
 const staticAPI = "http://localhost:4000/api/v1/uploads/";
-
 
 function TheProfile() {
   const [currentTab, setCurrentTab] = useState(1);
@@ -18,52 +17,53 @@ function TheProfile() {
 
   const [userId, setUserId] = useState(0);
   const [username, setUsername] = useState("");
-  const [mobile, setMobile] = useState("9882138912");
-  const [email, setEmail] = useState("eclat@mail.com");
-  const [street, setStreet] = useState("Balaju Chowk");
-  const [area, setArea] = useState("Balaju");
-  const [city, setCity] = useState("Kathmandu");
-  const [province, setProvince] = useState("Bagmati");
-  const [profilePicture, setProfilePicture] = useState("src/assets/panda.jpg");
-  
-  const getUser = async () => {
-    const user = JSON.parse(getAccessToken("user"))
-    setUsername(user.name)
-    setMobile(user.phone)
-    setEmail(user.email)
-    setArea(user.address)
-    setUserId(user.id)
-    setProfilePicture(user.image)
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [area, setArea] = useState("");
+  const [city, setCity] = useState("");
+  const [province, setProvince] = useState("");
+  const [profilePicture, setProfilePicture] = useState(
+    ""
+  );
+  const [isHovered, setIsHovered] = useState(false);
 
+  const getUser = async () => {
+    const user = JSON.parse(getAccessToken("user"));
+    setUsername(user.name);
+    setMobile(user.phone);
+    setEmail(user.email);
+    setArea(user.address);
+    setUserId(user.id);
+    setProfilePicture(user.image);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     getUser();
-  },[])
-  
-  
+  }, []);
+
   const handleTabClick = (id) => {
     setCurrentTab(id);
   };
 
   const handleImageClick = () => {
-    setEditImageOpen(!isEditImageOpen);
-  }
+    // setEditImageOpen(!isEditImageOpen);
+    setEditImageOpen(true);
+  };
 
   const handleEditClick = () => {
     setEditPopupOpen(true);
   };
 
   const handleCloseEditPopup = () => {
-    setEditPopupOpen(true);
+    setEditPopupOpen(false);
+    setEditImageOpen(false);
   };
 
   const handleSaveChanges = () => {
-    // handle saving changes to the backend 
+    // handle saving changes to the backend
     setEditPopupOpen(false); // close edit popup
   };
-
-
 
   const tabs = [
     {
@@ -75,7 +75,7 @@ function TheProfile() {
       id: 2,
       tabTitle: "Details",
       content: <DetailsTab />,
-    }
+    },
   ];
 
   return (
@@ -85,12 +85,20 @@ function TheProfile() {
         <div className="flex flex-col rounded-xl h-[100vh] w-[30%] relative overflow-hidden">
           {/* Circle div with image */}
           <div className="flex p-6 justify-center">
-            <div className="rounded-full shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden hover:opacity-50 cursor-pointer relative z-50" onClick={handleImageClick}>
+            <div
+              className="rounded-lg shadow-sm w-[150px] h-[150px] bg-neutral-100 overflow-hidden relative z-50"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onClick={handleImageClick}
+            >
               <img
-                src={staticAPI+profilePicture}
-                className="w-full h-full"
-                alt="Profile"
+                src={staticAPI + profilePicture}
+                className="w-[150px] h-[150px] object-cover hover:opacity-40 cursor-pointer"
+                alt="Profile picture"
               />
+              {isHovered && (
+                <MdEdit className="shadow rounded-full text-black text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer" />
+              )}
             </div>
           </div>
 
@@ -158,8 +166,6 @@ function TheProfile() {
                     <h2 className="font-medium text-sm">{province}</h2>
                   </div>
                 </div>
-              
-                
               </div>
             </div>
 
@@ -184,7 +190,6 @@ function TheProfile() {
                   city={city}
                   setProvince={setProvince}
                   province={province}
-                  
                 />
               )}
             </div>
@@ -195,8 +200,8 @@ function TheProfile() {
                   setProfilePicture={setProfilePicture}
                   onClose={handleCloseEditPopup}
                   onSaveChanges={handleSaveChanges}
-                  userId = {userId}
-                  setUserId = {setUserId}
+                  userId={userId}
+                  setUserId={setUserId}
                 />
               )}
             </div>
