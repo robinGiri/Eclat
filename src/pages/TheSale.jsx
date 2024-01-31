@@ -38,54 +38,8 @@ function TheSale() {
   };
 
   return (
-    <>
-      <div className="">
-        {/* <div>
-          <div className="flex mx-[5%] my-5 justify-start space-x-8 h-[5vh]">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => handleTabClick(tab.id)}
-                className={`${
-                  currentTab === tab.id
-                    ? "font-bold text-2xl"
-                    : "text-neutral-500 font-semibold text-xl"
-                }`}
-              >
-                {tab.tabTitle}
-              </button>
-            ))}
-          </div>
-          <div className="content">
-            {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                style={{ display: currentTab === tab.id ? "block" : "none" }}
-              >
-                <div className="flex flex-wrap">
-                  {products
-                    ?.filter((product) => product.category === "sales")
-                    ?.map((item) => (
-                      <div
-                        onClick={() => handleProductClick(item.id)}
-                        key={item.id}
-                        className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
-                      >
-                        <Thecard {...item} />
-                      </div>
-                    ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="my-4">
-          <TailInfoSection />
-        </div>
-        <TheFooter /> */}
-         <div className="h-[88vh] custom-scroll">
-      <div className="">
-        <h1 className=""></h1>
+    <div>
+      <div className="h-[88vh] custom-scroll hidden lg:block">
         <div className="mt-10">
           <SecondCarousel
             products={products?.filter((item) => item.category)}
@@ -97,14 +51,10 @@ function TheSale() {
           <div className="content">
             <div className="border border-white shadow-custom-shadow p-3">
               <div className="flex justify-start flex-wrap gap-3 pl-1">
-                {" "}
                 {products
                   ?.filter((item) => item.category)
                   ?.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleProductClick(item)}
-                    >
+                    <div key={item.id} onClick={() => handleProductClick(item)}>
                       <div className="border border-gray-10 shadow-custom-nav-shadow rounded-md flex transition-transform transform hover:scale-105 duration-500 ease-out cursor-pointer">
                         <Thecard {...item} />
                       </div>
@@ -122,9 +72,42 @@ function TheSale() {
         </div>
         <TheFooter />
       </div>
-    </div>
+
+      <div className="lg:hidden md:hidden h-[93.6vh] custom-scroll">
+        <h1 className=""></h1>
+        <div className="mt-5">
+          <SecondCarousel
+            products={products?.filter((item) => item.category)}
+            isError={isError}
+            handleProductClick={handleProductClick}
+          />
+        </div>
+        <div className="mt-5">
+          <div className="content">
+            <div className="border border-white shadow-custom-shadow p-2">
+              <div className="flex justify-around flex-wrap gap-2">
+                {products
+                  ?.filter((item) => item.category)
+                  ?.map((item) => (
+                    <div key={item.id} onClick={() => handleProductClick(item)}>
+                      <div className="border border-gray-10 shadow-custom-nav-shadow rounded-md flex transition-transform transform hover:scale-105 duration-500 ease-out cursor-pointer">
+                        <Thecard {...item} />
+                      </div>
+                    </div>
+                  ))}
+                <div className="flex justify-center items-center">
+                  {isError && <h1>{isError}</h1>}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <TailInfoSection />
+          <TheFooter />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

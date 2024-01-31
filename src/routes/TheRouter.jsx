@@ -17,7 +17,7 @@ import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import TheError from "../pages/TheError";
 
 const routes = [
-  { path: "/home", element: <TheHome /> },
+  { path: "/", element: <TheHome /> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },

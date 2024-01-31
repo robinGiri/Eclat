@@ -102,7 +102,7 @@ function TheProductDetails() {
                 <div className="flex justify-center items-center h-full">
                   <div
                     className={`${
-                      isExpanded ? "w-[400px] m-[2%]" : "-ml-[0.4rem] mx-[2%]"
+                      isExpanded ? "m-[2%] w-[300px] h-[280px]" : "-ml-[0.4rem] mx-[2%] w-[400px]"
                     }`}
                   >
                     <ReactImageMagnify
@@ -111,20 +111,18 @@ function TheProductDetails() {
                           alt: "Wristwatch by Ted Baker London",
                           isFluidWidth: true,
                           src: image,
-                          width: 300,
-                          height: 400,
                         },
                         largeImage: {
                           src: image,
-                          width: 784,
-                          height: 900,
+                          width: 800,
+                          height: 800,
                         },
                         enlargedImageContainerDimensions: {
-                          width: "150%",
-                          height: "120%",
+                          width: "200%",
+                          height: "140%",
                         },
                       }}
-                      className="sticky top-0 z-[9999999999]"
+                      className="sticky top-0 z-[9999999999] object-contain"
                     />
                   </div>
                 </div>
