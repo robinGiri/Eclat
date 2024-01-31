@@ -1,8 +1,20 @@
 import KhaltiCheckout from "khalti-checkout-web";
-import React from "react";
+import React, { useState } from "react";
+import { apiConfig } from "../../services/api/config";
 import khaltiVerification from "../../services/payment.verification";
+import axios from "axios";
 
-function Khaltitest() {
+function Khaltitest(orderId) {
+  const [token, setToken] = useState("");
+  const khaltipayment = async () => {
+    const purchase = await axios.post(`${apiConfig.baseUrl}purchase/`, {
+      paymentmethod: "khalti",
+      OrderId: orderId,
+      token: token,
+    });
+    console.log("paise tiryo", purchase);
+  };
+
   let config = {
     // replace this key with yours
     publicKey: "test_public_key_9cedc1faed9242b19074b04493e9696a",
@@ -12,8 +24,8 @@ function Khaltitest() {
     eventHandler: {
       onSuccess(payload) {
         const { token } = payload;
-        console.log(token);
-        // khaltiVerification(token);
+        setToken(token);
+        khaltipayment();
       },
       // onError handler is optional
       onError(error) {

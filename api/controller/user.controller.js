@@ -53,6 +53,7 @@ const login = async (req, res, next) => {
   try {
     const data = req.body;
     const userData = await userService.getUserByFilter({ email: data.email });
+    console.log("userLogin", userData);
     if (!userData) {
       res
         .status(404)
