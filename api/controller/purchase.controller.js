@@ -6,6 +6,7 @@ const createPurchase = async (req, res, next) => {
   try {
     const purchaseDetails = req.body;
     const { paymentmethod, OrderId, token } = purchaseDetails;
+    console.log("orderId", OrderId);
     const { id } = await purchaseService.createPurchase(
       paymentmethod,
       OrderId,
