@@ -15,6 +15,10 @@ router.put(
   productController.updateProduct
 );
 router.delete("/:id", productController.deleteProduct);
-router.post("/upload", uploader.single("image"), productController.uploadImage);
+router.patch(
+  "/upload",
+  uploader.array("image"),
+  productController.updateProductPicture
+);
 
 module.exports = router;

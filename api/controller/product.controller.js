@@ -1,7 +1,6 @@
 const productService = require("../service/product.service");
 const imageService = require("../service/image.service");
 const settingService = require("../service/setting.service");
-const uploader = require("../jobs/imageUploaderJob");
 const { deleteFile } = require("../helper/helper");
 
 const createProduct = async (req, res, next) => {
@@ -14,9 +13,10 @@ const createProduct = async (req, res, next) => {
       viewCount,
       discount,
       status,
-      sellerId,
       seasonId,
+      isEcoFriendly,
     } = req.body;
+    console.log("season", seasonId);
 
     const afterDiscount =
       parseFloat(price) - parseFloat(price) * (parseFloat(discount) / 100);
@@ -30,9 +30,9 @@ const createProduct = async (req, res, next) => {
       discount: parseFloat(discount),
       afterdiscount: afterDiscount,
       isFeatured: true,
-      sellerId: parseInt(sellerId),
       status,
-      seasonId: 1,
+      seasonId: parseInt(seasonId),
+      isEcoFriendly: JSON.parse(isEcoFriendly),
     };
 
     const { id } = await productService.save(finalData);
@@ -49,7 +49,6 @@ const createProduct = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -63,7 +62,6 @@ const getAllProducts = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -80,7 +78,6 @@ const getProductsBySeason = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -98,7 +95,6 @@ const searchProducts = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -116,7 +112,6 @@ const getProductById = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
@@ -134,16 +129,13 @@ const updateProduct = async (req, res, next) => {
       discount,
       status,
       delImg,
+      seasonId,
+      isEcoFriendly,
     } = req.body;
 
-    if (delImg) {
-      const delete_image_array = delImg.split(",");
-      delete_image_array.forEach(async (img) => {
-        const image = await imageService.findImageByUrl(img);
-        if (image) {
-          await imageService.deleteImageByUrl(img);
-          deleteFile("./public/uploads/" + img);
-        }
+    if (req.files) {
+      req.files.forEach(({ filename }) => {
+        imageService.updateImage(filename, productId);
       });
     }
 
@@ -159,9 +151,9 @@ const updateProduct = async (req, res, next) => {
       discount: parseFloat(discount),
       afterdiscount: afterDiscount,
       isFeatured: true,
-      sellerId: 1,
       status,
-      seasonId: 1,
+      seasonId: seasonId,
+      isEcoFriendly: isEcoFriendly,
     };
 
     await productService.update(updatedProductData, productId);
@@ -187,20 +179,20 @@ const deleteProduct = async (req, res, next) => {
       meta: null,
     });
   } catch (e) {
-    console.error(e);
     next(e);
   }
 };
 
-const uploadImage = async (req, res, next) => {
+const updateProductPicture = async (req, res, next) => {
   try {
-    imageService.save(req.file.filename, 8);
-    res.json({
-      file: req.file.filename,
-    });
-  } catch (e) {
-    console.error(e);
-    next(e);
+    const { productId } = req.body;
+    if (req.files) {
+      req.files.forEach(({ filename }) => {
+        imageService.updateImage(filename, parseInt(productId));
+      });
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -212,5 +204,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
-  uploadImage,
+  updateProductPicture,
 };

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { getAccessToken } from "../../../services/localStorage";
+import axios from "axios";
 
 const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
   const [updatedProduct, setUpdatedProduct] = useState({
@@ -9,6 +11,24 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
   useEffect(() => {
     setUpdatedProduct({ ...product });
   }, [product]);
+
+  const handleImageChange = async (e) => {
+    console.log("here");
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("productId", product.id);
+    formData.append("image", file);
+
+    const response = await axios.patch(
+      "http://localhost:4000/api/v1/product/upload/",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -103,17 +123,17 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
                           Product Category : {product.category}
                         </label>
                         <div>
-                        <select
-                          id="category"
-                          name="category"
-                          onChange={handleChange}
-                          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
-                        >
-                          <option value="">Change category</option>
-                          <option value="mens">Mens</option>
-                          <option value="womens">Womens</option>
-                          <option value="kids">Kids</option>
-                        </select>
+                          <select
+                            id="category"
+                            name="category"
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+                          >
+                            <option value="">Change category</option>
+                            <option value="mens">Mens</option>
+                            <option value="womens">Womens</option>
+                            <option value="kids">Kids</option>
+                          </select>
                         </div>
                       </div>
 
@@ -223,7 +243,7 @@ const TheUpdateModal = ({ product, closeModal, handleEdit }) => {
                         <input
                           type="file"
                           name="image"
-                          onChange={handleChange}
+                          onChange={handleImageChange}
                           className="w-full px-3 py-2 mt-1 border text-sm border-gray-300 rounded-md cursor-pointer placeholder:text-sm placeholder:font-light"
                         />
                         <div className="h-[50vh] flex justify-center">

@@ -113,7 +113,8 @@ const getAllOrderItems = async (req, res, next) => {
 
 const getOrderByCustomerId = async (req, res, next) => {
   try {
-    const order = await orderService.getOrderBycustomerId(req.params.id);
+    const customerId = parseInt(req.params.id);
+    const order = await orderService.getOrderBycustomerId(customerId);
     res.json({
       order,
       code: 200,
