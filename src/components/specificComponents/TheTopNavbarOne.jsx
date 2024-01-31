@@ -8,8 +8,8 @@ function TheTopNavbarOne() {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    setActiveTab("/home");
-    navigate("/home");
+    setActiveTab("/");
+    navigate("/");
   };
   const handleLoginPage = () => {
     navigate("/login");
@@ -23,7 +23,7 @@ function TheTopNavbarOne() {
     <div>
       <div className="flex justify-center items-center bg-white pt-2 text-neutral-600 mt-2 ">
         <div className="translate-x-[50%] h-[10vh] flex justify-center items-center">
-          {/* <Link to="/home" onClick={handleLogoClick} className="relative">
+          {/* <Link to="/" onClick={handleLogoClick} className="relative">
            <img src="src/assets/logo.png" alt="Logo"  className="border border-black w-[200px]"/>
           </Link> */}
         </div>

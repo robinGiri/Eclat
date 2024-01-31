@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AdminSidebarList, AdminSidebarListSecond } from "./TheAdminNavConfig";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import logo from '../../assets/logo.png';
 
 export default function TheAdminNavbar() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function TheAdminNavbar() {
   };
 
   const handleHomePageClick = () => {
-    navigate("/home");
+    navigate("/");
   };
 
   const renderSidebarItem = (item) => {
@@ -89,11 +90,11 @@ export default function TheAdminNavbar() {
   return (
     <div className="h-[100vh]">
       <div className=" flex flex-col justify-center items-center h-[100px]">
-        <Link to="/home" onClick={handleHomePageClick}>
-          <h1 className="font-bold text-3xl cursor-pointer">Eclat</h1>
+        <Link to="/" onClick={handleHomePageClick}>
+          <img src={logo} className="w-[150px]"/>
         </Link>
       </div>
-      <div className="flex flex-col mt-[5px] m-[10%]">
+      <div className="flex flex-col mt-[2rem] m-[10%]">
         {AdminSidebarList.map((item) => renderSidebarItem(item))}
       </div>
       <div className="border-t-2 mt-[40px]">

@@ -64,7 +64,9 @@ const Thecard = (props) => {
     //     </div>
     //   </div>
     // </div>
-    <div className="text-sm p-2">
+    <div>
+      <div className="hidden lg:block md:block">
+      <div className="text-sm p-2">
       <div className="flex flex-col gap-2">
         <div className="flex justify-center items-center w-[230px] h-[250px]">
           <img
@@ -92,6 +94,42 @@ const Thecard = (props) => {
             </p>
           </div>
         </div>
+      </div>
+    </div>
+      </div>
+
+
+      <div className="lg:hidden">
+      <div className="text-sm pt-2">
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-center items-center w-[180px] h-[200px]">
+          <img
+            className="w-[165px] h-[200px] object-cover rounded"
+            src={`${apiConfig.baseUrl}uploads/${images[0].url}`}
+            alt="Product Image"
+          />
+        </div>
+        <div className="p-1">
+          <div className="flex justify-between">
+            <p>{name}</p>
+            <p>
+              <span className="bg-red-600 text-white p-1 rounded-md text-xs">
+                {discount}% OFF
+              </span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-1 mt-1">
+            <p>${discount ? afterdiscount : price}</p>
+            <p className="line-through text-gray-400">${price}</p>
+          </div>
+          <div className="flex justify-end">
+            <p className="stylish-border cursor-pointer transition-all duration-100 ease-in hover:text-[#B88E72]">
+              View details
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   );

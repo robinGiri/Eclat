@@ -27,6 +27,7 @@ function TheRecentInvoice() {
   const [selectedEditProduct, setSelectedEditProduct] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isTopProductModalOpen, setIsTopProductModalOpen] = useState(false);
 
   const handleDelete = async (productId) => {
     try {
@@ -204,7 +205,7 @@ function TheRecentInvoice() {
                       <td className="px-6 w-36">{item.name}</td>
                       <td className="px-6 w-36">{item.category}</td>
                       <td className="px-6 w-36">{item.viewCount}</td>
-                      <td className="px-6 w-36">${item.price}</td>
+                      <td className="px-6 w-36">Rs.{item.price}</td>
                       <td className="px-6 w-44">
                         {item.images.map((image) => (
                           <div

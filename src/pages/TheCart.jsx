@@ -220,7 +220,7 @@ function TheCart() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/home");
+    navigate("/");
   };
 
   return (

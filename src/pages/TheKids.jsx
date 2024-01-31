@@ -34,9 +34,8 @@ function TheKids() {
   }, []);
 
   return (
-    <div className="h-[88vh] custom-scroll">
-      <div className="">
-        <h1 className=""></h1>
+    <div>
+      <div className="h-[88vh] custom-scroll hidden lg:block">
         <div className="mt-10">
           <SecondCarousel
             products={products?.filter((item) => item.category === "kids")}
@@ -52,10 +51,7 @@ function TheKids() {
                 {products
                   ?.filter((item) => item.category === "kids")
                   ?.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleProductClick(item)}
-                    >
+                    <div key={item.id} onClick={() => handleProductClick(item)}>
                       <div className="border border-gray-10 shadow-custom-nav-shadow rounded-md flex transition-transform transform hover:scale-105 duration-500 ease-out cursor-pointer">
                         <Thecard {...item} />
                       </div>
@@ -72,6 +68,41 @@ function TheKids() {
           <TailInfoSection />
         </div>
         <TheFooter />
+      </div>
+
+      <div className="lg:hidden md:hidden h-[93.6vh] custom-scroll">
+        <h1 className=""></h1>
+        <div className="mt-5">
+          <SecondCarousel
+            products={products?.filter((item) => item.category === "kids")}
+            isError={isError}
+            handleProductClick={handleProductClick}
+          />
+        </div>
+        <div className="mt-5">
+          <div className="content">
+            <div className="border border-white shadow-custom-shadow p-2">
+              <div className="flex justify-around flex-wrap gap-2">
+                {products
+                  ?.filter((item) => item.category === "kids")
+                  ?.map((item) => (
+                    <div key={item.id} onClick={() => handleProductClick(item)}>
+                      <div className="border border-gray-10 shadow-custom-nav-shadow rounded-md flex transition-transform transform hover:scale-105 duration-500 ease-out cursor-pointer">
+                        <Thecard {...item} />
+                      </div>
+                    </div>
+                  ))}
+                <div className="flex justify-center items-center">
+                  {isError && <h1>{isError}</h1>}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <TailInfoSection />
+          <TheFooter />
+        </div>
       </div>
     </div>
   );
