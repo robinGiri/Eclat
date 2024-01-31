@@ -7,8 +7,13 @@ import { PaypalButton } from "../payment/ThePaymentButtons";
 import Khaltitest from "../payment/KhaltiPayment";
 import TheStripPayment from "../payment/TheStripPayment";
 import ThePaymentModal from "../payment/ThePaymentModal";
+import { getAccessToken } from "../../services/localStorage";
+import axios from "axios";
 
 function TheCartPlaceOrderCheckout({ total }) {
+  const [userId, setUserId] = useState(0);
+  const [orderId, setOrderId] = useState(0);
+
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [buttonText, setButtonText] = useState("Place Order");
   const [isPaypalModalOpen, setIsPaypalModalOpen] = useState(false);
@@ -34,11 +39,23 @@ function TheCartPlaceOrderCheckout({ total }) {
     }
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     setIsOrderPlaced(!isOrderPlaced);
     setButtonText((prevText) =>
       prevText === "Place Order" ? "Cancel Order" : "Place Order"
     );
+    if (isOrderPlaced) {
+      const userDetail = await JSON.parse(getAccessToken("user"));
+      const userId = userDetail.id;
+      const cartId = userDetail.Cart[0].id;
+      const response = await axios.post(`${apiConfig.baseUrl}order/${cartId}`, {
+        userId: userId,
+        total: total,
+      });
+      setOrderId(response.data.data.id);
+
+      console.log("response", response);
+    }
   };
 
   const handlePaypalModalOpen = () => {
@@ -118,7 +135,7 @@ function TheCartPlaceOrderCheckout({ total }) {
         }`}
       >
         <div className="flex justify-evenly items-center h-full">
-          <Khaltitest />
+          <Khaltitest orderId={orderId} />
           <button onClick={handlePaypalModalOpen}>
             <PaypalButton />
           </button>

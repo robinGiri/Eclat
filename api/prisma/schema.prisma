@@ -122,11 +122,11 @@ model Order {
   OrderItems    OrderItems[]
   Purchase      Purchase[]
   Shipping      Shipping[]
-  voucherId     Int
+  voucherId     Int?
   ReturnedOrder ReturnedOrder[]
 
-  User    User?   @relation(fields: [customerId], references: [id])
-  Voucher Voucher @relation(fields: [voucherId], references: [id])
+  User    User?    @relation(fields: [customerId], references: [id])
+  Voucher Voucher? @relation(fields: [voucherId], references: [id])
 }
 
 model OrderItems {
