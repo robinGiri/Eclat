@@ -83,11 +83,11 @@ function TheCartPlaceOrder() {
   };
 
   return (
-    <div className="pt-10 w-full flex gap-2 justify-center">
+    <div className="w-full flex gap-2 justify-center">
       <div className="w-[3rem] -ml-[5rem] flex justify-end items-center h-[5vh]">
-        <Link to="/cart">
+        {/* <Link to="/cart">
           <IoChevronBackOutline className="text-lg hover:text-green-500 cursor-pointer" />
-        </Link>
+        </Link> */}
       </div>
       <div className="flex py-5 w-[82%] h-[80vh] gap-2 flex-wrap">
         <div className="w-[63%] p-2 border border-white shadow-custom-shadow">

@@ -11,6 +11,10 @@
   font-weight: 400;
 }
 
+.customize {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
 @font-face {
   font-family: sans-serif;
   src: url("../public/font/peignot/Peignot.ttf");

@@ -89,11 +89,11 @@ function ActivityTab() {
   return (
     <div className="mx-10">
       <div className="">
-        <h1 className="font-semibold text-neutral-700 py-5 text-lg">
+        <h1 className="font-semibold text-neutral-700 py-5">
           Recent Orders
         </h1>
         {ordersRecent.map((order) => (
-          <div key={order.id} className="custom-shadow rounded-md p-5 mb-4">
+          <div key={order.id} className="shadow-custom-shadow rounded-md p-5 mb-4">
             <h2 className="text-sm font-semibold mb-2">Order #{order.id}</h2>
             <p className="text-sm font-medium">Date: {order.createdAt}</p>
             <div>

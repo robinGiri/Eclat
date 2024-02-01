@@ -175,36 +175,45 @@ function TheAddModal({ closeModal }) {
                   className="border border-gray-300 rounded-md p-2 focus:outline-none"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="category" className="mb-1 text-sm">
-                  Product Category
-                </label>
-                <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2 focus:outline-none"
-                >
-                  <option value="">Choose category</option>
-                  <option value="mens">Mens</option>
-                  <option value="womens">Womens</option>
-                  <option value="kids">Kids</option>
-                </select>
+
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col">
+                  <label htmlFor="category" className="mb-1 text-sm">
+                    Product Category
+                  </label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="border border-gray-300 rounded-md p-2 focus:outline-none"
+                  >
+                    <option value="">Choose category</option>
+                    <option value="mens">Mens</option>
+                    <option value="womens">Womens</option>
+                    <option value="kids">Kids</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="category" className="mb-1 text-sm ml-1">
+                    Season
+                  </label>
+                  <select
+                    id="season"
+                    name="season"
+                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+                    onChange={handleSeasonChange}
+                    value={selectedSeason}
+                  >
+                    <option value="">Choose season</option>
+                    {seasons.map((season) => (
+                      <option key={season.id} value={season.id}>
+                        {season.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <select
-                id="season"
-                name="season"
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
-                onChange={handleSeasonChange}
-                value={selectedSeason} // Ensure that the selected value reflects the state
-              >
-                {seasons.map((season) => (
-                  <option key={season.id} value={season.id}>
-                    {season.name}
-                  </option>
-                ))}
-              </select>
 
               <div className="flex flex-col">
                 <label htmlFor="viewCount" className="mb-1 text-sm">
