@@ -63,8 +63,6 @@ function TheSidebar() {
   }, [location.pathname]);
 
   if (
-    location.pathname === "/cart" ||
-    location.pathname === "/cart/place-order" ||
     location.pathname === "/order-detail"
   ) {
     return null;

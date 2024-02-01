@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import TheNavbar from "../components/specificComponents/TheNavbar";
 import TheHome from "../pages/TheHome";
+import TheCustomize from "../pages/TheCustomize"
 import TheMen from "../pages/TheMen";
 import TheWomen from "../pages/TheWomen";
 import TheKids from "../pages/TheKids";
@@ -18,6 +19,7 @@ import TheError from "../pages/TheError";
 
 const routes = [
   { path: "/", element: <TheHome /> },
+  { path: "/customize/:productID", element: <TheCustomize/> },
   { path: "/men", element: <TheMen /> },
   { path: "/women", element: <TheWomen /> },
   { path: "/kids", element: <TheKids /> },

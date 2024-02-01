@@ -4,7 +4,7 @@ import { apiConfig } from "../../services/api/config";
 import khaltiVerification from "../../services/payment.verification";
 import axios from "axios";
 
-function Khaltitest(orderId) {
+function Khaltitest({ orderId }) {
   const [token, setToken] = useState("");
   const khaltipayment = async () => {
     const purchase = await axios.post(`${apiConfig.baseUrl}purchase/`, {

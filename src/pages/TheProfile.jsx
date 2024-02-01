@@ -220,7 +220,7 @@ function TheProfile() {
         </div>
 
         {/* activity and further details */}
-        <div className="shadow-md rounded-xl h-[100vh] w-[95%] custom-scroll">
+        <div className="shadow-custom-shadow rounded h-[100vh] w-[95%] custom-scroll">
           <div className="mt-2 px-10 h-[12vh] sticky top-0 z-10 bg-white flex justify-start gap-10 items-center">
             {tabs.map((tab) => (
               <button
@@ -228,15 +228,15 @@ function TheProfile() {
                 onClick={() => handleTabClick(tab.id)}
                 className={`${
                   currentTab == tab.id
-                    ? "font-semibold text-lg text-black border-b-4 border-black h-full"
-                    : "text-neutral-500 font-semibold text-lg"
+                    ? "font-semibold  text-black border-b-4 border-black h-full"
+                    : "text-neutral-500 font-semibold"
                 }`}
               >
                 {tab.tabTitle}
               </button>
             ))}
           </div>
-          <div className="content">
+          <div className="shadow-custom-shadow">
             {tabs.map((tab) => (
               <div
                 key={tab.id}

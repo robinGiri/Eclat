@@ -9,14 +9,15 @@ import images from "../data/carousel-images/HeroCarouselImages";
 import "../admin/admin-pages/product-components/TheRecentInvoice.css";
 import { GoArrowRight } from "react-icons/go";
 import bag from "../assets/leatherBagOne.gif";
+import { MdEdit } from "react-icons/md";
 
 import axios from "axios";
 
 function TheHome() {
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
 
   const lists = [
-    // { id: "sales", name: "Seasonal" },
     { id: "mens", name: "Men's", path: "/men" },
     { id: "womens", name: "Women's", path: "/women" },
     { id: "kids", name: "Kids's", path: "/kids" },
@@ -61,9 +62,6 @@ function TheHome() {
     return () => clearTimeout(timer);
   }, [showBorderIndex]);
 
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Function to handle hover events
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -76,15 +74,14 @@ function TheHome() {
       <div className="h-[88vh] custom-scroll hidden lg:block md:block">
         <div>
           <div>
-            <div className="h-[70vh] shadow-custom-shadow flex justify-center items-center border border-black bg-[#ffffff]">
-              <div className="flex justify-center items-center w-[86%] h-full gap-[14rem] border border-red-500">
-                <div className="flex flex-col items-center gap-[2rem]">
+            <div className="h-[70vh] shadow-custom-shadow flex justify-center items-center bg-[#ffffff] border mx-[7%] mb-2 rounded border-white">
+              <div className="flex justify-center items-center w-[86%] h-full gap-[14rem]">
+                <div className="flex flex-col items-start gap-[2rem]">
                   <div
-                    className="text-4xl flex flex-col items-center gap-[2rem]"
-                    style={{ fontFamily: "Josefin Sans" }}
+                    className="text-4xl flex flex-col items-start gap-[2rem]"
                   >
-                    <p>Pick</p>
-                    <p>Your</p>
+                    <p className="customize">Customize</p>
+                    <p  className="customize">Your</p>
                   </div>
                   <div>
                     <div>
@@ -99,28 +96,24 @@ function TheHome() {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <img src={bag} className="w-[300px]" alt="Eclat Logo" />
+                <div className="group relative">
+                  <img
+                    src={bag}
+                    className="w-[300px] rounded-full transition-transform transform hover:scale-105"
+                    alt="Eclat Logo"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <a
+                      href="/customize/product"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="bg-white p-4 rounded-full">
+                        <MdEdit className="text-[2.5rem] text-gray-600 hover:text-gray-800 cursor-pointer" />
+                      </div>
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="h-[70vh] flex justify-center items-center gap-1 my-7">
-              <div>
-                <img
-                  src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152"
-                  alt="Advertisement"
-                  className="h-[460px] w-[350px]"
-                />
-              </div>
-              <div className="h-[460px]">
-                <TheHeroCarousel images={images} />
-              </div>
-              <div>
-                <img
-                  src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000"
-                  alt="Advertisement"
-                  className="h-[460px] w-[350px]"
-                />
               </div>
             </div>
 
@@ -175,6 +168,28 @@ function TheHome() {
                   )}
                 </div>
               ))}
+              <div className="border border-white shadow-custom-shadow rounded">
+                <p className="font-semibold text-2xl mx-3 mt-2">Seasonal</p>
+                <div className="h-[70vh] flex justify-center items-center gap-1">
+                  <div>
+                    <img
+                      src="https://cdn.flipsnack.com/template/3056/medium.jpg?v=1573806152"
+                      alt="Advertisement"
+                      className="h-[460px] w-[400px]"
+                    />
+                  </div>
+                  <div className="h-[460px]">
+                    <TheHeroCarousel images={images} />
+                  </div>
+                  <div>
+                    <img
+                      src="https://img.freepik.com/premium-vector/st-patrick-s-day-sale-design-with-clover-typography-letters_1314-1271.jpg?w=2000"
+                      alt="Advertisement"
+                      className="h-[460px] w-[400px]"
+                    />
+                  </div>
+                </div>
+              </div>
               <TailInfoSection />
             </div>
             <TheFooter />
@@ -204,7 +219,7 @@ function TheHome() {
               </div>
             </div>
             <div className="w-[250px]">
-              <img src={bag} alt="Eclat Bag"/>
+              <img src={bag} alt="Eclat Bag" />
             </div>
           </div>
         </div>

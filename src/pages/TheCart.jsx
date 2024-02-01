@@ -230,10 +230,10 @@ function TheCart() {
     <div className="flex gap-2 mt-1">
       <div className="w-[10%] flex justify-end mt-9">
         <div className="flex justify-center items-center h-[4vh] gap-1">
-          <IoChevronBackOutline
+          {/* <IoChevronBackOutline
             className="cursor-pointer text-gray-700 hover:text-green-500 text-lg"
             onClick={handleBack}
-          />
+          /> */}
         </div>
       </div>
       <div className="flex py-5 gap-2 flex-wrap w-[80%] text-sm">

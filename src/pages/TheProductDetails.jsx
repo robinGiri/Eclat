@@ -88,9 +88,7 @@ function TheProductDetails() {
         >
           <div
             className={`border border-white shadow-custom-shadow ${
-              isExpanded
-                ? "ml-[5%] border h-[120vh]"
-                : "w-[85rem] flex ml-[5%]"
+              isExpanded ? "ml-[5%] border h-[120vh]" : "w-[85rem] flex ml-[5%]"
             }`}
           >
             <div className="w-full flex flex-wrap justify-end gap-3">
@@ -102,7 +100,9 @@ function TheProductDetails() {
                 <div className="flex justify-center items-center h-full">
                   <div
                     className={`${
-                      isExpanded ? "m-[2%] w-[300px] h-[280px]" : "-ml-[0.4rem] mx-[2%] w-[400px]"
+                      isExpanded
+                        ? "m-[2%] w-[300px] h-[280px]"
+                        : "-ml-[0.4rem] mx-[2%] w-[400px]"
                     }`}
                   >
                     <ReactImageMagnify
@@ -137,14 +137,15 @@ function TheProductDetails() {
                   <div className="flex justify-between">
                     <p className="font-semibold">{product.name}</p>
                     <div className="flex items-center gap-5">
-                      <button
-                        className="text-sm hover:text-green-500"
-                        onClick={() => {
-                          navigate(`/customize/product?${product.id}`);
-                        }}
+                      <a
+                        href={`/customize/product?${product.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        Customize
-                      </button>
+                        <button className="text-sm hover:text-green-500">
+                          Customize
+                        </button>
+                      </a>
                       <FaHeart className="cursor-pointer hover:text-red-500" />
                     </div>
                   </div>
