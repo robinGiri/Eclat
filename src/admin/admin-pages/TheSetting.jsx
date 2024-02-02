@@ -94,25 +94,26 @@ function TheSetting() {
   };
 
   return (
-    <div className="flex m-24 flex-col gap-5">
-      <div>
+    <div className="flex m-10 flex-col gap-5 w-[50%]">
+      <div className="flex gap-2">
         <input
           type="text"
-          placeholder="season Name"
+          placeholder="Season name"
           name="seasonName"
           onChange={(e) => {
             setSeasonName(e.target.value);
           }}
+          className="border p-1 text-sm rounded focus:outline-none"
         />
         <button
           onClick={handelSeason}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="hover:bg-admin-blue  hover:text-white text-sm border border-admin-blue text-admin-blue py-2 px-4 rounded"
         >
           Add season
         </button>
       </div>
       <div>
-        <div>
+        <div className="flex gap-2">
           <input
             type="text"
             placeholder="Discount Percentage"
@@ -120,19 +121,21 @@ function TheSetting() {
             onChange={(e) => {
               setVoucher(e.target.value);
             }}
+            className="border p-1 text-sm rounded focus:outline-none"
           />
           <button
             onClick={handelVoucher}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="hover:bg-admin-blue  hover:text-white text-sm border border-admin-blue text-admin-blue py-2 px-4 rounded"
           >
             Add Voucher
           </button>
         </div>
-        <div></div>
-        <select
+      </div>
+      <div>
+      <select
           id="season"
           name="season"
-          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none"
+          className="border border-gray-300 rounded-md p-2 focus:outline-none"
           onChange={(e) => handelChange(e)}
           value={seasonId}
         >

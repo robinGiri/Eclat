@@ -119,8 +119,8 @@ const Thecard = (props) => {
             </p>
           </div>
           <div className="flex flex-col gap-1 mt-1">
-            <p>${discount ? afterdiscount : price}</p>
-            <p className="line-through text-gray-400">${price}</p>
+            <p>Rs.{discount ? afterdiscount : price}</p>
+            <p className="line-through text-gray-400">Rs.{price}</p>
           </div>
           <div className="flex justify-end">
             <p className="stylish-border cursor-pointer transition-all duration-100 ease-in hover:text-[#B88E72]">
